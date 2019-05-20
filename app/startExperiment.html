@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Experiment</title>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/startExp.css">
+
+    <script type="text/javascript">
+      function Validate(inputName) {
+          inputName.value = inputName.value.replace(/[^a-zA-Z 0-9-_\n\r]+/g, '');
+      }
+  </script>
+
+</head>
+<body>
+        <div id="container">
+                <nav>
+                        <div id="back">
+                            <span>➜</span>
+                        </div>
+                        <div id="titleBar-buttons">
+                            <div id="minimise">
+                                <span>&#xE921;</span>
+                            </div>
+                            <div id="close">
+                                <span>&#xE8BB;</span>
+                            </div>
+                        </div>
+                    </nav>
+                    <form>
+
+                            <div class="form-group">
+                              <div class="form-group col-md-4">
+                                <label for="inputName">Name:</label>
+                                <input type="text" class="form-control" id="inputName" oninput = "Validate(this)" placeholder="Name">
+                                <small id="nameHelp" class="form-text text-muted">We'll never share your information.</small>
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              <div class="form-group col-md-4">
+                                <label for="inputAge">Age:</label>
+                                <input type="number" oninput="if(value.length>2)value=value.slice(0,2)" class="form-control" id="inputAge" min="16" max="80" placeholder="Age">
+                              </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                    <div class="form-group col-md-4">
+                                            <label for="inputGender">Gender</label>
+                                            <select id="inputGender" class="form-control">
+                                              <option selected disabled>Choose...</option>
+                                              <option>Male</option>
+                                              <option>Female</option>
+                                              <option>Prefer not to say</option>
+                                            </select>
+                                          </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                    <div class="form-group col-md-4">
+                                            <label for="inputTest">First time?</label>
+                                            <select id="inputTest" class="form-control">
+                                              <option selected disabled>Choose...</option>
+                                              <option>Yes</option>
+                                              <option>No</option>
+                                            </select>
+                                          </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                    <div class="form-group col-md-4">
+                                            <label for="inputExpert">Expert</label>
+                                            <select id="inputExpert" class="form-control">
+                                              <option selected disabled>Choose...</option>
+                                              <option>Yes</option>
+                                              <option>No</option>
+                                            </select>
+                                          </div>
+                            </div>
+                            
+                            <button type="button" class="btn btn-info" id="oksB">OK</button>
+                          </form>
+        <script src= "/buttons.js"></script>
+        <script src= "/startExperiment.js"></script>
+</body>
+</html>
+
+

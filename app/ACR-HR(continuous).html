@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ACR-HR</title>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="/css/ACR(continuous).css">
+</head>
+<body>
+
+    <h1 id = "text">Testing phase is starting now, get ready!</h1><br><br>
+    <div class="container" id="slider">
+        <div class="row">
+            <div class="col" id="score">
+                <div class="value"></div>
+            </div>
+            <div class="col" id="rate1">
+                <table style="height:300px;table-layout: fixed; width: 90px">
+                    <tr>
+                        <td class="rowT">Excellent</td>
+                    </tr>
+                    <tr>
+                        <td class="rowT">Good</td>
+                    </tr>
+                    <tr>
+                        <td class="rowT">Fair</td>
+                    </tr>
+                    <tr>
+                        <td class="rowT">Poor</td>
+                    </tr>
+                    <tr>
+                        <td class="rowT">Bad</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col" id="scale">
+                    <div class="range-slider">
+                            <input class="input-range" orient="vertical" type="range" name="range1" id="myRange1" step="1" value="0" min="0" max="100">
+                        </div>
+                        <div id="range-lines" style="position: absolute;">
+                            <table style="table-layout: fixed;width:25px;">
+                                <tr>
+                                    <td id="first" class="rowT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="rowT" id="others"></td>
+                                </tr>
+                                <tr>
+                                    <td class="rowT" id="others"></td>
+                                </tr>
+                                <tr>
+                                    <td class="rowT" id="others"></td>
+                                </tr>
+                                <tr>
+                                    <td class="rowT" id="others"></td>
+                                </tr>
+                            </table>
+                        </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br>
+    
+    <div class="container" id="buttons">
+        <div class="row" id="centerB">
+            <div class="col-sm">
+                <div class="text-center" id="center">
+                    <button type="button" class="btn btn-info" id="continue">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script src = "/buttons.js"></script>
+        <script src= "/ACR-HR(continuous).js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ACR</title>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="/css/ACR.css">
+</head>
+<body>
+
+    <h1 id = "text">Testing phase is starting now, get ready!</h1>
+        <div class="row">
+                <div class="col">
+                        <div class="row text-center" id ="scale">
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-dark" id="score" value=1>Bad</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-dark" id="score" value=2>Poor</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-dark" id="score" value=3>Fair</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-dark" id="score" value=4>Good</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-dark" id="score" value=5>Excellent</button>
+                                </div>
+                        </div>
+                </div>
+                <div class="w-100"></div>
+                <div class="col" id="continueB">
+                        <div class="text-center">
+                                <button type="button" class="btn btn-info" id="continue">Continue</button>
+                             </div>
+                </div>
+              </div>
+
+        <script src = "/buttons.js"></script>
+        <script src= "/ACR.js"></script>
+</body>
+</html>

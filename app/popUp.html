@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Configuration</title>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/popUp.css">
+</head>
+<body>
+        <div id="container">
+                <nav>
+                        <div id="configN">Choose experiment configuration</div>
+                        <div id="titleBar-buttons">
+                            <div id="minimise">
+                                <span>&#xE921;</span>
+                            </div>
+                            <div id="close">
+                                <span>&#xE8BB;</span>
+                            </div>
+                        </div>
+                    </nav>
+                    <button class="btn btn-outline-info" id="last">Latest</button><br>
+                    <button class="btn btn-outline-info" id="saved">Saved</button><br>
+                    <input type= "file" id="savedConfig" hidden = "hidden" accept=".save"/>
+                    <button class="btn btn-outline-info" id="new">New</button><br>
+                    <button class="btn btn-outline-info" id="cancel">Cancel</button>
+                </div>
+                </div>
+        <script src= "/buttons.js"></script>
+        <script src= "/popUp.js"></script>
+</body>
+</html>
