@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="configPkg" version="" producerId="undefined">
+    <units>
+    </units>
+    <sources>
+        <srcFile name="package/cfg/Disparity_Calculation_pe66.c"/>
+    </sources>
+    <configscripts>
+        <srcFile name="C:/Users/Goce/workspace_new/Disparity_lab/Disparity_Calculation.cfg"/>
+    </configscripts>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/cfg/Disparity_Calculation_pe66.mak" src="package.bld"/>
+        <srcFile name="package/cfg/Disparity_Calculation_pe66.oe66.dep" src="package/cfg/Disparity_Calculation_pe66.c"/>
+        <srcFile name="package/cfg/Disparity_Calculation_pe66.dep" src="package/cfg/Disparity_Calculation_pe66.cfg"/>
+        <srcFile name="package/cfg/Disparity_Calculation.xe66.mak" src="package.bld"/>
+        <srcFile name="package/rel/configPkg.tar.dep" src="package/rel/configPkg.xdc.inc"/>
+    </makefiles>
+    <targets>
+        <target name="ti.targets.elf.C66"
+            version="ti.targets.elf.C66{1,0,8.3,3"
+            rawVersion="8.3.3"
+            platform="ti.platforms.simTCI6616"
+            isa="66"
+            suffix="e66"
+            rootDir="C:/ti/ccs901/ccs/tools/compiler/ti-cgt-c6000_8.3.3"
+            os="undefined"
+            rts="ti.targets.rts6000">
+            <model endian="little"
+                codeModel="undefined"
+                dataModel="undefined"/>
+        </target>
+    </targets>
+    <libraries>
+    </libraries>
+    <configurations>
+    <configuration name="Disparity_Calculation"
+        pname="Disparity_Calculation.pe66"
+        target="ti.targets.elf.C66"
+        platform="ti.platforms.evm6678"
+        profile="release"
+        isPartial="false"
+        xCfgScript="package/cfg/Disparity_Calculation_pe66.cfg"
+        xCfgPrefix="package/cfg/Disparity_Calculation_pe66"
+        cfgScript="C:/Users/Goce/workspace_new/Disparity_lab/Disparity_Calculation.cfg"
+        cfgArgs="null"
+        />
+    </configurations>
+    <executables>
+    <executable name="Disparity_Calculation"
+        pname="Disparity_Calculation.xe66"
+        target="ti.targets.elf.C66"
+        platform="ti.platforms.evm6678"
+        profile="release"
+        xCfgScript="package/cfg/Disparity_Calculation_pe66.cfg"
+        xCfgPrefix="package/cfg/Disparity_Calculation_pe66"
+        cfgScript="C:/Users/Goce/workspace_new/Disparity_lab/Disparity_Calculation.cfg"
+        cfgArgs="null"
+        />
+    </executables>
+    <tests>
+    <test exeName="Disparity_Calculation.xe66"
+        args=""
+        groupName="Disparity_Calculation.xe66"
+        refOutput="undefined"
+        refExitCode="0"
+        execArgs=""
+        />
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="configPkg"
+        pname="configPkg.tar"
+        label="default"
+    >
+        <file name="package/package.bld.xml"/>
+        <file name="package/build.cfg"/>
+        <file name="package/package.xdc.inc"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>
