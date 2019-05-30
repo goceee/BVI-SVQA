@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Data Analysis</title>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/viewResults.css">
+    <script type="text/javascript">
+        function Validate(inputbitRate) {
+            inputbitRate.value = inputbitRate.value.replace(/[^0-9\n\r,]+/g, '');
+        }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <nav>
+            <div id="back">
+                <span>➜</span>
+            </div>
+            <div id="titleBar-buttons">
+                <div id="maximise">
+                    <span></span>
+                </div>
+                <div id="minimise">
+                    <span>&#xE921;</span>
+                </div>
+                <div id="close">
+                    <span>&#xE8BB;</span>
+                </div>
+            </div>
+        </nav>
+        
+        <form class="form" id="firstForm">
+            <label class="my-1 mr-2" for="viewScores">Export Data</label>
+            <select class="custom-select my-1 mr-sm-2" id="viewScores">
+                <option value="Choose..." selected disabled>Choose...</option>
+            </select>
+            <div class="container" id="firstRadios">
+                <div class="row">
+                    <div class="col">
+                        <ul>
+                            <li>
+                                <input type="radio" id="f-option" name="data" value="raw">
+                                <label for="f-option">Raw</label>
+                                
+                                <div class="check"></div>
+                            </li>
+                        </ul>    
+                    </div>
+                    <div class="col">
+                        <ul>
+                            <li>
+                                <input type="radio" id="s-option" name="data" value="processed">
+                                <label for="s-option">Processed</label>
+                                
+                                <div class="check"></div>
+                            </li>
+                        </ul>     
+                    </div>
+                </div>
+            </div>                    
+            <button type="button" class="btn btn-info" id ="confirmData" align="center">Confirm</button><br>
+        </form>
+        <form class="form" id="secondForm">
+            <label class="my-1 mr-2" for="viewPlots">Plot Data</label>
+            <select class="custom-select my-1 mr-sm-2" id="viewPlots">
+                <option value="Choose..." selected disabled>Choose...</option>
+            </select>
+            <select class="custom-select my-1 mr-sm-2" id="videoList">
+            </select>
+            <div class="container" id="secondCont">
+                <div class="row" id="secondRow">
+                    <div class="col" id="secondFCol">
+                        <ul>
+                            <li>
+                                <input type="radio" id="t-option" name="plots" value="PSNR">
+                                <label for="t-option">PSNR</label>
+                                
+                                <div class="check"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col" id="secondSCol">
+                        <ul id="secu">
+                            <li id="secl">
+                                <input type="radio" id="k-option" name="plots" value="MS-SSIM">
+                                <label for="k-option">MS-SSIM</label>
+                                
+                                <div class="check"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col" id="secondTCol">
+                        <ul>
+                            <li>
+                                <input type="radio" id="l-option" name="plots" value="VMAF">
+                                <label for="l-option">VMAF</label>
+                                
+                                <div class="check"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col" id="secondFoCol">
+                        <ul id="fouru">
+                            <li id="fourl">
+                                <input type="radio" id="m-option" name="plots" value="100-DMOS">
+                                <label for="m-option">100-DMOS</label>
+                                
+                                <div class="check"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col" id="secondFiCol">
+                        <ul>
+                            <li>
+                                <input type="radio" id="n-option" name="plots" value="DMOS">
+                                <label for="n-option">MOS/DMOS</label>
+                                
+                                <div class="check"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="form" id="bitrateForm">
+            <div id="bName">Bitrates file:</div>
+          <div class="form-group" id="browsebitRate">
+            <div class="input-group" id = "inputG2">
+              <input type="text" class="form-control" id = "browseT3" readonly>
+              <div class="input-group-btn" id = "browse3">
+                <span class="fileUpload btn btn-info" id= "browseBut2">
+                  <span class="upl" id="uploadBitrates">Browse</span>
+                  <input type="file" class="upload up" id="up3" accept=".csv"/>
+                </span><!-- btn-orange -->
+              </div><!-- btn -->
+            </div><!-- group -->
+          </div><!-- form-group -->
+        </div>
+        <div id="buttonC">  
+            <button type="button" class="btn btn-info" id ="confirmPlots">Confirm</button>
+            <button type="button" class="btn btn-info" id ="compareB">Compare</button>
+        </div>
+    </div>
+    
+    
+    <script src= "/buttons.js"></script>
+    <script src= "/viewResults.js"></script>
+</body>
+</html>

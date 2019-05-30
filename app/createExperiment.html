@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Create Experiment</title>
+  <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="fontawesome/css/all.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/createExp.css">
+  
+  <script type="text/javascript">
+    function Validate(experimentName) {
+      experimentName.value = experimentName.value.replace(/[^a-zA-Z 0-9-_\n\r]+/g, '');
+    }
+  </script>
+  
+</head>
+<body>
+  <div id="container">
+    <nav>
+      <div id="back">
+        <span>➜</span>
+      </div>
+      
+      <div id="titleBar-buttons">
+        <div id="minimise">
+          <span>&#xE921;</span>
+        </div>
+        <div id="close">
+          <span>&#xE8BB;</span>
+        </div>
+      </div>
+    </nav>
+    <div class="form-group row" id = "nameForm">
+      <label for="experimentName" class="col-sm-2 col-form-label" id = "nameText">Name:</label>
+      <div class="col-sm-10" id = "nameSpace">
+        <input type="email" class="form-control" id="experimentName" oninput = "Validate(this)" placeholder="Experiment Name">
+      </div>
+    </div>
+    <div id="nameMethod">Presentation Method: <br> </div>
+    <div class="middle" id="first">
+      <label class = "firstrow">
+        <input type="radio" name="radio" value="ACR" id="acr"/>
+        <div class="front-end box">
+          <span>ACR</span>
+        </div> <br>
+      </label>
+      <label class = "firstrow">
+        <input type="radio" name="radio" value="ACR-HR" id="acr-hr"/>
+        <div class="back-end box" id ="acrhr">
+          <span>ACR-HR</span>
+        </div> <br>
+      </label>
+      <label class = "firstrow">
+        <input type="radio" name="radio" value="SAMVIQ" id="samviq"/>
+        <div class="back-end box">
+          <span>SAMVIQ</span>
+        </div>
+      </label>
+    </div>
+    <div align="center" class="middle" class="middleCent">
+      <label class = "secondrow">
+        <input type="radio" name="radio" value="DSCQS" id = "dscqs"/>
+        <div class="front-end box">
+          <span>DSCQS</span>
+        </div>
+      </label>
+      <label class = "secondrow">
+        <input type="radio" name="radio" value="DSIS" id= "dsis"/>
+        <div class="back-end box">
+          <span>DSIS</span>
+        </div>
+      </label>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-offset-2 col-sm-8">
+          <div id="vName">Distorted Videos:</div>
+          <div class="form-group" id="browseDistorted">
+            <div class="input-group" id = "inputG">
+              <input type="text" class="form-control" id = "browseT1" readonly>
+              <div class="input-group-btn">
+                <span class="fileUpload btn btn-info" id= "browseBut">
+                  <span class="upl" id="uploadOriginal">Browse</span>
+                  <input type="file" class="upload up" id="up1" accept=".yuv" multiple/>
+                </span><!-- btn-orange -->
+              </div><!-- btn -->
+            </div><!-- group -->
+          </div><!-- form-group -->
+          <div id="dName">Original Videos:</div>
+          <div class="form-group" id="browseOriginal">
+            <div class="input-group" id = "inputG">
+              <input type="text" class="form-control" id = "browseT2" readonly>
+              <div class="input-group-btn" id = "browse2">
+                <span class="fileUpload btn btn-info" id= "browseBut">
+                  <span class="upl" id="uploadDistorted">Browse</span>
+                  <input type="file" class="upload up" id="up2" accept=".yuv" multiple />
+                </span><!-- btn-orange -->
+              </div><!-- btn -->
+            </div><!-- group -->
+          </div><!-- form-group -->
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-info" id="okcB">OK</button>
+    <span id="setB"></span>
+  </div>
+  <script src= "/buttons.js"></script>
+  <script src= "/createExperiment.js"></script>
+</body>
+</html>
