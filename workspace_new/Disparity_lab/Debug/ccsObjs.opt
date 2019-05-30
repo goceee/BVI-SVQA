@@ -1,1 +1,0 @@
-"./main.obj" "./stereo_vision_c.obj" "./stereo_vision_sa.obj" -l"configPkg/linker.cmd" -llibc.a 
