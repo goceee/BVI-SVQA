@@ -39,5 +39,5 @@ SVQA is a software that allows people to subjectively assess video quality. SVQA
 5. Start the software by opening any of the two files named `start`.
 
 # Tutorials (available in tutorials folder)
-    - Creating an Experiment
-    - Starting an Experiment
+  * Creating an Experiment
+  * Starting an Experiment
