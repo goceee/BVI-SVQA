@@ -37,3 +37,7 @@ SVQA is a software that allows people to subjectively assess video quality. SVQA
 3. Open the repository folder
 4. Run `npm install` from a command line in that folder
 5. Start the software by opening any of the two files named `start`.
+
+# Tutorials (available in tutorials folder)
+    - Creating an Experiment
+    - Starting an Experiment
