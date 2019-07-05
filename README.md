@@ -15,15 +15,20 @@ SVQA is a software that allows people to subjectively assess video quality. SVQA
 * ElectronJS
     - Run the following command to install electron globally - `npm install -g electron`
 * FFMPEG
-    - Windows: this is provided with the application and no extra steps are required.
+    - Windows: provided with the application repository and no extra steps are required.
     - Linux: you can install it using the following three commands:
        - sudo add-apt-repository universe
        - sudo apt update
        - sudo apt install ffmpeg
-    - macOS: The simplest way to install ffmpeg on Mac OS X is with [Homebrew](http://mxcl.github.com/homebrew/). Once you have Homebrew                installed install ffmpeg from the Terminal with the following:
-        ```
-        $ brew install ffmpeg
-        ```
+    - macOS: The simplest way to install ffmpeg on Mac OS X is with [Homebrew](http://mxcl.github.com/homebrew/). Once you have Homebrew                installed install ffmpeg from the Terminal with the following: `brew install ffmpeg`.
+  * MPV player
+        - Windows: provided with the application repository and no extra steps are required.
+        - Linux: install it via `sudo apt-get install mpv`
+        - macOS: install it by using [Homebrew]: `brew install mpv`
+  * VMAF
+        - Windows: provided with the application repository and no extra steps are required.
+        - Linux: NOT YET AVAILABLE!
+        - macOS: NOT YET AVAILABLE!
     
 # Steps to start the software
 
