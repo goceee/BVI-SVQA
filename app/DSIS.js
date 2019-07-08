@@ -16,7 +16,8 @@ elem.addEventListener("input", rangeValue);
 /* PLAYER HERE */
 var spawn = require('child_process').spawn;
 var proc;
-var cmd = 'ffmpeg/bin/ffplay.exe';
+var cmd = 'mpv/mpv';
+//var cmd = 'ffmpeg/bin/ffplay.exe';
 var readExp = fs.readFileSync("../Experiments/Experiment.last",'utf8');
 var readFiles = fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv",'utf8');
 var FileListwName = readFiles.split('\n');
@@ -71,7 +72,7 @@ function getBreakNum(distFileNames){
     }
     Math.round(totalVideoTime)
     totalVideoTimeM = parseInt(totalVideoTime/60);
-    breakNum = Math.round(totalVideoTimeM/30)-1;
+    breakNum = Math.round(totalVideoTimeM/30);
 }
 
 if(trialRun){
@@ -91,8 +92,8 @@ function play(testTrial){
         getName = (DDistortedFileNames.split('_'))[0];
         var origIndex = getOrigFileNames.indexOf(getName);
         OOriginalFileNames = OriginalTrainingFile[origIndex].substring(0, OriginalTrainingFile[origIndex].length - 4)
-        var ppath = '../trainingSequences/' + readExp + '/' + 'Original/' + OOriginalFileNames + videoFormat;
-        var ppath2 = '../trainingSequences/' + readExp + '/' + 'Distorted/' + DDistortedFileNames + videoFormat;        
+        var ppath = '../trainingSequences/' + OOriginalFileNames + videoFormat;
+        var ppath2 = '../trainingSequences/' + DDistortedFileNames + videoFormat;        
     }else{
         noScore = 0;
         fileLength = DistortedFileNames.length;
@@ -100,12 +101,30 @@ function play(testTrial){
         getName = (DDistortedFileNames.split('_'))[0];
         var origIndex = getOrigFileNames.indexOf(getName);
         OOriginalFileNames = OriginalFileNames[origIndex].substring(0, OriginalFileNames[origIndex].length - 4)
-        var ppath = '../converted/' + readExp + '/' + 'OriginalVideos/' + OOriginalFileNames + videoFormat;
-        var ppath2 = '../converted/' + readExp + '/' + 'DistortedVideos/' + DDistortedFileNames + videoFormat;
+        var ppath = '../converted/' + OOriginalFileNames + videoFormat;
+        var ppath2 = '../converted/' + DDistortedFileNames + videoFormat;
     }
-    
-    
+
     var args = [
+        '-fs',
+        '--ontop',
+        '--osc=no',
+        '--no-input-default-bindings',
+        '--framedrop=no',
+        '--priority=realtime',
+        ppath
+    ];
+    var args2 = [
+        '-fs',
+        '--ontop',
+        '--osc=no',
+        '--no-input-default-bindings',
+        '--framedrop=no',
+        '--priority=realtime',
+        ppath2
+    ];
+    
+/*     var args = [
         '-autoexit',
         '-fs', 
         '-i', ppath
@@ -114,7 +133,7 @@ function play(testTrial){
         '-autoexit',
         '-fs', 
         '-i', ppath2
-    ];
+    ]; */
     watchVideoPair()
     setTimeout(function(){
         watchVideo1();

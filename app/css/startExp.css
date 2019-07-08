@@ -1,0 +1,106 @@
+body{
+    background: none !important;
+}
+
+#container{
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    border-radius: 12px;
+    top: 0;
+    left: 0;
+    background-color: #E6E6E6;
+    -webkit-app-region: drag;
+    user-select: none; 
+}
+
+#container nav{
+    display: block;
+    width: 100%;
+    height: 30px;
+    -webkit-app-region: drag;
+}
+
+#container nav #titleBar-buttons{
+    float: right;
+    margin-right: 0%;
+    width: 55px; /* change this to lower to get buttons closer */
+    height: 100%;
+    line-height: 30px;
+    font-family: "Segoe MDL2 Assets";
+    font-size: 12px;
+}
+
+#container nav #back{
+    color: black;
+    font-size: 150%;
+    margin-left: 3%;
+    float: left;
+    width: 23px;
+    height: 100%;
+    line-height: 33px;
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-app-region: no-drag;
+}
+
+#container nav #back:hover{
+    color: white;
+}
+
+#titleBar-buttons #minimise, #titleBar-buttons #close{
+    margin-top: 0.1cm;
+    float: left;
+    height: 100%;
+    width: 43%;
+    text-align: center;
+    color: black;
+    -webkit-app-region: no-drag;
+    transition: all ease-in-out .2s;
+    cursor: default;
+}
+
+#titleBar-buttons #minimise:hover {
+    color: white;
+}
+
+#titleBar-buttons #close:hover{
+    color: #E81123;
+}
+
+
+.form-group{
+    margin-bottom: 0.4rem;
+}
+
+.form-control{
+    -webkit-app-region: no-drag;
+}
+
+#oksB{
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 5%;
+    border-radius: 12px;
+   /* color: white; /* White text */
+    padding: 10px 5px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 13%; /* Set a width if needed */
+    display: block;
+    -webkit-app-region: no-drag;
+}
+
+#oksB:hover{
+    box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
+    transform: translateY(-3px);
+}
+
+.swal2-container {
+    -webkit-app-region: drag !important;
+}
+
+.swal2-confirm {
+    -webkit-app-region: no-drag !important;
+}

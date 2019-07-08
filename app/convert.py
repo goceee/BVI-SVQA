@@ -35,10 +35,14 @@ except exception:
     # directory already exists
     pass
 
-distPath = "../converted/" + expName + "/DistortedVideos"
-origPath = "../converted/" + expName + "/OriginalVideos"
-distTrainP = "../trainingSequences/" + expName + "/Distorted"
-origTrainP = "../trainingSequences/" + expName + "/Original"
+#distPath = "../converted/" + expName + "/DistortedVideos"
+distPath = "../converted/"
+origPath = "../converted/"
+distTrainP = "../trainingSequences/"
+origTrainP = "../trainingSequences/"
+#origPath = "../converted/" + expName + "/OriginalVideos"
+#distTrainP = "../trainingSequences/" + expName + "/Distorted"
+#origTrainP = "../trainingSequences/" + expName + "/Original"
 
 
 #path = "C:\\SubjectiveApplication\\videoss"
@@ -97,7 +101,7 @@ for x in range(0,numFiles1):
         pixFmt = 'p'
     else:
         pixFmt = 'p' + bit1 + 'le'
-    p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo1[1] + ' -r ' + fps1 + ' -pix_fmt yuv' + extractInfo1[4] + pixFmt + ' -i ' + path1 + '\\' + fileList1[x] + ' -y -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps1 + ' -pix_fmt yuv422' + pixFmt + ' ' + distPath + '/' + fileName1[:-4] + videoFormat, 
+    p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo1[1] + ' -r ' + fps1 + ' -pix_fmt yuv' + extractInfo1[4] + pixFmt + ' -i ' + path1 + '\\' + fileList1[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps1 + ' -pix_fmt yuv422' + pixFmt + ' ' + distPath + fileName1[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add distPath
     #sys.stdout.write("Video number: ", x," completed")
     print ('Video number: ', x+1,' completed')
@@ -113,7 +117,7 @@ if numFiles2 > 0:
             pixFmt = 'p'
         else:
             pixFmt = 'p' + bit2 + 'le'
-        p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo2[1] + ' -r ' + fps2 + ' -pix_fmt yuv' + extractInfo2[4] + pixFmt + ' -i ' + path2 + '\\' + fileList2[x] + ' -y -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps2 + ' -pix_fmt yuv422' + pixFmt + ' ' + origPath + '/' + fileName2[:-4] + videoFormat, 
+        p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo2[1] + ' -r ' + fps2 + ' -pix_fmt yuv' + extractInfo2[4] + pixFmt + ' -i ' + path2 + '\\' + fileList2[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps2 + ' -pix_fmt yuv422' + pixFmt + ' ' + origPath + fileName2[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add origPath
         #sys.stdout.write("Video number: ", x," completed")
         print ('Video number: ', x+1,' completed')
@@ -129,7 +133,7 @@ if numFiles3 > 0:
             pixFmt = 'p'
         else:
             pixFmt = 'p' + bit3 + 'le'
-        p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo3[1] + ' -r ' + fps3 + ' -pix_fmt yuv' + extractInfo3[4] + pixFmt + ' -i ' + path1 + '\\' + distortedTrain[x] + ' -y -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps3 + ' -pix_fmt yuv422' + pixFmt + ' ' + distTrainP + '/' + fileName3[:-4] + videoFormat, 
+        p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo3[1] + ' -r ' + fps3 + ' -pix_fmt yuv' + extractInfo3[4] + pixFmt + ' -i ' + path1 + '\\' + distortedTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps3 + ' -pix_fmt yuv422' + pixFmt + ' ' + distTrainP + fileName3[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add origPath
         #sys.stdout.write("Video number: ", x," completed")
         print ('Video number: ', x+1,' completed')
@@ -145,7 +149,7 @@ if numFiles4 > 0:
             pixFmt = 'p'
         else:
             pixFmt = 'p' + bit4 + 'le'
-        p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo4[1] + ' -r ' + fps4 + ' -pix_fmt yuv' + extractInfo4[4] + pixFmt + ' -i ' + path2 + '\\' + originalTrain[x] + ' -y -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps4 + ' -pix_fmt yuv422' + pixFmt + ' ' + origTrainP + '/' + fileName4[:-4] + videoFormat, 
+        p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo4[1] + ' -r ' + fps4 + ' -pix_fmt yuv' + extractInfo4[4] + pixFmt + ' -i ' + path2 + '\\' + originalTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps4 + ' -pix_fmt yuv422' + pixFmt + ' ' + origTrainP + fileName4[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add origPath
         #sys.stdout.write("Video number: ", x," completed")
         print ('Video number: ', x+1,' completed')

@@ -335,7 +335,7 @@ $(document).on('change','#up1', function(){
       } else if ( ((files1[i].name).split('_')).length < 8 ){
         titlen1.title = "No file chosen";
         swal.fire({
-          html: "<h4>Please have your files prepared in the following way:</h5>" + "<small>filename_resolution_fps_bitdepth_chroma_frames_ratepoint(0=original, >0=distorted)_codec_ratio.yuv</small>" + "<br>" + "<small>(e.g.)S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R2_AV1_ratio2.yuv</small>",
+          html: "<h4>Please have your files prepared in the following way:</h5>" + "<small>filename_resolution_fps_bitdepth_chroma_frames_ratepoint(0=original, >0=distorted)_ratio_codec.yuv</small>" + "<br>" + "<small>(e.g.)S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R2_ratio1.5_AV1.yuv</small>",
           type: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
@@ -574,6 +574,9 @@ function setScale(method){
     frame: false,
     resizable: false,
     transparent: true,
+    webPreferences: {
+			nodeIntegration: true
+		  },
     x: position[0],
     y: position[1]+135,
     height: 220,

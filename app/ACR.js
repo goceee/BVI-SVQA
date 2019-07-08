@@ -1,6 +1,7 @@
 var spawn = require('child_process').spawn;
 var proc;
-var cmd = 'ffmpeg/bin/ffplay.exe';
+var cmd = 'mpv/mpv';
+//var cmd = 'ffmpeg/bin/ffplay.exe';
 var score;
 var clicked;
 var readExp = fs.readFileSync("../Experiments/Experiment.last",'utf8');
@@ -55,25 +56,33 @@ function play(testTrial){
     if(testTrial){
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4)
         fileLength = TrainingFileNames.length;
-        var ppath = '../trainingSequences/' + readExp + '/' + 'Distorted/' + FFileNames + videoFormat
+        var ppath = '../trainingSequences/' + FFileNames + videoFormat
         noScore = 1;
         
     }else{
         noScore = 0;
         FFileNames = FileNames[x].substring(0, FileNames[x].length - 4)
         fileLength = FileNames.length;
-        var ppath = '../converted/' + readExp + '/' + 'DistortedVideos/' + FFileNames + videoFormat
+        var ppath = '../converted/' + FFileNames + videoFormat
     }
     setTimeout(function(){
         rateVideo();
     }, 2500)
     
-    console.log(ppath)
     var args = [
+        '-fs',
+        '--ontop',
+        '--osc=no',
+        '--no-input-default-bindings',
+        '--framedrop=no',
+        '--priority=realtime',
+        ppath
+    ];
+    /*     var args = [
         '-autoexit',
         '-fs', 
         '-i', ppath
-    ];
+    ]; */
     watchVideo();
     setTimeout(function(){
         proc = spawn(cmd, args);

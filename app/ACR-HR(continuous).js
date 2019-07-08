@@ -15,7 +15,8 @@ elem.addEventListener("input", rangeValue);
 var spawn = require('child_process').spawn;
 var proc;
 var pyshellTest;
-var cmd = 'ffmpeg/bin/ffplay.exe';
+var cmd = 'mpv/mpv';
+//var cmd = 'ffmpeg/bin/ffplay.exe';
 var readExp = fs.readFileSync("../Experiments/Experiment.last",'utf8');
 var readFiles = fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv",'utf8');
 var readUserName = fs.readFileSync("../Experiments/" + readExp + "/user.last", 'utf8');
@@ -81,11 +82,11 @@ function play(testTrial){
         if (FFileNames.indexOf("R0") >= 0 ){
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../trainingSequences/' + readExp + '/' + 'Original/' + FFileNames + videoFormat;
+            var ppath = '../trainingSequences/' + FFileNames + videoFormat;
         } else{
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../trainingSequences/' + readExp + '/' + 'Distorted/' + FFileNames + videoFormat;
+            var ppath = '../trainingSequences/' + FFileNames + videoFormat;
         }
     }else{
         noScore = 0;
@@ -94,21 +95,32 @@ function play(testTrial){
         if (FFileNames.indexOf("R0") >= 0 ){
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../converted/' + readExp + '/' + 'OriginalVideos/' + FFileNames + videoFormat;
+            var ppath = '../converted/' + FFileNames + videoFormat;
         } else{
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../converted/' + readExp + '/' + 'DistortedVideos/' + FFileNames + videoFormat;
+            var ppath = '../converted/' + FFileNames + videoFormat;
         }
     }
     setTimeout(function(){
         rateVideo();
     },2500)
+
     var args = [
+        '-fs',
+        '--ontop',
+        '--osc=no',
+        '--no-input-default-bindings',
+        '--framedrop=no',
+        '--priority=realtime',
+        ppath
+    ];
+
+/*     var args = [
         '-autoexit',
         '-fs', 
         '-i', ppath
-    ];
+    ]; */
     watchVideo();
     if(!testTrial){
     setTimeout(function(){

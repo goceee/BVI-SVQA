@@ -15,7 +15,8 @@ elem.addEventListener("input", rangeValue);
 
 var spawn = require('child_process').spawn;
 var proc;
-var cmd = 'ffmpeg/bin/ffplay.exe';
+var cmd = 'mpv/mpv';
+//var cmd = 'ffmpeg/bin/ffplay.exe';
 var score;
 var readExp = fs.readFileSync("../Experiments/Experiment.last",'utf8');
 var readFiles = fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv",'utf8');
@@ -81,11 +82,11 @@ function play(testTrial){
         if (FFileNames.indexOf("R0") >= 0 ){
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../trainingSequences/' + readExp + '/' + 'Original/' + FFileNames + videoFormat;
+            var ppath = '../trainingSequences/' + FFileNames + videoFormat;
         } else{
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../trainingSequences/' + readExp + '/' + 'Distorted/' + FFileNames + videoFormat;
+            var ppath = '../trainingSequences/' + FFileNames + videoFormat;
         }
     }else{
         noScore = 0;
@@ -94,11 +95,11 @@ function play(testTrial){
         if (FFileNames.indexOf("R0") >= 0 ){
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../converted/' + readExp + '/' + 'OriginalVideos/' + FFileNames + videoFormat;
+            var ppath = '../converted/' + FFileNames + videoFormat;
         } else{
             console.log(FFileNames)
             console.log(FFileNames.indexOf("R0"))
-            var ppath = '../converted/' + readExp + '/' + 'DistortedVideos/' + FFileNames + videoFormat;
+            var ppath = '../converted/' + FFileNames + videoFormat;
         }
     }
     setTimeout(function(){
@@ -107,11 +108,21 @@ function play(testTrial){
     setTimeout(function(){
         enableButton();
     },500)
+
     var args = [
+        '-fs',
+        '--ontop',
+        '--osc=no',
+        '--no-input-default-bindings',
+        '--framedrop=no',
+        '--priority=realtime',
+        ppath
+    ];
+/*     var args = [
         '-autoexit',
         '-fs', 
         '-i', ppath
-    ];
+    ]; */
     watchVideo();
     setTimeout(function(){
         proc = spawn(cmd, args);
@@ -137,7 +148,7 @@ $('#continueB').click(function () {
                 breakTime = breakTime;
                 clicked = false;
                 setTimeout(function(){
-                    document.querySelector('input[name="range1"]').value = 0;
+                    document.querySelector('input[name="range1"]').value = 50;
                     target.innerHTML = "";
                     enableButton();
                 },1000)
@@ -156,6 +167,7 @@ $('#continueB').click(function () {
                         finish();
                         setTimeout(function(){
                             enableButton();
+                            $('#continueB').focus();
                         },500)
                         x = x + 1;
                     } else{
@@ -237,6 +249,7 @@ $('#continueB').click(function () {
                         document.getElementById("slider").style.visibility = "visible";
                         document.getElementById("continueB").style.visibility = "visible";
                         document.getElementById("replayB").style.visibility = "visible";
+                        $('input[name="range1"]').focus();
                     }, 2000);
                 }
             }
@@ -291,3 +304,17 @@ $('#continueB').click(function () {
                         document.getElementById("replayB").style.visibility = "hidden";
                     }, 200)
                 }
+
+                $('#myRange1').keyup(function(event){
+                    if (event.keyCode === 13) {
+                        //event.preventDefault();
+                        $("#continueB").click();
+                    }
+                })
+
+                $('#myRange1').keyup(function(event){
+                    if (event.keyCode === 8) {
+                        //event.preventDefault();
+                        $("#replayB").click();
+                    }
+                })

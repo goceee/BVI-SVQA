@@ -7,8 +7,10 @@ dataStr = sys.argv[1].split(',')
 vidTitle = sys.argv[3]
 metric = sys.argv[4]
 vidCodec = sys.argv[5]
-QP = sys.argv[6]
-print(QP)
+try:
+    QP = sys.argv[6]
+except:
+    QP = 0
 sys.stdout.flush()
 if(int(QP) != 1):
     bitRates = sys.argv[2].split(',')

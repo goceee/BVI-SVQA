@@ -1,0 +1,319 @@
+body{
+    background: none !important;
+    overflow: hidden;
+}
+
+#container{
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    border-radius: 12px;
+    top: 0;
+    left: 0;
+    background-color: #E6E6E6;
+    -webkit-app-region: drag;
+    user-select: none; 
+}
+
+#container nav{
+    display: block;
+    width: 100%;
+    height: 30px;
+    -webkit-app-region: drag;
+}
+
+#container nav #titleBar-buttons{
+    float: right;
+    margin-right: 0%;
+    width: 55px; /* change this to lower to get buttons closer */
+    height: 100%;
+    line-height: 30px;
+    font-family: "Segoe MDL2 Assets";
+    font-size: 12px;
+}
+
+#container nav #back{
+    margin-top:1%;
+    color: black;
+    font-size: 150%;
+    margin-left: 3%;
+    float: left;
+    width: 23px;
+    height: 100%;
+    line-height: 33px;
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-app-region: no-drag;
+}
+
+#container nav #back:hover{
+    color: white;
+}
+
+#titleBar-buttons #minimise, #titleBar-buttons #close{
+    margin-top: 0.1cm;
+    float: left;
+    height: 100%;
+    width: 43%;
+    text-align: center;
+    color: black;
+    -webkit-app-region: no-drag;
+    transition: all ease-in-out .2s;
+    cursor: default;
+}
+
+#titleBar-buttons #minimise:hover {
+    color: white;
+}
+
+#titleBar-buttons #close:hover{
+color: #E81123;
+}
+
+
+#nameForm{
+    margin-left:auto;
+    margin-right:auto;
+    text-align: center;
+    margin-top: 10%;
+    -webkit-app-region: no-drag;
+}
+
+#nameText{
+    width: 20%;
+}
+
+#nameSpace{
+    width: 80%;
+    padding-left: 0%;
+
+}
+
+#nameMethod{
+    margin-left:4.5%;
+    margin-right:auto;
+    margin-top: 8%;
+    -webkit-app-region: no-drag;
+}
+
+#presMethod{
+    height: 15%;
+    margin-left:30px;
+    margin-right:30px; 
+    margin-top: 7%;
+    -webkit-app-region: no-drag;
+}
+
+#presMethod #acr-hr{
+    margin-left: 2.05em;
+    margin-bottom: 3%;
+}
+#presMethod #dscqs{
+    margin-left: 0.8em;
+    margin-bottom: 3%;
+}
+
+#okcB{
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 2.5%;
+   /* background-color: #315866; /* background */
+   /* border: 1px solid #2a4c58; /* border */
+   /* border-radius: 12px;
+    color: white; /* White text */
+   /* padding: 10px 5px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+   /* width: 13%; /* Set a width if needed */
+    display: block;
+    -webkit-app-region: no-drag;
+}
+
+/*#okcB:hover{
+   /* background-color: #42817A; 
+    box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
+    transform: translateY(-1px);
+} */
+
+.container{
+    margin-top: 0;
+    -webkit-app-region: no-drag;
+}
+
+
+#browseDistorted{
+    visibility: hidden;
+    margin-right:auto;
+    margin-bottom: 0%;
+    -webkit-app-region: no-drag;
+}
+#vName{
+    visibility: hidden;
+    margin-right:auto;
+    margin-top: 5%;
+    -webkit-app-region: no-drag;
+}
+
+#dName{
+    visibility: hidden;
+    margin-right:auto;
+    margin-top: 1%;
+    -webkit-app-region: no-drag;
+}
+#browseOriginal{
+    visibility: hidden;
+    margin-right:auto;
+    -webkit-app-region: no-drag;
+}
+
+#browseBut{
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+/*    background-color:;
+      color:;
+      border-color:;
+      */
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=100);
+}
+
+#setB {
+    margin-right: 2%;
+    float: right;
+    width: 26px;
+    height: 26px;
+    /* in background download the offline version of it USE THAT ONE */
+    background: url('../img/settings.png') 100% 100% no-repeat;
+    background-size: 100%; 
+    -webkit-transition: all 0.5s linear;
+            transition: all 0.5s linear; 
+    -webkit-app-region: no-drag;
+}
+
+#setB:hover{
+    background: url('../img/settingsh.png') 100% 100% no-repeat;
+    background-size: 100%;
+    transform: rotate(180deg);
+}
+
+#setB:active {
+    overflow: hidden;
+    animation: anim-effect 0.3s forwards;
+    background-size: 100%;
+  }
+
+  @keyframes anim-effect {
+	0% {
+		transform: scale3d(0.3, 0.3, 1);
+	}
+	25%, 50% {
+		opacity: 1;
+	}
+	100% {
+		transform: scale3d(1.2, 1.2, 1);
+	}
+}
+
+#first{
+    margin-top: 2%;
+}
+
+  .middle {
+    margin: auto;
+    width: 90%;
+    height: 10%;
+  }
+
+  .middle input[type="radio"] {
+    display: none;
+  }
+  .middle input[type="radio"]:checked + .box {
+    background-color: #007e90;
+  }
+  .middle input[type="radio"]:checked + .box span {
+    color: white;
+    transform: translateY(70px);
+  }
+  .middle input[type="radio"]:checked + .box span:before {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+  .firstrow{
+      margin-right:3%;
+  }
+
+  .secondrow{
+    margin-right: 3%;
+  }
+  .middleCent{
+    text-align: center;
+  }
+
+
+  .middle .box {
+    width: 85px;
+    height: 50px;
+    background-color: #E6E6E6;
+    transition: all 250ms ease;
+    will-change: transition;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 30%;
+    position: relative;
+    font-family: "Dax", sans-serif;
+    font-size: 80%;
+    font-weight: 900;
+    -webkit-app-region: no-drag;
+  }
+  .middle .box:active {
+    transform: translateY(10px);
+  }
+  .middle .box span {
+    margin-top: -70%;
+    position: absolute;
+    transform: translate(0, 60px);
+    left: 0;
+    right: 0;
+    transition: all 300ms ease;
+    font-size: 1.5em;
+    user-select: none;
+    color: #007e90;
+  }
+  .middle .box span:before {
+    font-size: 1.2em;
+    font-family: FontAwesome;
+    display: block;
+    transform: translateY(-80px);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+    font-weight: normal;
+    color: white;
+  }
+
+  .blurEffect{
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -ms-filter: blur(2px);
+    -o-filter: blur(2px);
+    filter: blur(2px); 
+  }
+
+  .swal2-container {
+    -webkit-app-region: drag !important;
+}
+
+.swal2-confirm, .swal2-cancel{
+    -webkit-app-region: no-drag !important;
+}

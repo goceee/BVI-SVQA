@@ -26,7 +26,8 @@ elem2.addEventListener("input", rangeValue2);
 /* PLAYER HERE */
 var spawn = require('child_process').spawn;
 var proc;
-var cmd = 'ffmpeg/bin/ffplay.exe';
+var cmd = 'mpv/mpv';
+//var cmd = 'ffmpeg/bin/ffplay.exe';
 var scoreOrig;
 var scoreDist;
 var noScore = 0;
@@ -86,7 +87,7 @@ function getBreakNum(distFileNames){
     }
     Math.round(totalVideoTime)
     totalVideoTimeM = parseInt(totalVideoTime/60);
-    breakNum = Math.round(totalVideoTimeM/30)-1;
+    breakNum = Math.round(totalVideoTimeM/30);
 }
 
 if(trialRun){
@@ -116,13 +117,13 @@ setTimeout(function(){
             console.log(origIndex)
             OOriginalFileNames = OriginalTrainingFile[origIndex].substring(0, OriginalTrainingFile[origIndex].length - 4)
             if (randomVid == 0){
-                var ppath = '../trainingSequences/' + readExp + '/' + 'Distorted/' + DDistortedFileNames + videoFormat;
-                var ppath2 = '../trainingSequences/' + readExp + '/' + 'Original/' + OOriginalFileNames + videoFormat;
+                var ppath = '../trainingSequences/' + DDistortedFileNames + videoFormat;
+                var ppath2 = '../trainingSequences/' + OOriginalFileNames + videoFormat;
                 console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames)
             }
             else{
-                var ppath2 = '../trainingSequences/' + readExp + '/' + 'Distorted/' + DDistortedFileNames + videoFormat;
-                var ppath = '../trainingSequences/' + readExp + '/' + 'Original/' + OOriginalFileNames + videoFormat;
+                var ppath2 = '../trainingSequences/' + DDistortedFileNames + videoFormat;
+                var ppath = '../trainingSequences/' + OOriginalFileNames + videoFormat;
                 console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames)
             }
         }else{
@@ -133,18 +134,37 @@ setTimeout(function(){
             var origIndex = getOrigFileNames.indexOf(getName);
             OOriginalFileNames = OriginalFileNames[origIndex].substring(0, OriginalFileNames[origIndex].length - 4)
             if (randomVid == 0){
-                var ppath = '../converted/' + readExp + '/' + 'DistortedVideos/' + DDistortedFileNames + videoFormat;
-                var ppath2 = '../converted/' + readExp + '/' + 'OriginalVideos/' + OOriginalFileNames + videoFormat;
+                var ppath = '../converted/' + DDistortedFileNames + videoFormat;
+                var ppath2 = '../converted/' + OOriginalFileNames + videoFormat;
                 console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames)
             }
             else{
-                var ppath2 = '../converted/' + readExp + '/' + 'DistortedVideos/' + DDistortedFileNames + videoFormat;
-                var ppath = '../converted/' + readExp + '/' + 'OriginalVideos/' + OOriginalFileNames + videoFormat;
+                var ppath2 = '../converted/' + DDistortedFileNames + videoFormat;
+                var ppath = '../converted/'  + OOriginalFileNames + videoFormat;
                 console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames)
             }
         }
         //rateVideo();
         var args = [
+            '-fs',
+            '--ontop',
+            '--osc=no',
+            '--no-input-default-bindings',
+            '--framedrop=no',
+            '--priority=realtime',
+            ppath
+        ];
+        var args2 = [
+            '-fs',
+            '--ontop',
+            '--osc=no',
+            '--no-input-default-bindings',
+            '--framedrop=no',
+            '--priority=realtime',
+            ppath2
+        ];
+        //ADD THIS TOMORROW --no-input-default-bindings ///
+        /*         var args = [
             '-autoexit',
             '-fs', 
             '-i', ppath
@@ -153,7 +173,7 @@ setTimeout(function(){
             '-autoexit',
             '-fs', 
             '-i', ppath2
-        ];
+        ]; */
         
         if (replayClick == 1) {
             if(scoreVideo == 1){
@@ -225,7 +245,7 @@ setTimeout(function(){
     }
     
     $('#continue').click(function () {
-        if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun){
+        if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && scoreVideonum == 2 && x < (fileLength-2)){
             breakTimeF();
             breakTime = 0;
         }else {
@@ -236,15 +256,18 @@ setTimeout(function(){
                     type:'error'
                 });
             }else if (clicked == true && clicked2 != true){
+                console.log("START")
                 if(firsttime == true){
                     scoreVideonum = 2;
                     firsttime = false;
                     play(trialRun, scoreVideonum)
+                    console.log("HERE AND")
                 }else{
-                    swal.fire({
-                        text: 'You have not selected a score, please select one to continue!' ,
-                        type:'error'
-                    });
+                    console.log("HERE")
+                        swal.fire({
+                            text: 'You have not selected a score, please select one to continue!' ,
+                            type:'error'
+                        });
                 }
             }else{
                 firsttime = true;
@@ -280,8 +303,8 @@ setTimeout(function(){
                                 allScores.push([OOriginalFileNames,scoreOrig,DDistortedFileNames,scoreDist, scoreDist-scoreOrig+100]);
                             }
                             setTimeout(function(){
-                                document.querySelector('input[name="range1"]').value = 0;
-                                document.querySelector('input[name="range2"]').value = 0;
+                                document.querySelector('input[name="range1"]').value = 50;
+                                document.querySelector('input[name="range2"]').value = 50;
                                 target.innerHTML = "";
                                 target2.innerHTML = "";
                                 enableButton();
@@ -313,6 +336,7 @@ setTimeout(function(){
                                 finish();
                                 setTimeout(function(){
                                     enableButton();
+                                    $('#continue').focus()
                                 },500)
                                 x = x + 1;
                             }
@@ -423,9 +447,12 @@ setTimeout(function(){
                             document.getElementById("sliders").style.visibility = "visible";
                             document.getElementById("buttons").style.visibility = "visible";
                             document.getElementById("myRange2").disabled = true;
+                            $('input[name="range1"]').focus();
+                            $('<style>input[name="range1"]::-webkit-slider-thumb { background-color: #e74c3c;}<style/>').appendTo('head');
+                            $('<style>input[name="range2"]::-webkit-slider-thumb { background-color: gray;}<style/>').appendTo('head');
                             $('.value2').addClass('disable');
                             $('#rateT2').addClass('disable');
-                            $('#rate2').addClass('disable'); 
+                            $('#rate2').addClass('disable');
                         } else {
                             scoreVideonum = 2;
                             document.getElementById("text").style.visibility = "hidden";
@@ -435,13 +462,16 @@ setTimeout(function(){
                             document.getElementById("sliders").style.visibility = "visible";
                             document.getElementById("buttons").style.visibility = "visible";
                             document.getElementById("myRange1").disabled = true;
+                            $('<style>input[name="range1"]::-webkit-slider-thumb { background-color: gray;}<style/>').appendTo('head');
+                            $('<style>input[name="range2"]::-webkit-slider-thumb { background-color: #e74c3c;}<style/>').appendTo('head');
                             $('.value').addClass('disable');
                             $('#rateT1').addClass('disable');
                             $('#rate1').addClass('disable');
                             document.getElementById("myRange2").disabled = false;
                             $('.value2').removeClass('disable');
                             $('#rateT2').removeClass('disable');
-                            $('#rate2').removeClass('disable'); 
+                            $('#rate2').removeClass('disable');
+                            $('input[name="range2"]').focus();
                         }
                     }, 1000);
                 }
@@ -449,16 +479,15 @@ setTimeout(function(){
             
             
             function breakTimeF(){
-                $('#continue').prop('disabled', true);
                 document.getElementById("rating").style.visibility = "hidden";
-                //  document.getElementById("replay").style.visibility = "hidden";
                 document.getElementById("sliders").style.visibility = "hidden";
                 setTimeout(function(){
                     $('#continue').prop('disabled', false);
+                    $('#continue').focus();
                     $('#buttons').addClass('transitionEffect');
                     document.getElementById("text").textContent = "Time for a break!\r\n Press continue when ready to start with the second half!";
                     document.getElementById("text").style.visibility = "visible";
-                }, 600)}
+                },200)}
                 
                 function finish(){
                     if (noScore == 0){
@@ -472,7 +501,6 @@ setTimeout(function(){
                         fs.writeFileSync("../Experiments/" + readExp + "/" + readUserName + "/" + "score.csv", csvString, 'utf8');
                     }
                     setTimeout(function(){
-                        //$("#replay").remove();
                         $("#rating").remove();
                         $("#sliders").remove();
                         $("#continue").css("width", "8%");
@@ -481,8 +509,22 @@ setTimeout(function(){
                         if(!trialRun){
                             document.getElementById("text").textContent = "End of experiment, please press continue to finish!"
                         } else{
-                            document.getElementById("text").textContent = "End of training, please press continue to proceed to testing!"    
+                            document.getElementById("text").textContent = "End of training, please press continue to proceed to testing!"
                         }
                         document.getElementById("text").style.visibility = "visible";
                     }, 200)
                 }
+
+                $('#myRange1').keyup(function(event){
+                    if (event.keyCode === 13) {
+                        //event.preventDefault();
+                        $("#continue").click();
+                    }
+                })
+
+                $('#myRange2').keyup(function(event){
+                    if (event.keyCode === 13) {
+                        //event.preventDefault();
+                        $("#continue").click();
+                    }
+                })

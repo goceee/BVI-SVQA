@@ -1,0 +1,40 @@
+body {
+    background:#E6E6E6;
+}
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+#continueB{
+    margin-top: 2%;
+    visibility: hidden;
+}
+
+#scale{
+    max-width: 40%;
+    margin-top: 2%;
+    margin-left: 29.19%;
+    visibility: hidden;
+}
+
+#score{
+    width:125%;
+    height:125%;
+}
+
+#text{
+    text-align: center;
+    margin-top: 15%;
+    -webkit-user-select: none !important;
+}
+
+.butBackground{
+    background: #343a40;
+    color: #fff;
+}
+
+.swal2-container {
+    -webkit-user-select: none !important;
+  }

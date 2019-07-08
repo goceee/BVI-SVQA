@@ -15,7 +15,8 @@ elem.addEventListener("input", rangeValue);
 
 var spawn = require('child_process').spawn;
 var proc;
-var cmd = 'ffmpeg/bin/ffplay.exe';
+var cmd = 'mpv/mpv';
+//var cmd = 'ffmpeg/bin/ffplay.exe';
 var readExp = fs.readFileSync("../Experiments/Experiment.last",'utf8');
 var readFiles = fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv",'utf8');
 var readUserName = fs.readFileSync("../Experiments/" + readExp + "/user.last", 'utf8');
@@ -48,7 +49,7 @@ var breakNum;
 
 function getBreakNum(){
     for (i=0;i<FileNames.length;i++){
-        totalVideoTime = totalVideoTime + 20 + parseInt(FileNames[i].split('_')[5])/parseInt(FileNames[i].split('_')[2]);
+        totalVideoTime = totalVideoTime + 5 + parseInt(FileNames[i].split('_')[5])/parseInt(FileNames[i].split('_')[2]);
     }
     Math.round(totalVideoTime)
     totalVideoTimeM = parseInt(totalVideoTime/60);
@@ -69,7 +70,7 @@ function play(testTrial){
     if(testTrial){
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4)
         fileLength = TrainingFileNames.length;
-        var ppath = '../trainingSequences/' + readExp + '/' + 'Distorted/' + FFileNames + videoFormat
+        var ppath = '../trainingSequences/' + FFileNames + videoFormat
         //FFileNames = TrainingFileNames[x].split('.')
         //document.getElementById("text").textContent = "Training phase is starting now, get ready!";
         noScore = 1;
@@ -78,19 +79,27 @@ function play(testTrial){
         noScore = 0;
         FFileNames = FileNames[x].substring(0, FileNames[x].length - 4)
         fileLength = FileNames.length;
-        var ppath = '../converted/' + readExp + '/' + 'DistortedVideos/' + FFileNames + videoFormat
+        var ppath = '../converted/' + FFileNames + videoFormat
         //FFileNames = FileNames[x].split('.');
     }
     setTimeout(function(){
         rateVideo();
     },2500)
-    
-    console.log(ppath)
+    var args = [
+        '-fs',
+        '--ontop',
+        '--osc=no',
+        '--no-input-default-bindings',
+        '--framedrop=no',
+        '--priority=realtime',
+        ppath
+    ]; 
+/*     console.log(ppath)
     var args = [
         '-autoexit',
         '-fs', 
         '-i', ppath
-    ];
+    ]; */
     watchVideo();
     setTimeout(function(){
         proc = spawn(cmd, args);

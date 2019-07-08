@@ -353,6 +353,7 @@ $('#okcB').click(function () {
           x: position[0]+1,
           y: position[1]+162,
           width: 347,
+          		webPreferences: { 			nodeIntegration: true 		  },
           backgroundColor: '#E6E6E6'
         }
       });
@@ -421,6 +422,7 @@ $('#okcB').click(function () {
           x: position[0]+1,
           y: position[1]+162,
           width: 347,
+          		webPreferences: { 			nodeIntegration: true 		  },
           backgroundColor: '#E6E6E6'
         }
       });
@@ -489,6 +491,7 @@ $('#okcB').click(function () {
         frame: false,
         x: position[0]+1,
         y: position[1]+162,
+        		webPreferences: { 			nodeIntegration: true 		  },
         width: 347,
         backgroundColor: '#E6E6E6'
       }
@@ -509,7 +512,8 @@ $('#okcB').click(function () {
     // end the input stream and allow the process to exit
     pyshell.end(function (err) {
       if (err){
-        alert(err);
+        console.log(err)
+        //alert(err);
       } 
       else {
         progressBar.setCompleted();
@@ -539,6 +543,7 @@ $('#okcB').click(function () {
       parent: win,
       modal: true,
       frame: false,
+      		webPreferences: { 			nodeIntegration: true 		  },
       resizable: false,
       transparent: true,
       x: position[0],

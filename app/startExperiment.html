@@ -15,7 +15,8 @@
     <script type="text/javascript">
       function Validate(inputName) {
           inputName.value = inputName.value.replace(/[^a-zA-Z 0-9-_\n\r]+/g, '');
-      }
+          inputName.value = inputName.value.replace(/\s/g, '');
+        }
   </script>
 
 </head>

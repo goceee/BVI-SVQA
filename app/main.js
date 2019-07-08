@@ -8,7 +8,7 @@ var path = require('path');
 var fs = require('fs');
 //app.disableHardwareAcceleration();//// TEST OUTTT!!!
 
-//var appIconDir = '/img/'; -- directory for app icon
+var appIconDir = '/img/'; //-- directory for app icon
 
 function boot(){
 	console.log(process.type)
@@ -18,7 +18,8 @@ function boot(){
 		frame: false,
 		resizable:false,
 		transparent: true,
-		//icon: path.join(__dirname, appIconDir, 'icon.png') -- add app icon
+				webPreferences: { 			nodeIntegration: true 		  },
+		icon: path.join(__dirname, appIconDir, 'icon.ico') // add app icon
 	})
 	mainWin.loadURL(url.format({
 		pathname: 'main.html',
@@ -55,6 +56,7 @@ exports.openWindow = (windowName) => {
 		frame: false,
 		resizable:false,
 		transparent: true,
+				webPreferences: { 			nodeIntegration: true 		  },
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -70,6 +72,7 @@ exports.mainWindow = () => {
 		frame: false,
 		resizable:false,
 		transparent: true,
+				webPreferences: { 			nodeIntegration: true 		  },
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -86,6 +89,7 @@ exports.resWindow = () => {
 		resizable:false,
 		fullscreen:false,
 		transparent: true,
+				webPreferences: { 			nodeIntegration: true 		  },
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -101,6 +105,7 @@ exports.popUp = () => {
 		frame: false,
 		resizable:false,
 		transparent: true,
+				webPreferences: { 			nodeIntegration: true 		  },
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -118,6 +123,7 @@ exports.presWindow = (presName) => {
 		resizable:false,
 		fullscreen:true,
 		transparent: true,
+				webPreferences: { 			nodeIntegration: true 		  },
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({

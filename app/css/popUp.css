@@ -1,0 +1,154 @@
+body{
+    background: none !important;
+}
+
+#container{
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    border-radius: 12px;
+    top: 0;
+    left: 0;
+    background-color: #E6E6E6;
+    -webkit-app-region: drag;
+    user-select: none; 
+}
+
+#container nav{
+    display: block;
+    width: 100%;
+    height: 30px;
+    -webkit-app-region: drag;
+}
+
+#container nav #titleBar-buttons{
+    float: right;
+    margin-right: 0%;
+    width: 55px; /* change this to lower to get buttons closer */
+    height: 100%;
+    line-height: 30px;
+    font-family: "Segoe MDL2 Assets";
+    font-size: 12px;
+}
+
+#titleBar-buttons #minimise, #titleBar-buttons #close{
+    margin-top: 0.1cm;
+    float: left;
+    height: 100%;
+    width: 43%;
+    text-align: center;
+    color: black;
+    -webkit-app-region: no-drag;
+    transition: all ease-in-out .2s;
+    cursor: default;
+}
+
+#titleBar-buttons #minimise:hover {
+    color: white;
+}
+
+#titleBar-buttons #close:hover{
+color: #E81123;
+}
+
+#container nav #configN{
+    color: black;
+    font-size: 150%;
+    margin-left: 3%;
+    float: left;
+    font-size: 15px;
+    height: 100%;
+    line-height: 33px;
+    -webkit-app-region: drag;
+}
+
+#container nav #configN:hover{
+    color: #E6E6E6;
+    -webkit-app-region: drag;
+}
+
+#cancel{
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 9%;
+    color: black; /* White text */
+    border-color: black;
+    border-radius: 12px;
+/*    color: white; /* White text */
+    padding: 8px 0px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 40%; /* Set a width if needed */
+    display: block;
+    -webkit-app-region: no-drag;
+}
+
+
+#last{
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 12%;
+    color: black; /* White text */
+    border-color: black;
+  /*  background-color: #315866; /* background */
+  /*  border: 1px solid #2a4c58; /* border */
+    border-radius: 12px;
+  /*  color: white; /* White text */
+    padding: 8px 5px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 40%; /* Set a width if needed */
+    display: block;
+    -webkit-app-region: no-drag;
+}
+
+#new, #saved{
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: -2%;
+    color: black; /* White text */
+    border-color: black;
+  /*  background-color: #315866; /* background */
+  /*  border: 1px solid #2a4c58; /* border */
+    border-radius: 12px;
+   /* color: white; /* White text */
+    padding: 8px 5px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 40%; /* Set a width if needed */
+    display: block;
+    -webkit-app-region: no-drag;
+}
+
+#saved:hover, #new:hover, #last:hover{
+  /*  background-color: #42817A;*/
+  color: white;
+  border-color: #17a2b8;
+  box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
+  transform: translateY(-3px);
+}
+
+#cancel:hover{
+    color: white;
+    border-color: #c14645;
+    background-color: #c14645;
+    box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
+    transform: translateY(-3px);
+}
+
+#noDrag{
+    margin-left:30px;
+    margin-right:30px;
+-webkit-app-region: no-drag;
+}
+
+
+.swal2-title {
+    font-size: 1.4em !important;
+  }
+
+  .swal2-container {
+    -webkit-app-region: drag !important;
+}
+
+.swal2-confirm {
+    -webkit-app-region: no-drag !important;
+}
