@@ -1,5 +1,7 @@
 # SVQA
 
+![animation](doc/animation.gif)
+
 SVQA is a software that allows people to subjectively assess video quality. SVQA is developed at the University of Bristol as part of a final year project.
 
 # Requirements
