@@ -26,13 +26,14 @@ var trialRun = fs.existsSync("../Experiments/" + readExp + "/" + readUserName + 
 var fileLength;
 var breakTime = 0;
 var noScore = 0;
-//alert(trialRun);
+
 /* try { -------------------------------------------------------- COMMENTED FOR DEBUGGING
     fs.unlinkSync("../Experiments/" + readExp + "/user.last")
     //file removed
 } catch(err) {
     console.error(err)
 } */
+
 var FileListwName = readFiles.split('\n');
 var DistortedFileNames = FileListwName[2].split(',');
 var DistortedTrainingFile = FileListwName[3].split(',');
@@ -58,7 +59,7 @@ var breakNum;
 
 function getBreakNum(FileNames){
     for (i=0;i<FileNames.length;i++){
-        totalVideoTime = totalVideoTime + 20 + parseInt(FileNames[i].split('_')[5])/parseInt(FileNames[i].split('_')[2]);
+        totalVideoTime = totalVideoTime + 8 + parseInt(FileNames[i].split('_')[5])/parseInt(FileNames[i].split('_')[2]);
     }
     Math.round(totalVideoTime)
     totalVideoTimeM = parseInt(totalVideoTime/60);
@@ -79,28 +80,14 @@ function play(testTrial){
         noScore = 1;
         fileLength = TrainingFileNames.length;
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4)
-        if (FFileNames.indexOf("R0") >= 0 ){
             console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
             var ppath = '../trainingSequences/' + FFileNames + videoFormat;
-        } else{
-            console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
-            var ppath = '../trainingSequences/' + FFileNames + videoFormat;
-        }
     }else{
         noScore = 0;
         fileLength = FileNames.length;
         FFileNames = FileNames[x].substring(0, FileNames[x].length - 4)
-        if (FFileNames.indexOf("R0") >= 0 ){
             console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
             var ppath = '../converted/' + FFileNames + videoFormat;
-        } else{
-            console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
-            var ppath = '../converted/' + FFileNames + videoFormat;
-        }
     }
     setTimeout(function(){
         rateVideo();
@@ -118,6 +105,7 @@ function play(testTrial){
         '--priority=realtime',
         ppath
     ];
+
 /*     var args = [
         '-autoexit',
         '-fs', 
@@ -128,12 +116,13 @@ function play(testTrial){
         proc = spawn(cmd, args);
         proc.on('exit', function (code) { 
             proc = null;
+            $('input[name="range1"]').focus();
         });
     }, 2000)
 }
 
 $('#continueB').click(function () {
-    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun){
+    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength-2)){
         breakTimeF();
         breakTime = 0;
     } else {
@@ -145,7 +134,7 @@ $('#continueB').click(function () {
                 $('#replayB').prop('disabled', true);
                 $('#continueB').prop('disabled', true);
                 x = x + 1;
-                breakTime = breakTime;
+                breakTime = breakTime + 1;
                 clicked = false;
                 setTimeout(function(){
                     document.querySelector('input[name="range1"]').value = 50;
@@ -168,7 +157,7 @@ $('#continueB').click(function () {
                         setTimeout(function(){
                             enableButton();
                             $('#continueB').focus();
-                        },500)
+                        },250)
                         x = x + 1;
                     } else{
                         swal.fire({
@@ -227,7 +216,6 @@ $('#continueB').click(function () {
             $('#replayB').click(function() {
                 $('#replayB').prop('disabled', true);
                 $('#continueB').prop('disabled', true);
-                //replayClick = 1;
                 play(trialRun);
             })
             
@@ -249,8 +237,7 @@ $('#continueB').click(function () {
                         document.getElementById("slider").style.visibility = "visible";
                         document.getElementById("continueB").style.visibility = "visible";
                         document.getElementById("replayB").style.visibility = "visible";
-                        $('input[name="range1"]').focus();
-                    }, 2000);
+                    }, 1000);
                 }
             }
             

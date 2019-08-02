@@ -23,8 +23,7 @@ function getFilesFromDir(dir) {
   function walkDir(currentPath) {
     var files = fs.readdirSync(currentPath);
     for (var i in files) {
-      var curFile = path.join(currentPath, files[i]);
-      //console.log(curFile)      
+      var curFile = path.join(currentPath, files[i]);  
       if (fs.statSync(curFile).isFile() && curFile.indexOf('bitrates.csv') != -1) {
         filesToReturn.push(curFile.replace(dir, ''));
       } else if (fs.statSync(curFile).isDirectory()) {
@@ -88,14 +87,13 @@ $('#videoList').on('change', function() {
 //-------------------------------------------------------------------//
 //-------------------------------------------------------------------//
 
-//----------------------Plots Experiment change-------------------------------------------//
+//------Plots Experiment change----------
 $('#viewPlots').on('change', function() {
   vidCodecsList = [];
   $('#secondForm').removeClass('transitionEffect');
   $('#secondForm').addClass('transitionBack');
   $('#buttonC').removeClass('transitionEffect');
   $('#buttonC').addClass('transitionBackBut');
-  //$('#buttonC').addClass('transitionBackBut');
   $('input[name="data"]').prop('checked', false);
   $('input[name="plots"]').prop('checked', false);
   document.getElementById('viewScores').selectedIndex = "0";
@@ -119,7 +117,6 @@ $('#viewPlots').on('change', function() {
   for (var i = 0;i<OriginalFileNames.length; i++){
     for (var j = 0;j<DistortedFileNames.length;j++){
       if( OriginalFileNames[i].split('_')[0].includes(DistortedFileNames[j].split('_')[0]) ){
-        //-------------CHANGED-----------------//
         if(DistortedFileNames[j].split('_')[7].includes('.')){
           vidCodecsList.push((DistortedFileNames[j].split('_')[7]).slice(0,-4));
         } else{
@@ -133,19 +130,16 @@ $('#viewPlots').on('change', function() {
         videoList.options[videoList.options.length] = new Option(OriginalFileNames[i].split('_')[0] + '_' + vidCodecsList[t], OriginalFileNames[i].split('_')[0] + '_' + vidCodecsList[t]);
       }
     }
-    //--------------CHANGE ENDS HERE--------------------//
   }
 });
 //--------------------------------------------------------------------------------------------//
-//--------------------------------------------------------------------------------------------//
 
-//PLOTS CLICK!!!
-//-----------------------------------------//
+
+//------------PLOTS CLICK------------------------
 $('input[name="plots"]').on('change', function(){
   document.getElementById('confirmPlots').disabled = false;          
   document.getElementById('exportall').disabled = false;
   bitratesPath = getFilesFromDir("../Experiments/" + viewPlots.value);
-  console.log(vidCodecsList.length)
   if(vidCodecsList.length > 1){
     document.getElementById('compareB').disabled = false;
   } else{
@@ -164,12 +158,14 @@ $('input[name="plots"]').on('change', function(){
   document.getElementById("confirmPlots").style.visibility = "visible";
   document.getElementById("exportall").style.visibility = "visible";
   document.getElementById("compareB").style.visibility = "visible";
+  if(document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF'){
+    document.getElementById('compareB').disabled = true;
+  }
 })
-//-------------PLOTS CLICK END------------------------------------//
-//---------------------------------------------------------------//
+//------------PLOTS CLICK END--------------------
 
-//--------------------EXPORT DATA STUFF--------------------------//
-$('input[name="data"]').on('change', function(){
+//------------EXPORT DATA------------------------
+$('input[name="data"]').on('change', function() {
   document.getElementById("confirmData").style.visibility = "visible";
 })
 
@@ -183,8 +179,7 @@ $('#confirmData').click(function() {
       args : [selExp,presMethod]
     };
     var pyshell = new PythonShell('extractData.py', options);
-    
-    // end the input stream and allow the process to exit
+
     pyshell.end(function (err) {
       document.getElementById('confirmData').disabled = false;
       if (err){
@@ -226,21 +221,19 @@ $('#confirmData').click(function() {
     })
   }
 })
-//----------------------------------------------------------------------------------//
-//----------------------------------------------------------------------------------//
+//-----------------------------------------------
 
 
-//--------------------------------CONFIRM PLOTS BUTTON------------------------------//
+//-----CONFIRM PLOTS-----------------
 var pyshell1;
-$('#confirmPlots').click(function(){
+$('#confirmPlots').click(function() {
   bitratesPath = getFilesFromDir("../Experiments/" + viewPlots.value);
-  console.log(bitratesPath)
   document.getElementById('confirmPlots').disabled = true;
   document.getElementById('exportall').disabled = true;
   document.getElementById('compareB').disabled = true;
-  var indexBitrate;
-  var options;
-  var vidCodec;
+  //var indexBitrate;
+  //var options;
+  //var vidCodec;
   if(document.getElementById("videoList").value == 'Choose...'){
     swal.fire({
       title: 'No video selected!',
@@ -251,16 +244,14 @@ $('#confirmPlots').click(function(){
       confirmButtonText: 'OK!'
     })  
   }else{
-    
     if(bitRate != undefined || bitratesPath.length != 0 || QParr.length != 0){
       if(bitratesPath.length != 0 || bitRate != undefined || QParr.length != 0){
-        
         if(bitratesPath.length != 0){
           document.getElementById('bitrateForm').style.visibility = "hidden";
           $('#buttonC').removeClass('transitionEffect');
           $('#buttonC').addClass('transitionBackBut');
-          var readBitRates = ((fs.readFileSync(bitratesPath[0],'utf8'))).split('\n')//.split(',');
-          console.log(readBitRates)
+          var readBitRates = ((fs.readFileSync(bitratesPath[0],'utf8'))).split('\n')
+
         }
         else if (QParr !=0){
           document.getElementById('bitrateForm').style.visibility = "hidden";
@@ -268,23 +259,40 @@ $('#confirmPlots').click(function(){
           $('#buttonC').addClass('transitionBackBut');
         }
         else if(bitRate[0].name == 'bitrates.csv'){
-          var readBitRates = ((fs.readFileSync(bitRate[0].path,'utf8'))).split('\n')//.split(',');
-          console.log(readBitRates)
+          var readBitRates = ((fs.readFileSync(bitRate[0].path,'utf8'))).split('\n')
+        } else{
+          swal.fire({
+            title: 'bitrates.csv file not be found!',
+            type: 'error',
+            showCancelButton: false,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK!'
+          })
         }
         var vidName = (document.getElementById("videoList").value).split('_')[0];
-        console.log(vidName)
-        if (QParr == 0){
+        var vidname2 = document.getElementById("videoList").value;
+        if (QParr == 0 && (bitratesPath.length != 0 || bitRate[0].name == 'bitrates.csv')){
           for (var i=0;i<readBitRates.length;i++){
             if(vidName.indexOf(readBitRates[i].split(',')[0]) != -1){
-              console.log("ENTAAH")
               indexBitrate = i;
               break;
             }
           }
           var bitRates = readBitRates[indexBitrate].split(',')
-          console.log(bitRates)
-          console.log(readBitRates)
           bitRates.splice(0,1)
+        }else{
+          swal.fire({
+            title: 'bitrates.csv file not present!',
+            type: 'error',
+            showCancelButton: false,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK!'
+          })
+          document.getElementById('confirmPlots').disabled = false;
+          document.getElementById('compareB').disabled = false;
+          document.getElementById('exportall').disabled = false;
         }
         if(bitRates.length < 3){
           swal.fire({
@@ -298,62 +306,114 @@ $('#confirmPlots').click(function(){
           document.getElementById('confirmPlots').disabled = false;
           document.getElementById('compareB').disabled = false;
           document.getElementById('exportall').disabled = false;
-        }else{
-          //------------------CHANGED-------------------------//
-          var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv','utf8')).split('\n'))//.split(',');
+        }
+        
+        else{
           vidCodec = (document.getElementById("videoList").value).split('_')[1]
-          //----------------CHANGE ENDS HERE------------------//
           
+          //-----------------PSNR-START-----------------------------------------------
           if (document.querySelector('input[name="plots"]:checked').value == 'PSNR' ){
-            var remQPSNR = readData[2].replace(/"([^"]+(?="))"/g, '$1')
-            var psnr = remQPSNR.split(',')
-            psnr.splice(0,1);
-            if (QParr.length == 0){
-              bitRates.length = psnr.length;
-              options = {
-                args : [psnr,bitRates,vidName,'PSNR(db)',vidCodec]
-              };
-            }else{
-              var qpF = 1;
-              options = {
-                args : [psnr,QParr,vidName,'PSNR(db)',vidCodec,qpF]
-              };
+            try{
+              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv','utf8')).split('\n'))//.split(',');
+              var remQPSNR = readData[2].replace(/"([^"]+(?="))"/g, '$1')
+              var psnr = remQPSNR.split(',')
+              psnr.splice(0,1);
+              if (QParr.length == 0){
+                bitRates.length = psnr.length;
+                options = {
+                  args : [psnr,bitRates,vidName,'PSNR(db)',vidCodec]
+                };
+              }else{
+                var qpF = 1;
+                options = {
+                  args : [psnr,QParr,vidName,'PSNR(db)',vidCodec,qpF]
+                };
+              }
+            }catch(err){
+              swal.fire({
+                title: 'Objective metrics for video could not be found!',
+                type: 'error',
+                showCancelButton: false,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK!'
+              })
             }
           }
+          //-----------------PSNR-END-------------------------------------------------
+          
+          //--------------------VMAF-START------------------------------------------------
           else if(document.querySelector('input[name="plots"]:checked').value == 'VMAF' ){
-            var remQVMAF = readData[1].replace(/"([^"]+(?="))"/g, '$1')
-            var vmaf = remQVMAF.split(',')
-            vmaf.splice(0,1);
-            if (QParr.length == 0){
-              bitRates.length = vmaf.length;
-              options = {
-                args : [vmaf,bitRates,vidName,'VMAF',vidCodec]
-              };
-            }else{
-              var qpF = 1;
-              options = {
-                args : [vmaf,QParr,vidName,'VMAF',vidCodec,qpF]
-              };
+            try{
+              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv','utf8')).split('\n'))//.split(',');
+              var remQVMAF = readData[1].replace(/"([^"]+(?="))"/g, '$1')
+              var vmaf = remQVMAF.split(',')
+              vmaf.splice(0,1);
+              var remQCIHI = readData[4].replace(/"([^"]+(?="))"/g, '$1')
+              var remQCILO = readData[5].replace(/"([^"]+(?="))"/g, '$1')
+              var cihi = remQCIHI.split(',')
+              var cilo = remQCILO.split(',')
+              cihi.splice(0,1)
+              cilo.splice(0,1)
+              if (QParr.length == 0){
+                bitRates.length = vmaf.length;
+                options = {
+                  args : [vmaf,bitRates,vidName,'VMAF',vidCodec,cihi,cilo]
+                };
+              }else{
+                var qpF = 1;
+                options = {
+                  args : [vmaf,QParr,vidName,'VMAF',vidCodec,qpF,cihi,cilo]
+                };
+              }
+            }catch(err){
+              swal.fire({
+                title: 'Objective metrics for video could not be found!',
+                type: 'error',
+                showCancelButton: false,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK!'
+              })
             }
           }
+          //----------------------VMAF-END------------------------------------------------
+          
+          //---------------------MS-SSIM-START-----------------------------------------------
           else if(document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM' ){
-            var remQMSSSIM = readData[3].replace(/"([^"]+(?="))"/g, '$1')
-            var msssim = remQMSSSIM.split(',')
-            msssim.splice(0,1);
-            if(QParr.length == 0){
-              bitRates.length = msssim.length;
-              options = {
-                args : [msssim,bitRates,vidName,'MS-SSIM',vidCodec]
-              };
-            }else{
-              var qpF = 1;
-              options = {
-                args : [msssim,QParr,vidName,'MS-SSIM',vidCodec,qpF]
-              };
+            try{
+              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv','utf8')).split('\n'))//.split(',');
+              var remQMSSSIM = readData[3].replace(/"([^"]+(?="))"/g, '$1')
+              var msssim = remQMSSSIM.split(',')
+              msssim.splice(0,1);
+              if(QParr.length == 0){
+                bitRates.length = msssim.length;
+                options = {
+                  args : [msssim,bitRates,vidName,'MS-SSIM',vidCodec]
+                };
+              }else{
+                var qpF = 1;
+                options = {
+                  args : [msssim,QParr,vidName,'MS-SSIM',vidCodec,qpF]
+                };
+              }
+            }catch(err){
+              swal.fire({
+                title: 'Objective metrics for video could not be found!',
+                type: 'error',
+                showCancelButton: false,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK!'
+              })
             }
           }
+          //------------------------MS-SSIM-END---------------------------------------------
+          
+          //---------------------100-DMOS-START-----------------------------------------------
           else if(document.querySelector('input[name="plots"]:checked').value == '100-DMOS' ){
             var dmos = []
+            var errorA = []
             if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')){
               var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv','utf8')).split('\n'))
               for(var i=0;i<(readData[0].split(',')).length;i++){
@@ -366,38 +426,30 @@ $('#confirmPlots').click(function(){
                 if(readData[i].split(',')[0].indexOf(vidName) != -1 && readData[i].split(',')[0].indexOf(vidCodec) != -1){
                   dmosM = (readData[i].split(',')[indexMOS]).replace(/"([^"]+(?="))"/g, '$1')
                   dmos.push(100-dmosM)
+                  errorNum = (readData[i].split(',')[indexMOS+2]).replace(/"([^"]+(?="))"/g, '$1')
+                  errorA.push(errorNum)
                 }
               }
               if(QParr.length == 0){
                 bitRates.length = dmos.length;
                 options = {
-                  args : [dmos,bitRates,vidName,'100-DMOS',vidCodec]
+                  args : [dmos,bitRates,vidName,'100-DMOS',vidCodec,errorA]
                 };
               }
               else{
                 var qpF = 1;
                 options = {
-                  args : [dmos,QParr,vidName,'100-DMOS',vidCodec,qpF]
+                  args : [dmos,QParr,vidName,'100-DMOS',vidCodec,qpF,errorA]
                 };
               }
-            }else{
-              swal.fire({
-                title: 'No data to plot!',
-                type: 'error',
-                showCancelButton: false,
-                allowOutsideClick: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK!'
-              })
             }
           }
+          //---------------------100-DMOS-END----------------------------------------------
           
+          //---------------------DMOS-START-----------------------------------------------
           else if(document.querySelector('input[name="plots"]:checked').value == 'DMOS' ){
             var dmos = []
-            var remQVMAF = readData[1].replace(/"([^"]+(?="))"/g, '$1')
-            console.log(readData)
-            var vmaf = remQVMAF.split(',')
-            vmaf.splice(0,1);
+            var errorA = []
             if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')){
               var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv','utf8')).split('\n'))
               for(var i=0;i<(readData[0].split(',')).length;i++){
@@ -410,18 +462,67 @@ $('#confirmPlots').click(function(){
                 if(readData[i].split(',')[0].indexOf(vidName) != -1 && readData[i].split(',')[0].indexOf(vidCodec) != -1){
                   dmosM = (readData[i].split(',')[indexMOS]).replace(/"([^"]+(?="))"/g, '$1')
                   dmos.push(dmosM)
+                  errorNum = (readData[i].split(',')[indexMOS+2]).replace(/"([^"]+(?="))"/g, '$1')
+                  errorA.push(errorNum)
                 }
               }
               if(QParr.length == 0){
                 bitRates.length = dmos.length;
                 options = {
-                  args : [dmos,bitRates,vidName,'DMOS',vidCodec]
+                  args : [dmos,bitRates,vidName,'DMOS',vidCodec,errorA]
                 };
               }
               else{
                 var qpF = 1;
                 options = {
-                  args : [dmos,QParr,vidName,'DMOS',vidCodec,qpF]
+                  args : [dmos,QParr,vidName,'DMOS',vidCodec,qpF,errorA]
+                };
+              }
+            }
+            //----------------DMOS-END-------------------------------------------------
+
+            //----------------DUAL-PLOT---------------------------------------------------------
+          }else if(document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF' ){
+            var dmos = []
+            var errorA = []
+            if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv') && fs.existsSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv')){
+              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv','utf8')).split('\n'))
+              for(var i=0;i<(readData[0].split(',')).length;i++){
+                if( (readData[0].split(',')[i]).replace(/"([^"]+(?="))"/g, '$1') == 'MOS' ){
+                  indexMOS = i;
+                  break;
+                }
+              }
+              for(var i=1;i<readData.length;i++){
+                if(readData[i].split(',')[0].indexOf(vidName) != -1 && readData[i].split(',')[0].indexOf(vidCodec) != -1){
+                  dmosM = (readData[i].split(',')[indexMOS]).replace(/"([^"]+(?="))"/g, '$1')
+                  dmos.push(dmosM)
+                  errorNum = (readData[i].split(',')[indexMOS+2]).replace(/"([^"]+(?="))"/g, '$1')
+                  errorA.push(errorNum)
+                }
+              }
+              //-------------------------------DMOS STORED-------------------------------------------------
+              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv','utf8')).split('\n'))//.split(',');  
+              var remQVMAF = readData[1].replace(/"([^"]+(?="))"/g, '$1')
+              var vmaf = remQVMAF.split(',')
+              vmaf.splice(0,1);
+              var remQCIHI = readData[4].replace(/"([^"]+(?="))"/g, '$1')
+              var remQCILO = readData[5].replace(/"([^"]+(?="))"/g, '$1')
+              var cihi = remQCIHI.split(',')
+              var cilo = remQCILO.split(',')
+              cihi.splice(0,1)
+              cilo.splice(0,1)
+              //--------------------------------VMAF STORED------------------------------------------------
+              if(QParr.length == 0){
+                bitRates.length = dmos.length;
+                options = {
+                  args : [dmos,vmaf,bitRates,vidname2,vidCodec,cihi,cilo,errorA]
+                };
+              }
+              else{
+                var qpF = 1;
+                options = {
+                  args : [dmos,vmaf,QParr,vidname2,vidCodec,qpF,cihi,cilo,errorA]
                 };
               }
             }else{
@@ -433,26 +534,67 @@ $('#confirmPlots').click(function(){
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK!'
               })
+              document.getElementById('confirmPlots').disabled = false;
+              document.getElementById('exportall').disabled = false;
             }
           }
-          //END OF IFFFFFFFF
-          
-          pyshell1 = new PythonShell('plotSingle.py', options);
-          pyshell1.on('message', function (message) {
-            // received a message sent from the Python script (a simple "print" statement)
-            console.log(message);
-          });
-          // end the input stream and allow the process to exit
-          pyshell1.end(function (err) {
-            document.getElementById('confirmPlots').disabled = false;
-            document.getElementById('exportall').disabled = false;
-            document.getElementById('compareB').disabled = false;
-            //if (err) alert(err);
-          })
+            //----------------DUAL-PLOT-END-----------------------------------------------------
         }
-      }
-      //END OF SECOND IF----------------------------------------------------------
-      else{
+
+        if ( (document.querySelector('input[name="plots"]:checked').value == 'DMOS' || document.querySelector('input[name="plots"]:checked').value == '100-DMOS' || document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') && !fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv') ){
+          swal.fire({
+            title: 'No data to plot!',
+            type: 'error',
+            showCancelButton: false,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK!'
+          })
+          document.getElementById('confirmPlots').disabled = false;
+          document.getElementById('exportall').disabled = false;
+          if( !(document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') ){
+            document.getElementById('compareB').disabled = false;
+          }
+        }else if((document.querySelector('input[name="plots"]:checked').value == 'PSNR' || document.querySelector('input[name="plots"]:checked').value == 'VMAF' || document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM' || document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') && !fs.existsSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv') ){
+          swal.fire({
+            title: 'No objective data to plot!',
+            type: 'error',
+            showCancelButton: false,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK!'
+          })
+          document.getElementById('confirmPlots').disabled = false;
+          document.getElementById('exportall').disabled = false;
+          if( !(document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') ){
+            document.getElementById('compareB').disabled = false;
+          }
+        }
+        else{
+          if( !(document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') ){
+            pyshell1 = new PythonShell('plotSingle.py', options);
+            pyshell1.on('message', function (message) {
+              console.log(message);
+            });
+            pyshell1.end(function (err) {
+              document.getElementById('confirmPlots').disabled = false;
+              document.getElementById('exportall').disabled = false;
+              document.getElementById('compareB').disabled = false;
+              if (err) console.log(err);
+            })
+          }else{
+            pyshell1 = new PythonShell('plotDual.py', options);
+            pyshell1.on('message', function (message) {
+              console.log(message);
+            });
+            pyshell1.end(function (err) {
+              document.getElementById('confirmPlots').disabled = false;
+              document.getElementById('exportall').disabled = false;
+              if (err) console.log(err);
+            })
+          }
+        }
+      }else{
         swal.fire({
           title: 'Bitrates datafile is wrong!',
           text: 'Please ensure the file is named: bitrates.csv',
@@ -466,8 +608,8 @@ $('#confirmPlots').click(function(){
         document.getElementById('exportall').disabled = false;
         document.getElementById('compareB').disabled = false;
       }
-    }
-    else{
+      
+    }else{
       swal.fire({
         title: 'Bitrates datafile is missing!',
         type: 'error',
@@ -482,15 +624,12 @@ $('#confirmPlots').click(function(){
       document.getElementById('exportall').disabled = false;
       document.getElementById('compareB').disabled = false;
     }
-    
   }
 })
-//-------------------------------CONFIRM END-------------------------------//
-//------------------------------THIS IS GOOD-------------------------------//
+//-------------------------------CONFIRM END-------------------------------
 
 
-//------------------------------COMPARE BUTTON-----------------------------//
-//----------------------------- THIS NEEDS CHANGE -------------------------//
+//---------COMPARE BUTTON------------------------
 $(document).on('click', '#compareB', function() {
   bitratesPath = getFilesFromDir("../Experiments/" + viewPlots.value);
   document.getElementById('confirmPlots').disabled = true;
@@ -515,7 +654,7 @@ $(document).on('click', '#compareB', function() {
           document.getElementById('bitrateForm').style.visibility = "hidden";
           $('#buttonC').removeClass('transitionEffect');
           $('#buttonC').addClass('transitionBackBut');
-          var readBitRates = ((fs.readFileSync(bitratesPath[0],'utf8'))).split('\n')//.split(',');
+          var readBitRates = ((fs.readFileSync(bitratesPath[0],'utf8'))).split('\n')
         }
         else if (QParr != 0){
           document.getElementById('bitrateForm').style.visibility = "hidden";
@@ -523,7 +662,7 @@ $(document).on('click', '#compareB', function() {
           $('#buttonC').addClass('transitionBackBut');
         }
         else if(bitRate[0].name == 'bitrates.csv'){
-          var readBitRates = ((fs.readFileSync(bitRate[0].path,'utf8'))).split('\n')//.split(',');
+          var readBitRates = ((fs.readFileSync(bitRate[0].path,'utf8'))).split('\n')
         }
         var vidName = (document.getElementById("videoList").value).split('_')[0];
         if (QParr == 0){
@@ -536,54 +675,109 @@ $(document).on('click', '#compareB', function() {
           var bitRates = readBitRates[indexBitrate].split(',')
           bitRates.splice(0,1)
         }
-        readObjmetric = [];
-        for (var c = 0;c<vidCodecsList.length;c++){
-          readObjmetric.push((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + vidName + '_' + vidCodecsList[c] + '(objective_metrics).csv','utf8')).split('\n'))
-        }
+        
         if (document.querySelector('input[name="plots"]:checked').value == 'PSNR' ){
           psnrCArray = [];
-          for(var c = 0;c<vidCodecsList.length;c++){
-            var remPSNR = readObjmetric[c][2].replace(/"([^"]+(?="))"/g, '$1');
-            var resultP = remPSNR.split(',');
-            resultP.splice(0,1)
-            resultP.unshift(vidCodecsList[c])
-            psnrCArray.push(resultP); 
+          readObjmetric = [];
+          try{
+            for (var c = 0;c<vidCodecsList.length;c++){
+              readObjmetric.push((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + vidName + '_' + vidCodecsList[c] + '(objective_metrics).csv','utf8')).split('\n'))
+            }
+            for(var c = 0;c<vidCodecsList.length;c++){
+              var remPSNR = readObjmetric[c][2].replace(/"([^"]+(?="))"/g, '$1');
+              var resultP = remPSNR.split(',');
+              resultP.splice(0,1)
+              resultP.unshift(vidCodecsList[c])
+              psnrCArray.push(resultP); 
+            }
+            bitRates.length = psnrCArray[0].length-1;
+            options = {
+              args : [psnrCArray,bitRates,vidName,'PSNR(db)']
+            };
+          }catch(err){
+            swal.fire({
+              title: 'Objective metrics for video could not be found!',
+              type: 'error',
+              showCancelButton: false,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK!'
+            })
           }
-          bitRates.length = psnrCArray[0].length-1;
-          options = {
-            args : [psnrCArray,bitRates,vidName,'PSNR(db)']
-          };
         }
         else if (document.querySelector('input[name="plots"]:checked').value == 'VMAF' ){
           vmafCArray = [];
-          for(var c = 0;c<vidCodecsList.length;c++){
-            var remVMAF = readObjmetric[c][1].replace(/"([^"]+(?="))"/g, '$1');
-            var resultV = remVMAF.split(',');
-            resultV.splice(0,1)
-            resultV.unshift(vidCodecsList[c])
-            vmafCArray.push(resultV); 
+          resultCIlo = [];
+          resultCIhi = [];
+          readObjmetric = [];
+          try{
+            for (var c = 0;c<vidCodecsList.length;c++){
+              readObjmetric.push((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + vidName + '_' + vidCodecsList[c] + '(objective_metrics).csv','utf8')).split('\n'))
+            }
+            for(var c = 0;c<vidCodecsList.length;c++){
+              var remVMAF = readObjmetric[c][1].replace(/"([^"]+(?="))"/g, '$1');
+              var resultV = remVMAF.split(',');
+              resultV.splice(0,1)
+              var remQCIHI = readObjmetric[c][4].replace(/"([^"]+(?="))"/g, '$1');
+              var remQCILO = readObjmetric[c][5].replace(/"([^"]+(?="))"/g, '$1');
+              var cihi = remQCIHI.split(',')
+              var cilo = remQCILO.split(',')
+              cihi.splice(0,1)
+              cilo.splice(0,1)
+              resultCIlo.push(vidCodecsList[c])
+              resultCIlo.push(cilo)
+              resultCIhi.push(vidCodecsList[c])
+              resultCIhi.push(cihi)
+              resultV.unshift(vidCodecsList[c])
+              vmafCArray.push(resultV); 
+            }
+            bitRates.length = vmafCArray[0].length-1;
+            options = {
+              args : [vmafCArray,bitRates,vidName,'VMAF',resultCIlo,resultCIhi]
+            };
+          }catch(err){
+            swal.fire({
+              title: 'Objective metrics for video could not be found!',
+              type: 'error',
+              showCancelButton: false,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK!'
+            })
           }
-          bitRates.length = vmafCArray[0].length-1;
-          options = {
-            args : [vmafCArray,bitRates,vidName,'VMAF']
-          };
         }
         else if (document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM' ){
           mssimCArray = [];
-          for(var c = 0;c<vidCodecsList.length;c++){
-            var remMSSIM = readObjmetric[c][3].replace(/"([^"]+(?="))"/g, '$1');
-            var resultM = remMSSIM.split(',');
-            resultM.splice(0,1)
-            resultM.unshift(vidCodecsList[c])
-            mssimCArray.push(resultM);
-          }console.log(mssimCArray)
-          bitRates.length = mssimCArray[0].length-1;
-          options = {
-            args : [mssimCArray,bitRates,vidName,'MS-SSIM']
-          };
+          readObjmetric = [];
+          try{
+            for (var c = 0;c<vidCodecsList.length;c++){
+              readObjmetric.push((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + vidName + '_' + vidCodecsList[c] + '(objective_metrics).csv','utf8')).split('\n'))
+            }
+            for(var c = 0;c<vidCodecsList.length;c++){
+              var remMSSIM = readObjmetric[c][3].replace(/"([^"]+(?="))"/g, '$1');
+              var resultM = remMSSIM.split(',');
+              resultM.splice(0,1)
+              resultM.unshift(vidCodecsList[c])
+              mssimCArray.push(resultM);
+            }
+            bitRates.length = mssimCArray[0].length-1;
+            options = {
+              args : [mssimCArray,bitRates,vidName,'MS-SSIM']
+            };
+          }catch(err){
+            swal.fire({
+              title: 'Objective metrics for video could not be found!',
+              type: 'error',
+              showCancelButton: false,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK!'
+            })
+          }
         }
         else if(document.querySelector('input[name="plots"]:checked').value == '100-DMOS' ){
           var dmosCarray = []
+          var dmosCarrayS = []
           var tempArray = []
           var indexDMOS;
           if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')){
@@ -607,36 +801,42 @@ $(document).on('click', '#compareB', function() {
                 tempArray = []
               }
             }
-            dmosCarray.sort(specialComparator);
+            for (var i=0;i<vidCodecsList.length;i++){
+              for (var j=0;j<dmosCarray.length;j++){
+                if(dmosCarray[j][0] == vidCodecsList[i]){
+                  dmosCarrayS.push(dmosCarray[j])
+                }
+              }
+            }
             var secondtempA = [];
             var thirdA = []
             var errorTempA = []
-            for (var i = 0; i<dmosCarray.length;i++){
-              if(i < dmosCarray.length-1){
-                if(dmosCarray[i][0] == dmosCarray[i+1][0]){
-                  secondtempA.push(dmosCarray[i][1])
-                  errorTempA.push(dmosCarray[i][2])
+            for (var i = 0; i<dmosCarrayS.length;i++){
+              if(i < dmosCarrayS.length-1){
+                if(dmosCarrayS[i][0] == dmosCarrayS[i+1][0]){
+                  secondtempA.push(dmosCarrayS[i][1])
+                  errorTempA.push(dmosCarrayS[i][2])
                 }else{
-                  errorTempA.push(dmosCarray[i][2])
-                  secondtempA.push(dmosCarray[i][1])
-                  secondtempA.unshift(dmosCarray[i][0])
+                  errorTempA.push(dmosCarrayS[i][2])
+                  secondtempA.push(dmosCarrayS[i][1])
+                  secondtempA.unshift(dmosCarrayS[i][0])
                   secondtempA = secondtempA.concat(errorTempA)
                   thirdA.push(secondtempA)
                   errorTempA = []
                   secondtempA = []
                 }
               } else{
-                errorTempA.push(dmosCarray[i][2])
-                secondtempA.push(dmosCarray[i][1])
+                errorTempA.push(dmosCarrayS[i][2])
+                secondtempA.push(dmosCarrayS[i][1])
               }
             }
-            secondtempA.unshift(dmosCarray[dmosCarray.length-1][0])
+            secondtempA.unshift(dmosCarrayS[dmosCarray.length-1][0])
             secondtempA = secondtempA.concat(errorTempA)
             thirdA.push(secondtempA)
-            dmosCarray = thirdA
-            bitRates.length = (dmosCarray[0].length-1)/2;
+            dmosCarrayS = thirdA
+            bitRates.length = (dmosCarrayS[0].length-1)/2;
             options = {
-              args : [dmosCarray,bitRates,vidName,'100-DMOS']
+              args : [dmosCarrayS,bitRates,vidName,'100-DMOS']
             };
           }else{
             swal.fire({
@@ -647,10 +847,14 @@ $(document).on('click', '#compareB', function() {
               confirmButtonColor: '#3085d6',
               confirmButtonText: 'OK!'
             })
+            document.getElementById('confirmPlots').disabled = false;
+            document.getElementById('exportall').disabled = false;
+            document.getElementById('compareB').disabled = false;
           }
         }
         else if(document.querySelector('input[name="plots"]:checked').value == 'DMOS' ){
           var dmosCarray = []
+          var dmosCarrayS = []
           var tempArray = []
           var indexDMOS;
           if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')){
@@ -661,7 +865,7 @@ $(document).on('click', '#compareB', function() {
                 break;
               }
             }
-
+            
             for(var i=1;i<readData.length;i++){
               if(readData[i].split(',')[0].indexOf(vidName) != -1){
                 dmosNum = readData[i].split(',')[indexDMOS].replace(/"([^"]+(?="))"/g, '$1')
@@ -674,36 +878,42 @@ $(document).on('click', '#compareB', function() {
                 tempArray = []
               }
             }
-            dmosCarray.sort(specialComparator);
+            for (var i=0;i<vidCodecsList.length;i++){
+              for (var j=0;j<dmosCarray.length;j++){
+                if(dmosCarray[j][0] == vidCodecsList[i]){
+                  dmosCarrayS.push(dmosCarray[j])
+                }
+              }
+            }
             var secondtempA = [];
             var thirdA = []
             var errorTempA = []
             for (var i = 0; i<dmosCarray.length;i++){
-              if(i < dmosCarray.length-1){
-                if(dmosCarray[i][0] == dmosCarray[i+1][0]){
-                  secondtempA.push(dmosCarray[i][1])
-                  errorTempA.push(dmosCarray[i][2])
+              if(i < dmosCarrayS.length-1){
+                if(dmosCarrayS[i][0] == dmosCarrayS[i+1][0]){
+                  secondtempA.push(dmosCarrayS[i][1])
+                  errorTempA.push(dmosCarrayS[i][2])
                 }else{
-                  errorTempA.push(dmosCarray[i][2])
-                  secondtempA.push(dmosCarray[i][1])
-                  secondtempA.unshift(dmosCarray[i][0])
+                  errorTempA.push(dmosCarrayS[i][2])
+                  secondtempA.push(dmosCarrayS[i][1])
+                  secondtempA.unshift(dmosCarrayS[i][0])
                   secondtempA = secondtempA.concat(errorTempA)
                   thirdA.push(secondtempA)
                   errorTempA = []
                   secondtempA = []
                 }
               } else{
-                errorTempA.push(dmosCarray[i][2])
-                secondtempA.push(dmosCarray[i][1])
+                errorTempA.push(dmosCarrayS[i][2])
+                secondtempA.push(dmosCarrayS[i][1])
               }
             }
-            secondtempA.unshift(dmosCarray[dmosCarray.length-1][0])
+            secondtempA.unshift(dmosCarrayS[dmosCarrayS.length-1][0])
             secondtempA = secondtempA.concat(errorTempA)
             thirdA.push(secondtempA)
-            dmosCarray = thirdA
-            bitRates.length = (dmosCarray[0].length-1)/2;
+            dmosCarrayS = thirdA
+            bitRates.length = (dmosCarrayS[0].length-1)/2;
             options = {
-              args : [dmosCarray,bitRates,vidName,'DMOS']
+              args : [dmosCarrayS,bitRates,vidName,'DMOS']
             };
           }
         }else{
@@ -715,29 +925,56 @@ $(document).on('click', '#compareB', function() {
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK!'
           })
+          document.getElementById('confirmPlots').disabled = false;
+          document.getElementById('exportall').disabled = false;
+          document.getElementById('compareB').disabled = false;
         }
         
         document.getElementById('compareB').disabled = true;
         if(pyshell1 != undefined){
           pyshell1.terminate();
         }
-        
-        var pyshell = new PythonShell('compareCodecs.py', options);
-        setTimeout(function(){
-          document.getElementById('confirmPlots').disabled = true;
-          document.getElementById('exportall').disabled = true;
-        },50)
-        pyshell.on('message', function (message) {
-          // received a message sent from the Python script (a simple "print" statement)
-          console.log(message);
-        });
-        // end the input stream and allow the process to exit
-        pyshell.end(function (err) {
+        if( (document.querySelector('input[name="plots"]:checked').value == 'DMOS' || document.querySelector('input[name="plots"]:checked').value == '100-DMOS') && !fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')){
+          swal.fire({
+            title: 'No data to plot!',
+            type: 'error',
+            showCancelButton: false,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK!'
+          })
           document.getElementById('confirmPlots').disabled = false;
           document.getElementById('compareB').disabled = false;
           document.getElementById('exportall').disabled = false;
-          if (err) console.log(err);
-        }) 
+        }else if((document.querySelector('input[name="plots"]:checked').value == 'PSNR' || document.querySelector('input[name="plots"]:checked').value == 'VMAF' || document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM') && !fs.existsSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv') ){
+          swal.fire({
+            title: 'No objective data to plot!',
+            type: 'error',
+            showCancelButton: false,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK!'
+          })
+          document.getElementById('confirmPlots').disabled = false;
+          document.getElementById('exportall').disabled = false;
+          document.getElementById('compareB').disabled = false;
+        }
+        else{
+          var pyshell = new PythonShell('compareCodecs.py', options);
+          setTimeout(function(){
+            document.getElementById('confirmPlots').disabled = true;
+            document.getElementById('exportall').disabled = true;
+          },50)
+          pyshell.on('message', function (message) {
+            console.log(message);
+          });
+          pyshell.end(function (err) {
+            document.getElementById('confirmPlots').disabled = false;
+            document.getElementById('compareB').disabled = false;
+            document.getElementById('exportall').disabled = false;
+            if (err) console.log(err);
+          }) 
+        }
       }
       else{
         swal.fire({
@@ -778,16 +1015,7 @@ $(document).on('click', '#compareB', function() {
 //------------------------SET BITRATE FORM-------------------//
 $(document).on('change','#up3', function(){
   bitRate = document.getElementById('up3').files;
-  console.log(bitRate)
   $(this).closest('.form-group').find('.form-control').attr("value",bitRate[0].name);
   bitRateT.title = bitRate[0].name
 });
 //-----------------------------------------------------------//
-
-//--------------COMPARATOR--------------//
-function specialComparator(a,b) {
-  if (a[0].split('_')[ (a[0].split('_')).length-1 ] < b[0].split('_')[(b[0].split('_')).length-1]) return -1;
-  if (a[0].split('_')[(a[0].split('_')).length-1] > b[0].split('_')[(b[0].split('_')).length-1]) return 1;
-  return 0;
-}
-//-------------------------------------//

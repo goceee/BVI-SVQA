@@ -1,3 +1,5 @@
+//---DONE TEST-------------------------------------------------------
+
 /* Sliders --------------------------------------------  */
 var clicked;
 var elem = document.querySelector('input[name="range1"]');
@@ -24,6 +26,7 @@ var presMethod = (readFiles.split('\n'))[1].split(',')[1];
 var trialRun = fs.existsSync("../Experiments/" + readExp + "/" + readUserName + "/" + readUserName + ".test");
 var fileLength;
 var breakTime=0;
+
 //alert(trialRun);
 /* try { -------------------------------------------------------- COMMENTED FOR DEBUGGING
     fs.unlinkSync("../Experiments/" + readExp + "/user.last")
@@ -31,6 +34,7 @@ var breakTime=0;
 } catch(err) {
     console.error(err)
 } */
+
 var FileListwName = readFiles.split('\n');
 var FileNames = FileListwName[2].split(',');
 var TrainingFileNames = FileListwName[3].split(',');
@@ -65,14 +69,11 @@ shuffle(FileNames);
 setTimeout(function(){play(trialRun);}, 2000)
 
 function play(testTrial){
-    console.log(vN)
     vN = x+1;
     if(testTrial){
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4)
         fileLength = TrainingFileNames.length;
         var ppath = '../trainingSequences/' + FFileNames + videoFormat
-        //FFileNames = TrainingFileNames[x].split('.')
-        //document.getElementById("text").textContent = "Training phase is starting now, get ready!";
         noScore = 1;
         
     }else{
@@ -80,7 +81,6 @@ function play(testTrial){
         FFileNames = FileNames[x].substring(0, FileNames[x].length - 4)
         fileLength = FileNames.length;
         var ppath = '../converted/' + FFileNames + videoFormat
-        //FFileNames = FileNames[x].split('.');
     }
     setTimeout(function(){
         rateVideo();
@@ -94,23 +94,25 @@ function play(testTrial){
         '--priority=realtime',
         ppath
     ]; 
-/*     console.log(ppath)
-    var args = [
+    
+    /* var args = [
         '-autoexit',
         '-fs', 
         '-i', ppath
     ]; */
+    
     watchVideo();
     setTimeout(function(){
         proc = spawn(cmd, args);
         proc.on('exit', function (code) { 
             proc = null;
+            $('input[name="range1"]').focus();
         });
     }, 2000)
 }
 
 $('#continue').click(function () {
-    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength * (breakNum-1)/breakNum) ){
+    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength-2) ){
         breakTimeF();
         breakTime = 0;
     } else { 
@@ -123,11 +125,11 @@ $('#continue').click(function () {
                     breakTime = breakTime + 1;
                     clicked = false;
                     setTimeout(function(){
-                        document.querySelector('input[name="range1"]').value = 0;
+                        document.querySelector('input[name="range1"]').value = 50;
                         target.innerHTML = "";
                         enableButton();
                     },2000)
-                    play(trialRun);//}
+                    play(trialRun);
                 }else{
                     swal.fire({
                         text: 'You have not selected a score, please select one to continue!' ,
@@ -141,7 +143,8 @@ $('#continue').click(function () {
                             finish();
                             setTimeout(function(){
                                 enableButton();
-                            },500)
+                                $("#continue").focus();
+                            },250)
                             x = x + 1;
                         } else{
                             swal.fire({
@@ -209,7 +212,7 @@ $('#continue').click(function () {
                             document.getElementById("text").textContent = "Please rate video " + vN + " of " + fileLength;
                             document.getElementById("slider").style.visibility = "visible";
                             document.getElementById("buttons").style.visibility = "visible";
-                        }, 2000);
+                        }, 1000);
                     }
                 }
                 
@@ -230,7 +233,6 @@ $('#continue').click(function () {
                 
                 function finish(){
                     if (noScore == 0){
-                        console.log(allScores);
                         var unsorted = getScores.slice();
                         unsorted.unshift(allScores);
                         const csvStringu = toCsv(unsorted);
@@ -250,3 +252,10 @@ $('#continue').click(function () {
                         document.getElementById("text").style.visibility = "visible";
                     }, 200)
                 }
+
+                $('#myRange1').keyup(function(event){
+                    if (event.keyCode === 13) {
+                        //event.preventDefault();
+                        $("#continue").click();
+                    }
+                })

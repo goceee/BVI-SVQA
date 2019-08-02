@@ -11,7 +11,6 @@ var listT = [];
 var trainCounter = 0;
 
 $('#okcB').click(function () {
-  console.log(fullcounter)
   if (!fs.existsSync("../Experiments/temporary.settings")){
     selFormat = ".mov";
     selCodec = "prores_ks";
@@ -50,8 +49,7 @@ $('#okcB').click(function () {
     var DistTrainVideos = names1.filter(a => a.includes('train'));
     var selOrigVideos = names2.filter(a => !a.includes('train'));
     var OrigTrainVideos = names2.filter(a => a.includes('train'));
-    console.log(DistTrainVideos);
-    var countTraining1 = 0; ///TUKA ZAVRSIV SITE TRAINING DALI IMAT PAROVI!! NAJMALKU 2!!!
+    var countTraining1 = 0;
     var countTraining2 = 0;
     trainCounter = 0;
     listT = [];
@@ -86,7 +84,6 @@ $('#okcB').click(function () {
       countTraining1 = 0;
       countTraining2 = 0;
     }
-    console.log(listT);
     
     if (selMethod == "ACR(discrete)" || selMethod == "ACR(continuous)"){ 
       if(expName == ""){
@@ -262,11 +259,7 @@ $('#okcB').click(function () {
           confirmButtonText: 'OK!'
         })
       }
-      //else if(listT.length == 0 || trainCounter < DistTrainVideos.length){
         else if(trainCounter < DistTrainVideos.length){
-        console.log(listT.length)
-        console.log(trainCounter)
-        console.log(DistTrainVideos.length)
         swal.fire({
           title: 'Training videos mismatch!',
           text: 'check your selected training videos and try again',
@@ -337,7 +330,6 @@ $('#okcB').click(function () {
         }
       }
       var maxVid = names1.length// - trainS
-      console.log(maxVid)
       var progressBar = new ProgressBar({
         indeterminate: false,
         text: 'Please wait...',
@@ -369,7 +361,6 @@ $('#okcB').click(function () {
         progressBar.detail = `Converting video ${value+1} out of ${progressBar.getOptions().maxValue}...`;
       });
       pyshell.on('message', function (message) {
-        // received a message sent from the Python script (a simple "print" statement)
         progressBar.value += 1;
         //THE PROGRESS BAR GETS RUN HERE AND IT INCREMENTS WHENEVER THE PYTHON SCRIPT SENDS A MESSAGE.
         console.log(message);
@@ -405,8 +396,7 @@ $('#okcB').click(function () {
           trainS = trainS + 1;
         }
       }
-      var maxVid = numAllvid// - trainS;
-      console.log(maxVid)
+      var maxVid = numAllvid
       var progressBar = new ProgressBar({
         indeterminate: false,
         text: 'Please wait...',
@@ -438,7 +428,6 @@ $('#okcB').click(function () {
         progressBar.detail = `Converting video ${value+1} out of ${progressBar.getOptions().maxValue}...`;
       });
       pyshell.on('message', function (message) {
-        // received a message sent from the Python script (a simple "print" statement)
         progressBar.value += 1;
         //THE PROGRESS BAR GETS RUN HERE AND IT INCREMENTS WHENEVER THE PYTHON SCRIPT SENDS A MESSAGE.
         console.log(message);
@@ -454,7 +443,7 @@ $('#okcB').click(function () {
             showCancelButton: false,
             allowOutsideClick: false,
             confirmButtonColor: '#3085d6',
-            onClose: getObjectiveMetrics,
+            //onClose: getObjectiveMetrics,
             confirmButtonText: 'OK!'
           })
         }, 500);
@@ -473,7 +462,6 @@ $('#okcB').click(function () {
     var originalV = readFiles[4].split(',');
     distortedV.splice(0,1);
     originalV.splice(0,1);
-    console.log(path1)
     var options = {
       args : [originalV,distortedV,readExp,path1,path2]
     };
@@ -505,15 +493,13 @@ $('#okcB').click(function () {
       console.info(`aborted... ${value}`);
     });
     pyshell.on('message', function (message) {
-      // received a message sent from the Python script (a simple "print" statement)
       console.log(message);
     });
     
-    // end the input stream and allow the process to exit
     pyshell.end(function (err) {
       if (err){
-        console.log(err)
-        //alert(err);
+        //console.log(err)
+        alert(err);
       } 
       else {
         progressBar.setCompleted();
@@ -625,7 +611,6 @@ $('#okcB').click(function () {
     function closeWindow(){
       win.close()
     }
-    //IF FILE GETS CREATED SET ALWAYS ON TOP TO FALSE AFTER 300ms ELSE WHEN CLICKED ON SETTINGS IT IS TRUE. WHEN CLICKED ON SETTINGS REMOVE THE FILE.
     
     //remove blur when focused/////////////////
     win.on('focus', () => {

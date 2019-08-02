@@ -3,7 +3,7 @@ $('#oksB').click(function () {
   var userName = document.getElementById("inputName").value;
   if (!fs.existsSync("../Experiments")){
     swal.fire({
-      title: 'DO NOT DELETE FILES USED RESTART THE PROGRAM!',
+      title: 'DO NOT DELETE FILES USED, PLEASE RESTART THE PROGRAM!',
       type: 'error',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
@@ -85,18 +85,18 @@ $('#oksB').click(function () {
     ];
     const csvData = toCsv(subjInfo);
     try{
-    fs.mkdirSync("../Experiments/" + expName + "/" + userName);
-  }catch(err){
-    swal.fire({
-      title: 'No such experiment',
-      text: 'Please create new or choose from saved',
-      type: 'error',
-      showCancelButton: false,
-      confirmButtonColor: '#3085d6',
-      allowOutsideClick: false,
-      confirmButtonText: 'OK!'
-    })
-  }
+      fs.mkdirSync("../Experiments/" + expName + "/" + userName);
+    }catch(err){
+      swal.fire({
+        title: 'No such experiment',
+        text: 'Please create new or choose from saved',
+        type: 'error',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        allowOutsideClick: false,
+        confirmButtonText: 'OK!'
+      })
+    }
     fs.writeFileSync("../Experiments/" + expName + "/" + userName + "/" + userName + '(info)' + ".csv", csvData, 'utf8');
     fs.writeFileSync("../Experiments/" + expName + "/user.last", userName, 'utf8');
     var readConfig = fs.readFileSync("../Experiments/" + expName + "/" + expName + '(config)' + ".csv",'utf8');

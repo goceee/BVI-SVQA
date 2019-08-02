@@ -1,3 +1,6 @@
+
+//DONE NEED TO TEST!
+
 var spawn = require('child_process').spawn;
 var proc;
 var cmd = 'mpv/mpv';
@@ -12,7 +15,6 @@ var trialRun = fs.existsSync("../Experiments/" + readExp + "/" + readUserName + 
 var fileLength;
 var breakTime = 0;
 var noScore = 0;
-//alert(trialRun);
 /* try { -------------------------------------------------------- COMMENTED FOR DEBUGGING
     fs.unlinkSync("../Experiments/" + readExp + "/user.last")
     //file removed
@@ -59,32 +61,17 @@ setTimeout(function(){play(trialRun);}, 2000)
 function play(testTrial){
     vN = x+1;
     if(testTrial){
-        //document.getElementById("text").textContent = "Training phase is starting now, get ready!";
         noScore = 1;
         fileLength = TrainingFileNames.length;
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4)
-        if (FFileNames.indexOf("R0") >= 0 ){
-            console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
-            var ppath = '../trainingSequences/' +  FFileNames + videoFormat;
-        } else{
-            console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
-            var ppath = '../trainingSequences/' + FFileNames + videoFormat;
-        }
+        console.log(FFileNames)
+        var ppath = '../trainingSequences/' + FFileNames + videoFormat;
     }else{
         noScore = 0;
         fileLength = FileNames.length;
         FFileNames = FileNames[x].substring(0, FileNames[x].length - 4)
-        if (FFileNames.indexOf("R0") >= 0 ){
-            console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
-            var ppath = '../converted/' + FFileNames + videoFormat;
-        } else{
-            console.log(FFileNames)
-            console.log(FFileNames.indexOf("R0"))
-            var ppath = '../converted/'+ FFileNames + videoFormat;
-        }
+        console.log(FFileNames)
+        var ppath = '../converted/'+ FFileNames + videoFormat;
     }
     setTimeout(function(){
         rateVideo();
@@ -105,6 +92,8 @@ function play(testTrial){
         '-fs', 
         '-i', ppath
     ]; */
+
+
     watchVideo();
     setTimeout(function(){
         proc = spawn(cmd, args);
@@ -123,7 +112,7 @@ $('button[id=score]').click(function(){
 
 
 $('#continue').click(function () {
-    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength * (breakNum-1)/breakNum) ){
+    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength-2) ){
         breakTimeF();
         breakTime = 0;
     } else {
@@ -135,13 +124,12 @@ $('#continue').click(function () {
                     $('.btn-outline-dark').prop('disabled', true);
                     x = x + 1;
                     breakTime = breakTime+1;
-                    //if (x <= FileNames.length-1){
                     clicked = false;
                     setTimeout(function(){
                         $('button[id=score].butBackground').removeClass('butBackground');
                         enableButton();
                     },2000)
-                    play(trialRun);//}
+                    play(trialRun);
                 }else{
                     swal.fire({
                         text: 'You have not selected a score, please select one to continue!' ,
@@ -155,7 +143,8 @@ $('#continue').click(function () {
                             finish();
                             setTimeout(function(){
                                 enableButton();
-                            },500)
+                                $('#continue').focus();
+                            },250)
                             x = x + 1;
                         } else{
                             swal.fire({
@@ -226,7 +215,7 @@ $('#continue').click(function () {
                             document.getElementById("text").textContent = "Please rate video " + vN + " of " + fileLength;
                             document.getElementById("scale").style.visibility = "visible";
                             document.getElementById("continueB").style.visibility = "visible";
-                        }, 2000);
+                        }, 1000);
                     }
                 }
                 
@@ -275,3 +264,10 @@ $('#continue').click(function () {
                             document.getElementById("text").style.visibility = "visible";
                         }, 200)
                     }
+
+                    $('#scale').keyup(function(event){
+                        if (event.keyCode === 13) {
+                            //event.preventDefault();
+                            $("#continue").click();
+                        }
+                    })

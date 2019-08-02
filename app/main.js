@@ -6,8 +6,6 @@ const {app, BrowserWindow} = require('electron');
 const url = require('url');
 var path = require('path');
 var fs = require('fs');
-//app.disableHardwareAcceleration();//// TEST OUTTT!!!
-
 var appIconDir = '/img/'; //-- directory for app icon
 
 function boot(){
@@ -18,7 +16,7 @@ function boot(){
 		frame: false,
 		resizable:false,
 		transparent: true,
-				webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true 		  },
 		icon: path.join(__dirname, appIconDir, 'icon.ico') // add app icon
 	})
 	mainWin.loadURL(url.format({
@@ -56,7 +54,8 @@ exports.openWindow = (windowName) => {
 		frame: false,
 		resizable:false,
 		transparent: true,
-				webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true 		  },
+		icon: path.join(__dirname, appIconDir, 'icon.ico') 
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -72,7 +71,8 @@ exports.mainWindow = () => {
 		frame: false,
 		resizable:false,
 		transparent: true,
-				webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true 		  },
+		icon: path.join(__dirname, appIconDir, 'icon.ico') 
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -84,12 +84,13 @@ exports.mainWindow = () => {
 exports.resWindow = () => {
 	let win = new BrowserWindow({
 		width: 350,
-		height: 500,
+		height: 600,
 		frame: false,
 		resizable:false,
 		fullscreen:false,
 		transparent: true,
-				webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true 		  },
+		icon: path.join(__dirname, appIconDir, 'icon.ico') 
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -101,11 +102,12 @@ exports.resWindow = () => {
 exports.popUp = () => {
 	let win = new BrowserWindow({
 		width: 350,
-		height: 350,
+		height: 380,
 		frame: false,
 		resizable:false,
 		transparent: true,
-				webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true 		  },
+		icon: path.join(__dirname, appIconDir, 'icon.ico')
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({
@@ -118,12 +120,13 @@ exports.presWindow = (presName) => {
 	let win = new BrowserWindow({
 		width: 800,
 		height: 600,
-		//alwaysOnTop: true, //SMENI GO ZA KOGA KE PRAVES.
+		//alwaysOnTop: true,
 		frame: false,
 		resizable:false,
 		fullscreen:true,
 		transparent: true,
-				webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true 		  },
+		icon: path.join(__dirname, appIconDir, 'icon.ico') 
 	})
 	win.setMaximizable(false);
 	win.loadURL(url.format({

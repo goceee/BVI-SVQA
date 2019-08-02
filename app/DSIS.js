@@ -1,3 +1,9 @@
+// DONE-TEST ------------------------------------------------
+
+
+
+
+
 /* Sliders --------------------------------------------  */
 var clicked;
 var elem = document.querySelector('input[name="range1"]');
@@ -68,7 +74,7 @@ var breakNum;
 
 function getBreakNum(distFileNames){
     for (i=0;i<distFileNames.length;i++){
-        totalVideoTime = totalVideoTime + 20 + (2 * parseInt(distFileNames[i].split('_')[5])/parseInt(distFileNames[i].split('_')[2]));
+        totalVideoTime = totalVideoTime + 10 + (2 * parseInt(distFileNames[i].split('_')[5])/parseInt(distFileNames[i].split('_')[2]));
     }
     Math.round(totalVideoTime)
     totalVideoTimeM = parseInt(totalVideoTime/60);
@@ -90,7 +96,8 @@ function play(testTrial){
         fileLength = DistortedTrainingFile.length;
         DDistortedFileNames = DistortedTrainingFile[x].substring(0, DistortedTrainingFile[x].length - 4);
         getName = (DDistortedFileNames.split('_'))[0];
-        var origIndex = getOrigFileNames.indexOf(getName);
+        var origIndex = getOrigTrainingFile.indexOf(getName);
+        console.log(origIndex)
         OOriginalFileNames = OriginalTrainingFile[origIndex].substring(0, OriginalTrainingFile[origIndex].length - 4)
         var ppath = '../trainingSequences/' + OOriginalFileNames + videoFormat;
         var ppath2 = '../trainingSequences/' + DDistortedFileNames + videoFormat;        
@@ -149,6 +156,7 @@ function play(testTrial){
                     rateVideo();
                     proc.on('exit', function (code) { 
                         proc = null;
+                        $('input[name="range1"]').focus();
                     });
                 }, 2000)
             });
@@ -157,7 +165,7 @@ function play(testTrial){
 }
 
 $('#continue').click(function () {
-    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun){
+    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength-2)){
         breakTimeF();
         breakTime = 0;
     } else {
@@ -170,11 +178,11 @@ $('#continue').click(function () {
                     breakTime = breakTime + 1;
                     clicked = false;
                     setTimeout(function(){
-                        document.querySelector('input[name="range1"]').value = 0;
+                        document.querySelector('input[name="range1"]').value = 50;
                         target.innerHTML = "";
                         enableButton();
                     },2000)
-                    play(trialRun);//}
+                    play(trialRun);
                 }else{
                     swal.fire({
                         text: 'You have not selected a score, please select one to continue!' ,
@@ -248,6 +256,7 @@ $('#continue').click(function () {
                     if($("#continue").is(":disabled")){
                         $('#continue').prop('disabled', false);     
                     }
+                    $('#continue').focus()
                 }
                 
                 function watchVideo1(){
@@ -271,9 +280,7 @@ $('#continue').click(function () {
                 function rateVideo(){
                     if (x < fileLength){   
                         setTimeout(function(){
-                            //document.getElementById("text").style.visibility = "hidden";
-                            document.getElementById("text").textContent = "Please rate video B"// + vN + " of " + fileLength;//CHANGE THIS TO BE BEFORE STarting video A 
-                            //document.getElementById("rating").style.visibility = "visible";
+                            document.getElementById("text").textContent = "Please rate video B"
                             document.getElementById("slider").style.visibility = "visible";
                             document.getElementById("buttons").style.visibility = "visible";
                         }, 1000);
@@ -285,7 +292,7 @@ $('#continue').click(function () {
                         document.getElementById("slider").style.visibility = "hidden"
                         document.getElementById("text").textContent = "Time for a break!\r\n Press continue when ready to start with the second half!"
                         document.getElementById("text").style.visibility = "visible";
-                    }, 400)}
+                    }, 200)}
                     
                     function finish(){
                         if (noScore == 0){
@@ -308,3 +315,10 @@ $('#continue').click(function () {
                             document.getElementById("text").style.visibility = "visible";
                         }, 200)
                     }
+
+                    $('#myRange1').keyup(function(event){
+                        if (event.keyCode === 13) {
+                            //event.preventDefault();
+                            $("#continue").click();
+                        }
+                    })

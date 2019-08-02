@@ -1,34 +1,34 @@
 body {
-    background:#E6E6E6;
-    text-shadow: white 1px 1px 1px;
-    -webkit-user-select: none !important;
+  background:#E6E6E6;
+  text-shadow: white 1px 1px 1px;
+  -webkit-user-select: none !important;
 }
 
 .btn-info{
-    width: 25%;
+  width: 25%;
 }
 
 .transitionEffect{
-    transform : translate(-70px,-12rem);
-    transition : all 2s;
-  }
+  transform : translate(-70px,-12rem);
+  transition : all 2s;
+}
 #centerB{
   margin-left: auto;
   margin-right: auto;
 }
 
 .row {
-    margin-left: 34%;
-    width: 800px;
+  margin-left: 34%;
+  width: 800px;
 }
 
 .container{
-    visibility: hidden;
+  visibility: hidden;
 }
 
 #text{
-    text-align: center;
-    margin-top: 15%;
+  text-align: center;
+  margin-top: 15%;
 }
 
 .value {
@@ -68,57 +68,57 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
 }​
 
-  input[type="range"]::-webkit-slider-thumb:hover {
-    background-color: white;
-    border: 2px solid #e74c3c;
-  }
-  input[type="range"]::-webkit-slider-thumb:active {
-    transform: scale(1.6);
-  }
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: white;
+  border: 2px solid #e74c3c;
+}
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.6);
+}
 
-  td{ 
-    text-align: right;
-  }
-  #first{
-    border-top: 5px solid #bdc3c7;
-    border-bottom: 5px solid #bdc3c7;
-  }
+td{ 
+  text-align: right;
+}
+#first{
+  border-top: 5px solid #bdc3c7;
+  border-bottom: 5px solid #bdc3c7;
+}
 
-  #others{
-    border-bottom: 5px solid #bdc3c7;
-  }
+#others{
+  border-bottom: 5px solid #bdc3c7;
+}
 
-  .rowT{
-    height: 3.65em!important;
-  }
-  #rate1{
-    flex-grow: 0;
-    padding-right: 0px;
-  }
-  #lines{
-    flex-grow: 0;
-    padding-left: 0px;
-  }
-  #score{
-    flex-grow: 0;
-    padding-left: 0px;
-  }
+.rowT{
+  height: 3.65em!important;
+}
+#rate1{
+  flex-grow: 0;
+  padding-right: 0px;
+}
+#lines{
+  flex-grow: 0;
+  padding-left: 0px;
+}
+#score{
+  flex-grow: 0;
+  padding-left: 0px;
+}
 
-  #scale{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 0;
-    padding-left: 0px;
-    padding-right: 0px;
-    height: 300px;
-    width: 30px;
-  }
+#scale{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 0;
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 300px;
+  width: 30px;
+}
 
-  .swal2-container {
-    -webkit-user-select: none !important;
-  }
+.swal2-container {
+  -webkit-user-select: none !important;
+}
 
-  #range-lines{
-    z-index: -1;
+#range-lines{
+  z-index: -1;
 }

@@ -25,7 +25,7 @@ body{
 #container nav #titleBar-buttons{
     float: right;
     margin-right: 0%;
-    width: 55px; /* change this to lower to get buttons closer */
+    width: 55px;
     height: 100%;
     line-height: 30px;
     font-family: "Segoe MDL2 Assets";
@@ -84,10 +84,9 @@ body{
     margin-right:auto;
     margin-top: 5%;
     border-radius: 12px;
-   /* color: white; /* White text */
-    padding: 10px 5px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 13%; /* Set a width if needed */
+    padding: 10px 5px; 
+    cursor: pointer; 
+    width: 13%;
     display: block;
     -webkit-app-region: no-drag;
 }

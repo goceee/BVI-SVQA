@@ -52,9 +52,9 @@ for (var i=1;i<=numObservers;i++){
         }
     }
     if( ((P + Q)/R*N)> 0.05 && Math.abs( (P-Q)/(P+Q) ) < 0.3){
-        console.log("REJECT " + allData[0].split(',')[j])
+        console.log("REJECT " + allData[0].split(',')[i])
     }
     else{
-        console.log("PA NEMA")
+        console.log("NO")
     }
 }

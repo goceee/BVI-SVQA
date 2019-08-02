@@ -1,4 +1,3 @@
-# <BeginExample>
 import time
 import tobii_research as tr
 import subprocess

@@ -46,12 +46,12 @@ function getBreakNum(){
 if(trialRun){
     document.getElementById("text").textContent = "Training phase is starting now, get ready!";
 }
+
 getBreakNum();
 shuffle(FileNames);
 setTimeout(function(){play(trialRun);}, 2000)
 
 function play(testTrial){
-    console.log(vN)
     vN = x+1;
     if(testTrial){
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4)
@@ -78,11 +78,13 @@ function play(testTrial){
         '--priority=realtime',
         ppath
     ];
+    
     /*     var args = [
         '-autoexit',
         '-fs', 
         '-i', ppath
     ]; */
+    
     watchVideo();
     setTimeout(function(){
         proc = spawn(cmd, args);
@@ -101,7 +103,7 @@ $('button[id=score]').click(function(){
 
 
 $('#continue').click(function () {
-    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength * (breakNum-1)/breakNum) ){
+    if(breakNum > 0 && breakTime == Math.floor(fileLength/breakNum)-1 && !trialRun && x < (fileLength-2) ){
         breakTimeF();
         breakTime = 0;
     } else {
@@ -118,7 +120,7 @@ $('#continue').click(function () {
                         $('button[id=score].butBackground').removeClass('butBackground');
                         enableButton();
                     },2000)
-                    play(trialRun);//}
+                    play(trialRun);
                 }else{
                     swal.fire({
                         text: 'You have not selected a score, please select one to continue!' ,
@@ -132,7 +134,8 @@ $('#continue').click(function () {
                             finish();
                             setTimeout(function(){
                                 enableButton();
-                            },500)
+                                $('#continue').focus();
+                            },250)
                             x = x + 1;
                         } else{
                             swal.fire({
@@ -203,7 +206,7 @@ $('#continue').click(function () {
                             document.getElementById("text").textContent = "Please rate video " + vN + " of " + fileLength;
                             document.getElementById("scale").style.visibility = "visible";
                             document.getElementById("continueB").style.visibility = "visible";
-                        }, 2000);
+                        }, 1000);
                     }
                 }
                 
@@ -244,3 +247,10 @@ $('#continue').click(function () {
                         document.getElementById("text").style.visibility = "visible";
                     }, 200)
                 }
+
+                $('#scale').keyup(function(event){
+                    if (event.keyCode === 13) {
+                        //event.preventDefault();
+                        $("#continue").click();
+                    }
+                })

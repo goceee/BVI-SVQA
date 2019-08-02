@@ -551,6 +551,7 @@ $(document).on('change','#up2', function(){
   }
 });
 /////////////////////////////////////////////////
+
 /* SHUFFLE FUNCTION */
 function shuffle ( myArray ) {
   var i = myArray.length;
@@ -601,7 +602,6 @@ function splitScores(getScores){
       removeA(distortedV, element[0]);
       var result = [].concat.apply([], element);
       originalV.push(result)}
-      // console.log(originalV)
     }
   }
   

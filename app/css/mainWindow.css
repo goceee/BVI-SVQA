@@ -37,8 +37,6 @@ body{
     max-height: 150px;
 }
 
-
-
 #container nav{
     display: block;
     width: 100%;
@@ -102,10 +100,10 @@ body{
     margin-top: 10%;
     border-color: black;
     border-radius: 12px;
-    color: black; /* White text */
-    padding: 12px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 50%; /* Set a width if needed */
+    color: black;
+    padding: 12px 24px; 
+    cursor: pointer; 
+    width: 50%;
     max-width: 400px;
     display: block;
     -webkit-app-region: no-drag;
@@ -116,13 +114,13 @@ body{
     margin-right:auto;
     margin-top: 0.2cm;
     border-radius: 12px;
-    color: black; /* White text */
+    color: black; 
     border-color: black;
-    padding: 12px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 50%; /* Set a width if needed */
+    padding: 12px 24px;
+    cursor: pointer;
+    width: 50%;
     max-width: 400px;
-    display: block; /* Make the buttons appear below each other */
+    display: block;
     -webkit-app-region: no-drag;
 }
 

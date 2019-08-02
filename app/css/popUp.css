@@ -1,5 +1,6 @@
 body{
     background: none !important;
+    overflow: hidden;
 }
 
 #container{
@@ -25,7 +26,7 @@ body{
 #container nav #titleBar-buttons{
     float: right;
     margin-right: 0%;
-    width: 55px; /* change this to lower to get buttons closer */
+    width: 55px;
     height: 100%;
     line-height: 30px;
     font-family: "Segoe MDL2 Assets";
@@ -49,7 +50,7 @@ body{
 }
 
 #titleBar-buttons #close:hover{
-color: #E81123;
+    color: #E81123;
 }
 
 #container nav #configN{
@@ -72,31 +73,26 @@ color: #E81123;
     margin-left:auto;
     margin-right:auto;
     margin-top: 9%;
-    color: black; /* White text */
+    color: black; 
     border-color: black;
     border-radius: 12px;
-/*    color: white; /* White text */
-    padding: 8px 0px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 40%; /* Set a width if needed */
+    padding: 8px 0px; 
+    cursor: pointer; 
+    width: 40%;
     display: block;
     -webkit-app-region: no-drag;
 }
-
 
 #last{
     margin-left:auto;
     margin-right:auto;
     margin-top: 12%;
-    color: black; /* White text */
+    color: black;
     border-color: black;
-  /*  background-color: #315866; /* background */
-  /*  border: 1px solid #2a4c58; /* border */
     border-radius: 12px;
-  /*  color: white; /* White text */
-    padding: 8px 5px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 40%; /* Set a width if needed */
+    padding: 8px 5px;
+    cursor: pointer; 
+    width: 40%;
     display: block;
     -webkit-app-region: no-drag;
 }
@@ -105,25 +101,21 @@ color: #E81123;
     margin-left:auto;
     margin-right:auto;
     margin-top: -2%;
-    color: black; /* White text */
+    color: black;
     border-color: black;
-  /*  background-color: #315866; /* background */
-  /*  border: 1px solid #2a4c58; /* border */
     border-radius: 12px;
-   /* color: white; /* White text */
-    padding: 8px 5px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 40%; /* Set a width if needed */
+    padding: 8px 5px;
+    cursor: pointer;
+    width: 40%;
     display: block;
     -webkit-app-region: no-drag;
 }
 
 #saved:hover, #new:hover, #last:hover{
-  /*  background-color: #42817A;*/
-  color: white;
-  border-color: #17a2b8;
-  box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
-  transform: translateY(-3px);
+    color: white;
+    border-color: #17a2b8;
+    box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
+    transform: translateY(-3px);
 }
 
 #cancel:hover{
@@ -137,16 +129,17 @@ color: #E81123;
 #noDrag{
     margin-left:30px;
     margin-right:30px;
--webkit-app-region: no-drag;
+    -webkit-app-region: no-drag;
 }
 
 
 .swal2-title {
     font-size: 1.4em !important;
-  }
+}
 
-  .swal2-container {
+.swal2-container {
     -webkit-app-region: drag !important;
+    overflow: hidden !important;
 }
 
 .swal2-confirm {

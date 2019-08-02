@@ -5,10 +5,11 @@ body {
 .row {
     margin-right: 0px;
     margin-left: 0px;
+    margin-top: 5rem;
 }
 
 #continueB{
-    margin-top: 2%;
+    margin-top: 7.5rem;
     visibility: hidden;
 }
 
@@ -20,8 +21,8 @@ body {
 }
 
 #score{
-    width:125%;
-    height:125%;
+    width:10rem;
+    height:4rem;
 }
 
 #text{
@@ -38,3 +39,8 @@ body {
 .swal2-container {
     -webkit-user-select: none !important;
   }
+
+.btn-info{
+    width: 8rem;
+    height: 3rem;
+}

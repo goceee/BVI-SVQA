@@ -8,8 +8,6 @@ import numpy as np, scipy.stats as st
 
 expName = sys.argv[1]
 presMethod = sys.argv[2]
-#presMethod = "DSCQS"
-#expName = "TestFORDATAextract"
 if (presMethod == "ACR(discrete)" or presMethod == "ACR(continuous)"):
     videoNum = 1
 else:
@@ -49,14 +47,10 @@ if videoLength != 0:
                         full = full + int(tempScore)
                         allScores.append(tempScore)      
         results = list(map(int, allScores))
-        #print sem(results)
         stddev = numpy.std(results)
         final = tempName + allScores + [round(full/len(allScores),2)] + [stddev] + [sem(results)] + [st.t.interval(0.95, len(results)-1, loc=np.mean(results), scale=st.sem(results))]
         finalS.append(final)
         finalF = [headers] + finalS
-        #print finalS
-        #print (results)
-        #sys.stdout.flush()
         if sys.version_info[0] < 3:
             with open('../Experiments/' + expName + '/rawdata.csv', 'wb') as myfile: #python2, python3 is different.
                 wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)

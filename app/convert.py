@@ -16,60 +16,33 @@ path2 = sys.argv[2]
 videoCodec = sys.argv[5]
 videoFormat = sys.argv[6]
 expName = sys.argv[7]
-#names1 = "S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R1.yuv,S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R2.yuv,S12CatRobot1_1920x1080_60fps_10bit_420_300_R1.yuv"
-#names2 = ""
-#path1 = "C:\\SubjectiveApplication\\videos"
-#videoCodec = 'prores_ks'
-#videoFormat = '.mov'
-#expName = 'ACRdisc'
 
-
-try:
-    os.mkdir("../converted/" + expName)
-except exception:
-    # directory already exists
-    pass
-try:
-    os.mkdir("../trainingSequences/" + expName)
-except exception:
-    # directory already exists
-    pass
-
-#distPath = "../converted/" + expName + "/DistortedVideos"
 distPath = "../converted/"
 origPath = "../converted/"
 distTrainP = "../trainingSequences/"
 origTrainP = "../trainingSequences/"
-#origPath = "../converted/" + expName + "/OriginalVideos"
-#distTrainP = "../trainingSequences/" + expName + "/Distorted"
-#origTrainP = "../trainingSequences/" + expName + "/Original"
 
-
-#path = "C:\\SubjectiveApplication\\videoss"
-#path2 = 'C:\\Subjection Goce\\videos'
-#gooce = ["1.yuv","2.yuv","3.yuv"]
-#Lpath = path.split('\\')
-if not sys.argv[3]: # mesto names1
+if not sys.argv[3]:
     numFiles1 = 0
 else:
     try:
         os.mkdir(distPath)
     except exception:
         pass
-    fileList1 = sys.argv[3].split(',') #sys.argv[3] mesto names1
+    fileList1 = sys.argv[3].split(',') 
     distortedTrain = [x for x in fileList1 if "train" in x]
     fileList1 = [x for x in fileList1 if "train" not in x]
     numFiles1 = len(fileList1)
     numFiles3 = len(distortedTrain)
 
-if not sys.argv[4]: #sys.argv[4] mesto names2
+if not sys.argv[4]:
     numFiles2 = 0
 else:
     try:
         os.mkdir(origPath)
     except exception:
         pass
-    fileList2 = sys.argv[4].split(',') #sys.argv[4] mesto names2
+    fileList2 = sys.argv[4].split(',') 
     originalTrain = [y for y in fileList2 if "train" in y]
     fileList2 = [y for y in fileList2 if "train" not in y]
     numFiles2 = len(fileList2)
@@ -102,8 +75,7 @@ for x in range(0,numFiles1):
     else:
         pixFmt = 'p' + bit1 + 'le'
     p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo1[1] + ' -r ' + fps1 + ' -pix_fmt yuv' + extractInfo1[4] + pixFmt + ' -i ' + path1 + '\\' + fileList1[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps1 + ' -pix_fmt yuv422' + pixFmt + ' ' + distPath + fileName1[:-4] + videoFormat, 
-                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add distPath
-    #sys.stdout.write("Video number: ", x," completed")
+                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
     print ('Video number: ', x+1,' completed')
     sys.stdout.flush()
 if numFiles2 > 0:
@@ -118,8 +90,7 @@ if numFiles2 > 0:
         else:
             pixFmt = 'p' + bit2 + 'le'
         p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo2[1] + ' -r ' + fps2 + ' -pix_fmt yuv' + extractInfo2[4] + pixFmt + ' -i ' + path2 + '\\' + fileList2[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps2 + ' -pix_fmt yuv422' + pixFmt + ' ' + origPath + fileName2[:-4] + videoFormat, 
-                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add origPath
-        #sys.stdout.write("Video number: ", x," completed")
+                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         print ('Video number: ', x+1,' completed')
         sys.stdout.flush()
 if numFiles3 > 0:
@@ -134,8 +105,7 @@ if numFiles3 > 0:
         else:
             pixFmt = 'p' + bit3 + 'le'
         p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo3[1] + ' -r ' + fps3 + ' -pix_fmt yuv' + extractInfo3[4] + pixFmt + ' -i ' + path1 + '\\' + distortedTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps3 + ' -pix_fmt yuv422' + pixFmt + ' ' + distTrainP + fileName3[:-4] + videoFormat, 
-                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add origPath
-        #sys.stdout.write("Video number: ", x," completed")
+                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         print ('Video number: ', x+1,' completed')
         sys.stdout.flush()
 if numFiles4 > 0:
@@ -150,7 +120,6 @@ if numFiles4 > 0:
         else:
             pixFmt = 'p' + bit4 + 'le'
         p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo4[1] + ' -r ' + fps4 + ' -pix_fmt yuv' + extractInfo4[4] + pixFmt + ' -i ' + path2 + '\\' + originalTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps4 + ' -pix_fmt yuv422' + pixFmt + ' ' + origTrainP + fileName4[:-4] + videoFormat, 
-                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False) #shell= True add origPath
-        #sys.stdout.write("Video number: ", x," completed")
+                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         print ('Video number: ', x+1,' completed')
         sys.stdout.flush()

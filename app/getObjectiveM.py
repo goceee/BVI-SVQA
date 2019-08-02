@@ -7,16 +7,9 @@ if sys.version_info[0] < 3:
     exception = OSError
 else :
     exception = FileExistsError 
-#originalV= ["Video1_1920x1080_60fps_8bit_420_300_R0.yuv", "Video2_1920x1080_60fps_8bit_420_300_R0.yuv"]
-#distortedV= ["Video1_1920x1080_60fps_8bit_420_300_R1_HM.yuv", "Video1_1920x1080_60fps_8bit_420_300_R1_AV1.yuv", "Video1_1920x1080_60fps_8bit_420_300_R2_AV1.yuv", "Video1_1920x1080_60fps_8bit_420_300_R2_HM.yuv", "Video1_1920x1080_60fps_8bit_420_300_R3_AV1.yuv", "Video1_1920x1080_60fps_8bit_420_300_R3_HM.yuv", "Video2_1920x1080_60fps_8bit_420_300_R1_AV1.yuv", "Video2_1920x1080_60fps_8bit_420_300_R1_HM.yuv", "Video2_1920x1080_60fps_8bit_420_300_R2_AV1.yuv", "Video2_1920x1080_60fps_8bit_420_300_R2_HM.yuv", "Video2_1920x1080_60fps_8bit_420_300_R3_HM.yuv","Video2_1920x1080_60fps_8bit_420_300_R3_AV1.yuv"]
-#path1 = "G:\\ForExperiment\\Distorted\\"
-#path2 = "G:\\ForExperiment\\Originals\\"
-#path = "G:\\NewTest"
-#experimentName = "DSCQS"
+
 originalV = sys.argv[1].split(',')
-#originalV = [x for x in originalV if "train" not in x]
 distortedV = sys.argv[2].split(',')
-#distortedV = [x for x in distortedV if "train" not in x]
 experimentName = sys.argv[3]
 path1 = sys.argv[4]
 path2 = sys.argv[5]
@@ -95,6 +88,8 @@ for t in range(0,len(originalV)):
                 vidNums = [""]
                 psnr = []
                 ms_ssim = []
+                ci95_low = []
+                ci95_high = [] 
                 final = []
         else:
             final.append(vidNums)
