@@ -1,10 +1,10 @@
-# SVQA
+# BVI-SVQA
 
 <p align="center">
   <img src="/doc/animation.gif">
 </p>
 
-SVQA is a software that allows people to prepare and perform experiments for Subjective Video Quality Assessment. SVQA was developed at the University of Bristol as part of a final year project of G. Dimitrov under the supervision of Dr A. Katsenou and Prof. D. R. Bull.
+BVI-SVQA is a software that allows people to prepare and perform experiments for **S**ubjective **V**ideo **Q**uality **A**ssessment. BVI-SVQA was developed at the University of Bristol as part of a final year project of Mr G. Dimitrov under the supervision of Dr A. Katsenou and Prof. D. R. Bull.
 
 # Requirements
 
@@ -46,10 +46,10 @@ SVQA is a software that allows people to prepare and perform experiments for Sub
   * Creating an Experiment
   * Starting an Experiment
   
-# How to reference this software:
+# How to reference BVI-SVQA
 This software is free and anyone is freely licensed to use, copy, study, and change the software in any way, and the source code is openly shared so that people are encouraged to voluntarily improve the design of it.
 We would be grateful if the following works are cited in case of any publication that has used this software.
 
 
 # Acknowledgements
-We acknowledge that part of this work was funded by the Leverhulme Trust, via an Early Career Fellowship ECF-2017-413 tht was awarded to Dr. Angeliki Katsenou.
+We acknowledge that part of this work was partly funded by the Leverhulme Trust, via an Early Career Fellowship ECF-2017-413 that was awarded to Dr. Angeliki Katsenou, and by the Engineering and  Physical  Sciences  Research  Council  (EPSRC), grant No. EP/M000885/1.
