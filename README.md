@@ -1,4 +1,4 @@
-# BVI-SVQA
+# BVI-SVQA - Bristol Vision Institute Subjective Video Quality Assessment Software
 
 <p align="center">
   <img src="/doc/animation.gif">
@@ -54,6 +54,8 @@ BVI-SVQA is a software that allows people to prepare and perform experiments for
 This software is free and anyone is freely licensed to use, copy, study, and change the software in any way, and the source code is openly shared so that people are encouraged to voluntarily improve the design of it.
 We would be grateful if the following works are cited in case of any publication that has used this software.
 
+[1] Dimitrov, G., "Subjective Video Quality Assessment Software", M.Eng. Thesis, University of Bristol, 2019.
+[2] Katsenou, A., Dimitrov, G., Ma, D., and Bull, D. R., "BVI-SynTex: A Synthetic Video Texture Dataset forVideo Compression and Quality Assessment", submitted in IEEE Transactions on Multimedia.
 
 # Acknowledgements
 We acknowledge that part of this work was partly funded by the Leverhulme Trust, via an Early Career Fellowship ECF-2017-413 that was awarded to Dr. Angeliki Katsenou, and by the Engineering and  Physical  Sciences  Research  Council  (EPSRC), grant No. EP/M000885/1.
