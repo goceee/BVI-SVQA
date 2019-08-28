@@ -32,7 +32,9 @@ BVI-SVQA is a software that allows people to prepare and perform experiments for
  * VMAF
     - Windows: provided with the application repository and no extra steps are required.
     - Linux: Instructions for installation of **vmafossexec** available on the Netflix vmaf [repository.](https://github.com/Netflix/vmaf/blob/master/resource/doc/vmafossexec.md)
-    - macOS: NOT TESTED!
+    - macOS: SHOULD BE SAME AS LINUX. <font color="red">NOT YET TESTED!</font>
+     - Final  step for Linux and macOS. 
+        - After completing the instructions given in the link above, move the wrapper folder into the vmaf folder in the BVI-SVQA software.
     
 # Steps to start the software
 
