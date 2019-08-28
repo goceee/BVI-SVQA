@@ -56,8 +56,13 @@ for t in range(0,len(originalV)):
             videoList.append(distortedV[c])
             
     for i in range(0,len(videoList)):
-        out = subprocess.Popen(['vmaf/x64/Release/vmafossexec.exe', 'yuv' + orList[4] + pixFmt , resolution[0], resolution[1], path2 + '\\' + originalV[t], path1 + '\\' + videoList[i], 'vmaf/model/' + model, '--psnr', '--ms-ssim', '--ci'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        stdout,stderr = out.communicate()
+        if sys.platform.startswith('win'):
+            out = subprocess.Popen(['vmaf/x64/Release/vmafossexec.exe', 'yuv' + orList[4] + pixFmt , resolution[0], resolution[1], path2 + '\\' + originalV[t], path1 + '\\' + videoList[i], 'vmaf/model/' + model, '--psnr', '--ms-ssim', '--ci'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            stdout,stderr = out.communicate()
+        elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
+            out = subprocess.Popen(['vmaf/wrapper/vmafossexec', 'yuv' + orList[4] + pixFmt , resolution[0], resolution[1], path2 + '\\' + originalV[t], path1 + '\\' + videoList[i], 'vmaf/model/' + model, '--psnr', '--ms-ssim', '--ci'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            stdout,stderr = out.communicate()
+
         vidNum = videoList[i].split('_')[6]
         vidNums.append(vidNum)
         psnr.append(float(((str(stdout)).split('\\r\\n')[7]).split()[3]))

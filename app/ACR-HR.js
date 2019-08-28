@@ -3,7 +3,12 @@
 
 var spawn = require('child_process').spawn;
 var proc;
+var os = require('os');
+if (os.platform() == 'win32'){
 var cmd = 'mpv/mpv';
+}else if (os.platform() == 'linux' || os.platform() == 'darwin'){
+    var cmd = 'mpv';
+}
 //var cmd = 'ffmpeg/bin/ffplay.exe';
 var score;
 var clicked;
