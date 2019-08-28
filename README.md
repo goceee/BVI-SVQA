@@ -55,6 +55,7 @@ This software is free and anyone is freely licensed to use, copy, study, and cha
 We would be grateful if the following works are cited in case of any publication that has used this software.
 
 [1] Dimitrov, G., "Subjective Video Quality Assessment Software", M.Eng. Thesis, University of Bristol, 2019.
+
 [2] Katsenou, A., Dimitrov, G., Ma, D., and Bull, D. R., "BVI-SynTex: A Synthetic Video Texture Dataset forVideo Compression and Quality Assessment", submitted in IEEE Transactions on Multimedia.
 
 # Acknowledgements
