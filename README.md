@@ -10,7 +10,7 @@ BVI-SVQA is a software that allows people to prepare and perform experiments for
 
 * Operating system: Windows, Linux or macOS
 * Python 3.5
-    - Windows: you can download the Python 3.5 distribution from https://www.python.org/downloads/release/python-354rc1/
+    - Windows: you can download the Python 3.5 distribution from the official [website](https://www.python.org/downloads/release/python-354rc1/) 
     - Linux: `sudo add-apt-repository ppa:deadsnakes/ppa` `sudo apt-get update` `sudo apt-get install python3.5`
     - macOS: `https://www.python.org/downloads/mac-osx/`
     - Run the following command from the folder where requirements.txt is located to install the necessary python libraries - `pip install -r requirements.txt`
