@@ -12,7 +12,7 @@
     "electron": "^4.1.4",
     "electron-builder": "^20.40.2",
     "electron-reload": "^1.4.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "windows-10-icons": "^1.0.1"
   },
   "dependencies": {
