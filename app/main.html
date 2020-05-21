@@ -6,11 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Subjective Video Quality Assessment</title>
 	<script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="fontawesome/css/all.css">
-	<link rel="stylesheet" href="/css/reset.css">
-	<link rel="stylesheet" href="/css/mainWindow.css">
+	<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./fontawesome/css/all.css">
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/mainWindow.css">
 </head>
 <body>
 		<div id="container">
@@ -28,18 +28,25 @@
 					</div>
 				</nav>
 				<div id="logos">
-				<img id="bristol" src="/img/Bristoll.gif">
-				<img id="vilab" src="/img/VILabs.png">
+				<img id="bristol" src="./img/Bristoll.gif">
+				<img id="vilab" src="./img/VILabs.png">
 				</div>
-				<div id="name">Subjective Video</div>
-				<div id="name1">Quality Assessment</div>
-				<div class="text-center" id="commandButtons">
-						<button class = "btn btn-outline-info" id="createExp" >Create Experiment</button>
-						<button class = "btn btn-outline-info" id="startExp">Start Experiment</button>
-						<button class = "btn btn-outline-info" id="viewRes">Data Analysis</button>
-						<button class = "btn btn-outline-info" id="exitB">Exit</button>
+				<div class="title">Subjective Video Quality Assessment</div>
+				<div id="commandButtons">
+					<div class="button-container" id="createExp">
+						<button class = "btn createExp" >Create Experiment</button>
+					</div>
+						<div class="button-container" id="startExp">
+							<button class = "btn startExp">Start Experiment</button>
+						</div>
+						<div class="button-container" id="viewRes">
+							<button class = "btn viewRes">Data Analysis</button>
+						</div>
+						<div class="button-container" id="exitB">
+							<button class = "btn exitB">Exit</button>
+						</div>
 				</div>
 		</div>
-	<script src = "/buttons.js"></script>
+	<script src = "controller.js"></script>
 </body>
 </html>

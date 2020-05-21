@@ -6,11 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Create Experiment</title>
   <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="fontawesome/css/all.css">
-  <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="/css/createExp.css">
+  <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+  <script src="./bootstrap/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="./fontawesome/css/all.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/createExp.css">
+  <link rel="stylesheet" href="./css/settings.css">
+  <link rel="stylesheet" href="./css/setScale.css">
   
   <script type="text/javascript">
     function Validate(experimentName) {
@@ -20,6 +22,66 @@
   
 </head>
 <body>
+  
+  <!-- Popup windows start -->
+  <div class="progress-bar-background">
+    <div class="progress-bar-container">
+      <div class="draggable-area"></div>
+      <div class="minimise-popup">
+        <span>&#xE921;</span>
+      </div>
+      <div id="text">Please wait...</div>
+      <div id="detail">Calculating objective metrics</div>
+      <div id="progressBarContainer"></div>
+    </div>
+  </div>
+  
+  <div class="settings-form-background">
+    <div class="settings-form">
+      <div class="draggable-area"></div>
+      <div class="close-popup settings">
+        <span>&#xE8BB;</span>
+      </div>
+      <div class="minimise-popup multi">
+        <span>&#xE921;</span>
+      </div>
+      <form class="form-inline">
+        <label class="my-1 mr-2" for="fileformat">File Format</label>
+        <select class="custom-select my-1 mr-sm-2" id="fileformat">
+          <option selected disabled>Choose...</option>
+          <option value=".mov">Default(.mov)</option>
+          <option value=".avi">.avi</option>
+          <!--option value=".mp4">.mp4</option-->
+          <option value=".mkv">.mkv</option>
+        </select>
+        <label class="my-1 mr-2" for="videocodec">Video Codec</label>
+        <select class="custom-select my-1 mr-sm-2" id="videocodec">
+          <option selected disabled >Choose...</option>
+          <option value="prores_ks">Default(prores_ks)</option>
+          <option value="libx264">h264</option>
+        </select>
+        <button type="button" class="btn btn-info" id ="confirmB">Confirm</button>
+      </form> 
+    </div>
+  </div>
+  
+  <div class="container-scale-background">
+    <div class="container-scale">
+      <div class="draggable-area"></div>
+      <div class="minimise-popup">
+        <span>&#xE921;</span>
+      </div>
+      <div class="button-container">
+        <button class="btn btn-outline-info discrete">Discrete</button>
+      </div>
+      <div class="button-container">
+        <button class="btn btn-outline-info continuous">Continuous</button>
+      </div>
+    </div>
+  </div> 
+  <!-- Popup windows end -->
+  
+  
   <div id="container">
     <nav>
       <div id="back">
@@ -35,6 +97,7 @@
         </div>
       </div>
     </nav>
+    
     <div class="form-group row" id = "nameForm">
       <label for="experimentName" class="col-sm-2 col-form-label" id = "nameText">Name:</label>
       <div class="col-sm-10" id = "nameSpace">
@@ -82,7 +145,7 @@
           <div id="vName">Distorted Videos:</div>
           <div class="form-group" id="browseDistorted">
             <div class="input-group" id = "inputG">
-              <input type="text" class="form-control" id = "browseT1" readonly>
+              <input type="text" class="form-control" id = "browseT1" readonly tabindex="-1">
               <div class="input-group-btn">
                 <span class="fileUpload btn btn-info" id= "browseBut">
                   <span class="upl" id="uploadOriginal">Browse</span>
@@ -94,11 +157,11 @@
           <div id="dName">Original Videos:</div>
           <div class="form-group" id="browseOriginal">
             <div class="input-group" id = "inputG">
-              <input type="text" class="form-control" id = "browseT2" readonly>
+              <input type="text" class="form-control" id = "browseT2" readonly tabindex="-1">
               <div class="input-group-btn" id = "browse2">
                 <span class="fileUpload btn btn-info" id= "browseBut">
                   <span class="upl" id="uploadDistorted">Browse</span>
-                  <input type="file" class="upload up" id="up2" accept=".yuv" multiple />
+                  <input type="file" class="upload up" id="up2" accept=".yuv" multiple/>
                 </span><!-- btn-orange -->
               </div><!-- btn -->
             </div><!-- group -->
@@ -107,9 +170,31 @@
       </div>
     </div>
     <button type="button" class="btn btn-info" id="okcB">OK</button>
-    <span id="setB"></span>
+    
+    <div class="container-settings">
+      <img id="setB" src="./img/settings.png"></img>    
+    </div>
+
+    <div class="container-checkbox">
+      <input class="inp-cbx" id="objective" type="checkbox" />
+      <label class="cbx" for="objective">
+        <span>
+          <svg width="12px" height="10px">
+            <use xlink:href="#check"></use>
+          </svg>
+        </span>
+        <span>Objective metrics</span>
+      </label>
+      <svg class="inline-svg">
+        <symbol id="check" viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </symbol>
+      </svg>
+    </div>
   </div>
-  <script src= "/buttons.js"></script>
-  <script src= "/createExperiment.js"></script>
+  
+  <script src= "controller.js"></script>
+  <script src="progressbar.js"></script>
+  <script src= "createExperiment.js"></script>
 </body>
 </html>

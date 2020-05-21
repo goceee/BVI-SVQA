@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Configuration</title>
     <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.slim.min.js');</script>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="fontawesome/css/all.css">
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/popUp.css">
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./fontawesome/css/all.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/popUp.css">
 </head>
 <body>
-        <div id="container">
+    <div id="container">
                 <nav>
                         <div id="configN">Choose experiment configuration</div>
                         <div id="titleBar-buttons">
@@ -24,15 +24,24 @@
                                 <span>&#xE8BB;</span>
                             </div>
                         </div>
-                    </nav>
-                    <button class="btn btn-outline-info" id="last">Latest</button><br>
-                    <button class="btn btn-outline-info" id="saved">Saved</button><br>
-                    <input type= "file" id="savedConfig" hidden = "hidden" accept=".save"/>
-                    <button class="btn btn-outline-info" id="new">New</button><br>
-                    <button class="btn btn-outline-info" id="cancel">Cancel</button>
-                </div>
-                </div>
-        <script src= "/buttons.js"></script>
-        <script src= "/popUp.js"></script>
+                </nav>
+                    <div class="buttons">
+                        <div class="button-container">
+                            <button class="btn last">Latest</button>
+                        </div>
+                        <div class="button-container">
+                            <button class="btn saved">Saved</button>
+                            <input type= "file" id="savedConfig" hidden = "hidden" accept=".save"/>
+                        </div>
+                        <div class="button-container">
+                            <button class="btn new">New</button>
+                        </div>
+                        <div class="button-container">
+                            <button class="btn cancel">Cancel</button>    
+                        </div>
+                    </div>
+    </div>
+    <script src= "controller.js"></script>
+    <script src= "popUp.js"></script>
 </body>
 </html>
