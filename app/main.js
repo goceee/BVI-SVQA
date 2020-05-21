@@ -10,6 +10,7 @@ const { spawn } = require('child_process')
 let image = null;
 var appIconDir = 'img/'; //-- directory for app icon and other imgs
 var stopClose = false;
+const debug = false;
 
 if (process.platform == 'win32') {
 	image = nativeImage.createFromPath(path.join(__dirname, appIconDir, 'icon_white.ico'));
@@ -31,7 +32,7 @@ const mainWindow = () => {
 		maximizable: false,
 		transparent: true,
 		show: false,
-		webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true, devTools: debug		  },
 		icon: image
 	});
 	win.on('close', function() {win = null;});
@@ -91,7 +92,7 @@ exports.openWindow = (windowName) => {
 		maximizable: false,
 		transparent: true,
 		show: false,
-		webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true, devTools: debug 		  },
 		icon: image 
 	});
 	win.on('close', function(e) {
@@ -123,7 +124,7 @@ exports.mainWindow = () => {
 		maximizable: false,
 		transparent: true,
 		show: false,
-		webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true, devTools: debug 		  },
 		icon: image
 	});
 	win.on('close', function() {win = null});
@@ -143,7 +144,7 @@ exports.resWindow = () => {
 		fullscreen:false,
 		transparent: true,
 		show: false,
-		webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true, devTools: debug 		  },
 		icon: image 
 	});
 	win.on('close', function() {win = null});
@@ -162,7 +163,7 @@ exports.popUp = () => {
 		maximizable: false,
 		transparent: true,
 		show: false,
-		webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true, devTools: debug 		  },
 		icon: image
 	});
 	win.on('close', function() {win = null});
@@ -181,7 +182,7 @@ exports.presWindow = (presName) => {
 		simpleFullscreen: true,
 		transparent: true,
 		show: false,
-		webPreferences: { 			nodeIntegration: true 		  },
+		webPreferences: { 			nodeIntegration: true, devTools: debug 		  },
 		icon: image
 	});
 	win.on('close', function() {win = null});
