@@ -78,7 +78,7 @@ for x in range(0,numFiles1):
         p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo1[1] + ' -r ' + fps1 + ' -pix_fmt yuv' + extractInfo1[4] + pixFmt + ' -i ' + path1 + '\\' + fileList1[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps1 + ' -pix_fmt yuv422' + pixFmt + ' ' + distPath + fileName1[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
     elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
-        p = subprocess.call('ffmpeg -f rawvideo -s ' + extractInfo1[1] + ' -r ' + fps1 + ' -pix_fmt yuv' + extractInfo1[4] + pixFmt + ' -i ' + path1 + '\\' + fileList1[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps1 + ' -pix_fmt yuv422' + pixFmt + ' ' + distPath + fileName1[:-4] + videoFormat, 
+        subprocess.call(["ffmpeg", "-f", "rawvideo", "-s", extractInfo1[1], "-r", fps1, "-pix_fmt", "yuv" + extractInfo1[4] + pixFmt, "-i", path1 + "/" + fileList1[x], "-n", "-c:v", videoCodec, "-qscale:v", "0", "-r", fps1, "-pix_fmt", "yuv422" + pixFmt, distPath + fileName1[:-4] + videoFormat], 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
     print ('Video number: ', x+1,' completed')
     sys.stdout.flush()
@@ -94,10 +94,10 @@ if numFiles2 > 0:
         else:
             pixFmt = 'p' + bit2 + 'le'
         if sys.platform.startswith('win'):
-            p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo2[1] + ' -r ' + fps2 + ' -pix_fmt yuv' + extractInfo2[4] + pixFmt + ' -i ' + path2 + '\\' + fileList2[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps2 + ' -pix_fmt yuv422' + pixFmt + ' ' + origPath + fileName2[:-4] + videoFormat, 
+            subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo2[1] + ' -r ' + fps2 + ' -pix_fmt yuv' + extractInfo2[4] + pixFmt + ' -i ' + path2 + '\\' + fileList2[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps2 + ' -pix_fmt yuv422' + pixFmt + ' ' + origPath + fileName2[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
-            p = subprocess.call('ffmpeg -f rawvideo -s ' + extractInfo2[1] + ' -r ' + fps2 + ' -pix_fmt yuv' + extractInfo2[4] + pixFmt + ' -i ' + path2 + '\\' + fileList2[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps2 + ' -pix_fmt yuv422' + pixFmt + ' ' + origPath + fileName2[:-4] + videoFormat, 
+            subprocess.call(["ffmpeg", "-f", "rawvideo", "-s", extractInfo2[1], "-r", fps2, "-pix_fmt", "yuv" + extractInfo2[4] + pixFmt, "-i", path2 + "/" + fileList2[x], "-n", "-c:v", videoCodec, "-qscale:v", "0", "-r", fps2, "-pix_fmt", "yuv422" + pixFmt, origPath + fileName2[:-4] + videoFormat], 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         print ('Video number: ', x+1,' completed')
         sys.stdout.flush()
@@ -114,15 +114,15 @@ if numFiles3 > 0:
             pixFmt = 'p' + bit3 + 'le'
 
         if sys.platform.startswith('win'):
-            p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo3[1] + ' -r ' + fps3 + ' -pix_fmt yuv' + extractInfo3[4] + pixFmt + ' -i ' + path1 + '\\' + distortedTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps3 + ' -pix_fmt yuv422' + pixFmt + ' ' + distTrainP + fileName3[:-4] + videoFormat, 
+            subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo3[1] + ' -r ' + fps3 + ' -pix_fmt yuv' + extractInfo3[4] + pixFmt + ' -i ' + path1 + '\\' + distortedTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps3 + ' -pix_fmt yuv422' + pixFmt + ' ' + distTrainP + fileName3[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
-           p = subprocess.call('ffmpeg -f rawvideo -s ' + extractInfo3[1] + ' -r ' + fps3 + ' -pix_fmt yuv' + extractInfo3[4] + pixFmt + ' -i ' + path1 + '\\' + distortedTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps3 + ' -pix_fmt yuv422' + pixFmt + ' ' + distTrainP + fileName3[:-4] + videoFormat, 
-                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
+            subprocess.call(["ffmpeg", "-f", "rawvideo", "-s", extractInfo3[1], "-r", fps3, "-pix_fmt", "yuv" + extractInfo3[4] + pixFmt, "-i", path1 + "/" + distortedTrain[x], "-n", "-c:v", videoCodec, "-qscale:v", "0", "-r", fps3, "-pix_fmt", "yuv422" + pixFmt, distTrainP + fileName3[:-4] + videoFormat], 
+                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False) 
         print ('Video number: ', x+1,' completed')
         sys.stdout.flush()
 if numFiles4 > 0:
-    #DISTORTED TRAIN
+    #ORIGINAL TRAIN
     for x in range(0,numFiles4):
         extractInfo4 = originalTrain[x].split('_')
         fileName4 = originalTrain[x]
@@ -134,10 +134,10 @@ if numFiles4 > 0:
             pixFmt = 'p' + bit4 + 'le'
 
         if sys.platform.startswith('win'):
-            p = subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo4[1] + ' -r ' + fps4 + ' -pix_fmt yuv' + extractInfo4[4] + pixFmt + ' -i ' + path2 + '\\' + originalTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps4 + ' -pix_fmt yuv422' + pixFmt + ' ' + origTrainP + fileName4[:-4] + videoFormat, 
+            subprocess.call('./ffmpeg/bin/ffmpeg.exe -f rawvideo -s ' + extractInfo4[1] + ' -r ' + fps4 + ' -pix_fmt yuv' + extractInfo4[4] + pixFmt + ' -i ' + path2 + '\\' + originalTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps4 + ' -pix_fmt yuv422' + pixFmt + ' ' + origTrainP + fileName4[:-4] + videoFormat, 
                                         stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
-            p = subprocess.call('ffmpeg -f rawvideo -s ' + extractInfo4[1] + ' -r ' + fps4 + ' -pix_fmt yuv' + extractInfo4[4] + pixFmt + ' -i ' + path2 + '\\' + originalTrain[x] + ' -n -c:v ' + videoCodec + ' -qscale:v 0 -r ' + fps4 + ' -pix_fmt yuv422' + pixFmt + ' ' + origTrainP + fileName4[:-4] + videoFormat, 
-                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False)        
+            subprocess.call(["ffmpeg", "-f", "rawvideo", "-s", extractInfo4[1], "-r", fps4, "-pix_fmt", "yuv" + extractInfo4[4] + pixFmt, "-i", path2 + "/" + originalTrain[x], "-n", "-c:v", videoCodec, "-qscale:v", "0", "-r", fps4, "-pix_fmt", "yuv422" + pixFmt, origTrainP + fileName4[:-4] + videoFormat], 
+                                        stdout=FNULL, stderr=subprocess.STDOUT, shell=False)       
         print ('Video number: ', x+1,' completed')
         sys.stdout.flush()

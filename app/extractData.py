@@ -10,8 +10,10 @@ expName = sys.argv[1]
 presMethod = sys.argv[2]
 if (presMethod == "ACR(discrete)" or presMethod == "ACR(continuous)"):
     videoNum = 1
+    nameIndex = 0
 else:
     videoNum = 4
+    nameIndex = 2
 
 dir_path = os.path.dirname('../Experiments/' + expName + '/') 
 allScores = []
@@ -42,7 +44,7 @@ if videoLength != 0:
                 if file.startswith('score.csv'): 
                     with open(root+'/'+str(file)) as f:
                         test = list(csv.reader(f))
-                        tempName = [test[x][2]]
+                        tempName = [test[x][nameIndex]]
                         tempScore = test[x][videoNum]
                         full = full + int(tempScore)
                         allScores.append(tempScore)      
