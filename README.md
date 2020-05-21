@@ -9,15 +9,13 @@ BVI-SVQA is a software that allows people to prepare and perform experiments for
 # Requirements
 
 * Operating system: Windows, Linux or macOS
-* Python 3.5
+* Python 3.5 (for use with Tobii Eye Tracker, otherwise any python3 version works)
     - Windows: you can download the Python 3.5 distribution from the official [website.](https://www.python.org/downloads/release/python-354rc1/) 
     - Linux: `sudo add-apt-repository ppa:deadsnakes/ppa` `sudo apt-get update` `sudo apt-get install python3.5`
     - macOS: `https://www.python.org/downloads/mac-osx/`
-    - Run the following command from the folder where requirements.txt is located to install the necessary python libraries - `pip install -r requirements.txt`
+    - Run the following command from the folder where requirements.txt is located to install the necessary python libraries - `pip install -r requirements.txt` or `pip3 install -r requirements.txt`
 * NodeJS
     - It can be downloaded and installed from `https://nodejs.org/en/` for all platforms
-* ElectronJS
-    - Run the following command to install electron globally - `npm install -g electron`
 * FFMPEG
     - Windows: provided with the application repository and no extra steps are required.
     - Linux: you can install it using the following three commands:
@@ -30,21 +28,20 @@ BVI-SVQA is a software that allows people to prepare and perform experiments for
     - Linux: install it via `sudo apt-get install mpv`
     - macOS: install it by using [Homebrew]: `brew install mpv`
  * VMAF
-    - Windows: provided with the application repository and no extra steps are required.
-    - Linux: Instructions for installation of **vmafossexec** available on the Netflix vmaf [repository.](https://github.com/Netflix/vmaf/blob/master/resource/doc/vmafossexec.md)
-    - macOS: SHOULD BE SAME AS LINUX. NOT YET TESTED!
-     - Final  step for Linux and macOS. 
-        - After completing the instructions given in the link above, move the wrapper folder into the vmaf folder in the BVI-SVQA software.
+    - A prebuilt version for each of the major three Operating Systems is provided in the vmaf folder.
+    - If you need to update to the latest vmaf version, make sure to follow the instructions for installation of **vmafossexec** available on the Netflix vmaf [repository.](https://github.com/Netflix/vmaf/blob/master/resource/doc/vmafossexec.md)
+     - Final step necessary for updating VMAF. 
+        - After completing the instructions given in the link above, depending on what OS vmaf has been build, for Linux or Mac, rename the vmafossexec file to vmafossexec_linux or mac and move it into into the vmaf folder in the BVI-SVQA software, for Windows just move the exe files into the previously mentioned folder. (IMPORTANT: make sure the new filenames match exactly the same as the old ones) 
         
 
     
 # Steps to start the software
 
-1. Install all requirements
-2. Clone the repository
+1. Clone the repository
+2. Install all the requirements
 3. Open the repository folder
-4. Run `npm install` from a command line in that folder
-5. Start the software by opening any of the two files named `start`.
+4. Run `npm install` from a command line in that folder (this install electron and all its necessary dependencies to run the software)
+5. Start the software by opening any of the two files named `start` for Windows and `npm start` from the terminal in Linux or Mac.
 
 # Tutorials (available in tutorials folder)
   * Creating an Experiment
