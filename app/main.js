@@ -1,51 +1,86 @@
 'use strict';
 
 require('electron-reload')(__dirname);
-var pyshell =  require('python-shell');
-const {app, BrowserWindow} = require('electron');
-const url = require('url');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 var path = require('path');
 var fs = require('fs');
-var appIconDir = '/img/'; //-- directory for app icon
+const nativeImage = require('electron').nativeImage;
+const { spawn } = require('child_process')
 
-function boot(){
-	console.log(process.type)
-	let mainWin = new BrowserWindow({
+let image = null;
+var appIconDir = 'img/'; //-- directory for app icon and other imgs
+var stopClose = false;
+
+if (process.platform == 'win32') {
+	image = nativeImage.createFromPath(path.join(__dirname, appIconDir, 'icon_white.ico'));
+} else {
+	image = nativeImage.createFromPath(path.join(__dirname, appIconDir, 'icon_white.png'));
+}
+
+/* Make vmafossexec executable */
+const child_linux = spawn('chmod', ['+x','./vmaf/vmafossexec_linux']);
+const child_mac = spawn('chmod', ['+x','./vmaf/vmafossexec_mac']);
+/* --------------------------- */
+
+const mainWindow = () => {
+	let win = new BrowserWindow({
 		width: 500,
 		height: 500,
 		frame: false,
 		resizable:false,
+		maximizable: false,
 		transparent: true,
+		show: false,
 		webPreferences: { 			nodeIntegration: true 		  },
-		icon: path.join(__dirname, appIconDir, 'icon.ico') // add app icon
-	})
-	mainWin.loadURL(url.format({
-		pathname: 'main.html',
-		slashes: true
-	}))
-	if (!fs.existsSync("../Experiments")){
+		icon: image
+	});
+	win.on('close', function() {win = null;});
+	win.loadURL(`file://${__dirname}/main.html`);
+	win.once('ready-to-show', () => {
+		win.show();  
+	});
+};
+
+app.whenReady().then(function() {
+	setTimeout(function(){
+		mainWindow();	
+	},500);
+	
+	if (!fs.existsSync("../Experiments")) {
 		fs.mkdirSync("../Experiments");
 	}
-	if (!fs.existsSync("../Experiments/Saved")){
+	if (!fs.existsSync("../Experiments/Saved")) {
 		fs.mkdirSync("../Experiments/Saved");
 	}
-	if (!fs.existsSync("../converted")){
+	if (!fs.existsSync("../converted")) {
 		fs.mkdirSync("../converted");
 	}
-	if (!fs.existsSync("../trainingSequences")){
-		fs.mkdirSync("../trainingSequences")
+	if (!fs.existsSync("../trainingSequences")) {
+		fs.mkdirSync("../trainingSequences");
 	}
-	if (!fs.existsSync("../GazeData")){
-		fs.mkdirSync("../GazeData")
+	if (!fs.existsSync("../GazeData")) {
+		fs.mkdirSync("../GazeData");
 	}
-}
-
-app.on('ready', boot);
-app.on('window-all-closed', () => {
-	app.quit();
+	
+	app.on('activate', function() {
+		if (BrowserWindow.getAllWindows().length === 0) mainWindow();
+	});
 });
 
+// Quit when all windows are closed.
+app.on('window-all-closed', function(e) {
+	// On macOS applications stay active 
+	// until the user quits explicitly with Cmd + Q
+	if (process.platform !== 'darwin') app.quit();
+});
 
+ipcMain.on('info', (event,args) => {
+	if (args == 'stop-closing') {
+		stopClose = true;
+	} else {
+		stopClose = false;
+	}
+});
 
 exports.openWindow = (windowName) => {
 	let win = new BrowserWindow({
@@ -53,16 +88,31 @@ exports.openWindow = (windowName) => {
 		height:500,
 		frame: false,
 		resizable:false,
+		maximizable: false,
 		transparent: true,
+		show: false,
 		webPreferences: { 			nodeIntegration: true 		  },
-		icon: path.join(__dirname, appIconDir, 'icon.ico') 
-	})
-	win.setMaximizable(false);
-	win.loadURL(url.format({
-		pathname: windowName + `.html`,
-		slashes: true
-	}))
-}
+		icon: image 
+	});
+	win.on('close', function(e) {
+		if (stopClose) {
+
+			e.preventDefault();
+			let options = {
+				type: 'warning',
+				title: 'Subjective Video Quality Assessment',
+				message: 'Please wait until the process has finished!',
+				buttons: ['OK']
+			}
+			dialog.showMessageBox(win,options);
+			win.flashFrame(true);
+		} 
+	});
+	win.loadURL(`file://${__dirname}/${windowName}.html`);
+	win.once('ready-to-show', () => {
+		win.show();    
+	});   
+};
 
 exports.mainWindow = () => {
 	let win = new BrowserWindow({
@@ -70,16 +120,18 @@ exports.mainWindow = () => {
 		height: 500,
 		frame: false,
 		resizable:false,
+		maximizable: false,
 		transparent: true,
+		show: false,
 		webPreferences: { 			nodeIntegration: true 		  },
-		icon: path.join(__dirname, appIconDir, 'icon.ico') 
-	})
-	win.setMaximizable(false);
-	win.loadURL(url.format({
-		pathname: 'main.html',
-		slashes: true
-	}))
-}
+		icon: image
+	});
+	win.on('close', function() {win = null});
+	win.loadURL(`file://${__dirname}/main.html`);
+	win.once('ready-to-show', () => {
+		win.show();    
+	});  
+};
 
 exports.resWindow = () => {
 	let win = new BrowserWindow({
@@ -87,17 +139,19 @@ exports.resWindow = () => {
 		height: 600,
 		frame: false,
 		resizable:false,
+		maximizable: false,
 		fullscreen:false,
 		transparent: true,
+		show: false,
 		webPreferences: { 			nodeIntegration: true 		  },
-		icon: path.join(__dirname, appIconDir, 'icon.ico') 
-	})
-	win.setMaximizable(false);
-	win.loadURL(url.format({
-		pathname: 'viewResults.html',
-		slashes: true
-	}))
-}
+		icon: image 
+	});
+	win.on('close', function() {win = null});
+	win.loadURL(`file://${__dirname}/viewResults.html`);
+	win.once('ready-to-show', () => {
+		win.show();    
+	}); 
+};
 
 exports.popUp = () => {
 	let win = new BrowserWindow({
@@ -105,32 +159,35 @@ exports.popUp = () => {
 		height: 380,
 		frame: false,
 		resizable:false,
+		maximizable: false,
 		transparent: true,
+		show: false,
 		webPreferences: { 			nodeIntegration: true 		  },
-		icon: path.join(__dirname, appIconDir, 'icon.ico')
-	})
-	win.setMaximizable(false);
-	win.loadURL(url.format({
-		pathname: 'popUp.html',
-		slashes: true
-	}))
-}
+		icon: image
+	});
+	win.on('close', function() {win = null});
+	win.loadURL(`file://${__dirname}/popUp.html`);
+	win.once('ready-to-show', () => {
+		win.show();    
+	});   
+};
 
 exports.presWindow = (presName) => {
 	let win = new BrowserWindow({
 		width: 800,
 		height: 600,
-		//alwaysOnTop: true,
 		frame: false,
-		resizable:false,
 		fullscreen:true,
+		simpleFullscreen: true,
 		transparent: true,
+		show: false,
 		webPreferences: { 			nodeIntegration: true 		  },
-		icon: path.join(__dirname, appIconDir, 'icon.ico') 
-	})
-	win.setMaximizable(false);
-	win.loadURL(url.format({
-		pathname: presName + `.html`,
-		slashes: true
-	}))
-}
+		icon: image
+	});
+	win.on('close', function() {win = null});
+	win.loadURL(`file://${__dirname}/${presName}.html`);
+	win.once('ready-to-show', () => {
+		win.setAlwaysOnTop(true,'screen-saver','1');
+		win.show();    
+	});
+};

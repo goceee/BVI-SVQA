@@ -1,7 +1,10 @@
 const {PythonShell} =  require('python-shell');
 var fs = require('fs');
 const url = require('url');
-const ProgressBar = remote.require('electron-progressbar');
+const {BrowserWindow, shell} = require('electron').remote
+const ipc = require('electron').ipcRenderer;
+
+
 var selFormat;
 var selCodec;
 var setSettings;
@@ -9,30 +12,40 @@ var tVideos = [];
 var tVideos2 = [];
 var listT = [];
 var trainCounter = 0;
+var taskbarProgressValue = 0; 
+
+$(".minimise-popup").click( () => {
+  BrowserWindow.getAllWindows()[0].minimize();  
+});
+
+$(".close-popup.settings").click( () => {
+  $('#container').css('filter', '');
+  $('.settings-form-background').fadeOut();
+});
 
 $('#okcB').click(function () {
-  if (!fs.existsSync("../Experiments/temporary.settings")){
+  if (!fs.existsSync("../Experiments/temporary.settings")) {
     selFormat = ".mov";
     selCodec = "prores_ks";
-  }else{
-    setSettings = (fs.readFileSync("../Experiments/temporary.settings",'utf8')).split(',');
+  } else {
+    setSettings = (fs.readFileSync("../Experiments/temporary.settings", 'utf8')).split(',');
     selCodec = setSettings[1];
     selFormat = setSettings[0];
   }
-  if (!fs.existsSync("../Experiments")){
+  if (!fs.existsSync("../Experiments")) {
     swal.fire({
       title: 'DO NOT DELETE FILES USED RESTART THE PROGRAM!',
-      type: 'error',
+      icon: 'error',
       showCancelButton: false,
       allowOutsideClick: false,
       confirmButtonColor: '#3085d6',
       confirmButtonText: 'OK!'
-    })
-  }else{
+    });
+  } else {
     var expName = document.getElementById("experimentName").value;
-    fs.writeFileSync("../Experiments/" + "Experiment.last", expName, 'utf8');
-    fs.writeFileSync("../Experiments/Saved/" + expName + ".save", expName, 'utf8');
-    if (!fs.existsSync("../Experiments/temporary.scale")){
+/*     fs.writeFileSync("../Experiments/" + "Experiment.last", expName, 'utf8');
+    fs.writeFileSync("../Experiments/Saved/" + expName + ".save", expName, 'utf8'); */
+    if (!fs.existsSync("../Experiments/temporary.scale")) {
       var getselMethod = document.querySelector('input[name="radio"]:checked');
       if (getselMethod != null) {
         selMethod = getselMethod.value;
@@ -41,7 +54,7 @@ $('#okcB').click(function () {
         selMethod = null;
       }
     } else {
-      var selMethod = fs.readFileSync("../Experiments/temporary.scale",'utf8')
+      var selMethod = fs.readFileSync("../Experiments/temporary.scale", 'utf8');
     }
     
     
@@ -53,103 +66,133 @@ $('#okcB').click(function () {
     var countTraining2 = 0;
     trainCounter = 0;
     listT = [];
-    if (DistTrainVideos != ""){
-    var codec2 = DistTrainVideos[0].split('_')[7];
+    if (DistTrainVideos != "") {
+      var codec2 = DistTrainVideos[0].split('_')[7];
     }
-    for (var i=0;i<OrigTrainVideos.length;i++){
-      for (var j=0;j<DistTrainVideos.length;j++){
-        if(DistTrainVideos[j].includes(OrigTrainVideos[i].split('_')[0])){
-          if(DistTrainVideos[j].split('_')[7] != codec2){
+    for (var i=0;i<OrigTrainVideos.length;i++) {
+      for (var j=0;j<DistTrainVideos.length;j++) {
+        if (DistTrainVideos[j].includes(OrigTrainVideos[i].split('_')[0])) {
+          if (DistTrainVideos[j].split('_')[7] != codec2) {
             countTraining1 = countTraining1 + 1;
             trainCounter = trainCounter + 1;
           }
-          else{
+          else {
             countTraining2 = countTraining2 + 1;
             trainCounter = trainCounter + 1;
           }
         }
       }
-      if ( countTraining1 < 2 && countTraining1 > 0 ){
-        tVideos.push(OrigTrainVideos[i])
-        tVideos.push(countTraining1)
-        listT.push(tVideos)
+      if ( countTraining1 < 2 && countTraining1 > 0 ) {
+        tVideos.push(OrigTrainVideos[i]);
+        tVideos.push(countTraining1);
+        listT.push(tVideos);
       }
-      if ( countTraining2 < 2 && countTraining2 > 0){
-        tVideos2.push(OrigTrainVideos[i])
-        tVideos2.push(countTraining2)
-        listT.push(tVideos2)
+      if ( countTraining2 < 2 && countTraining2 > 0) {
+        tVideos2.push(OrigTrainVideos[i]);
+        tVideos2.push(countTraining2);
+        listT.push(tVideos2);
       }
-      tVideos = []
-      tVideos2 = []
+      tVideos = [];
+      tVideos2 = [];
       countTraining1 = 0;
       countTraining2 = 0;
     }
     
-    if (selMethod == "ACR(discrete)" || selMethod == "ACR(continuous)"){ 
-      if(expName == ""){
+    if (selMethod == "ACR(discrete)" || selMethod == "ACR(continuous)") { 
+      if (expName == "") {
         swal.fire({
           title: 'Please enter experiment name!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })  
+        }); 
       }
-      else if(fs.existsSync("../Experiments/" + expName)) {
+      else if (fs.existsSync("../Experiments/" + expName)) {
         swal.fire({
           title: 'Experiment name exists, please choose a different one!',
-          type: 'warning',
+          icon: 'warning',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(selMethod == null){
+      else if (selMethod == null) {
         swal.fire({
           title: 'Please choose a presentation method!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(selDistVideos == ""){
+      else if (selDistVideos == "") {
         swal.fire({
           title: 'Please select distorted videos for ACR!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(DistTrainVideos == ""){
+      else if (DistTrainVideos == "") {
         swal.fire({
           title: 'Please select distorted training videos for ACR!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
-      }
-      else if (!fs.existsSync("../Experiments/" + expName) && selMethod != null && (selDistVideos != "")) {
-        var expInfo = [
-          ["Experiment name: ", expName],
-          ["Presentation method: ", selMethod],
-          ["Distorted Videos: ", selDistVideos],
-          ["Distorted Training Videos: ", DistTrainVideos],
-          ["Video format: ", selFormat],
-          ["Video codec: ", selCodec]
-        ];
+        });
+      } else if (selOrigVideos == "" && $('#objective').is(':checked') == true) {
+        swal.fire({
+          title: 'Please select original videos for ACR!',
+          icon: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          allowOutsideClick: false,
+          confirmButtonText: 'OK!'
+        });
+      } else if (OrigTrainVideos == "" && $('#objective').is(':checked') == true) {
+        swal.fire({
+          title: 'Please select original training videos for ACR!',
+          icon: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          allowOutsideClick: false,
+          confirmButtonText: 'OK!'
+        });
+      } else if (!fs.existsSync("../Experiments/" + expName) && selMethod != null && selDistVideos != "" && DistTrainVideos != "") {
+        if ($('#objective').is(':checked') == false) {
+          var expInfo = [
+            ["Experiment name: ", expName],
+            ["Presentation method: ", selMethod],
+            ["Distorted Videos: ", selDistVideos],
+            ["Distorted Training Videos: ", DistTrainVideos],
+            ["Video format: ", selFormat],
+            ["Video codec: ", selCodec]
+          ];
+        } else {
+          var expInfo = [
+            ["Experiment name: ", expName],
+            ["Presentation method: ", selMethod],
+            ["Distorted Videos: ", selDistVideos],
+            ["Distorted Training Videos: ", DistTrainVideos],
+            ["Original Videos: ", selOrigVideos],
+            ["Original Training Videos: ", OrigTrainVideos],
+            ["Video format: ", selFormat],
+            ["Video codec: ", selCodec]
+          ];
+        }
         const csvString = toCsv(expInfo);
         swal.fire({
           title: 'Selected settings',
           html: "Experiment name: " + expName + "<br>" + "Presentation method: " + selMethod + "<br>" + "Format: " + selFormat + "<br>" + "Codec: " + selCodec,
-          type: 'info',
+          icon: 'info',
           showCancelButton: true,
           allowOutsideClick: false,
           confirmButtonColor: '#3085d6',
@@ -161,116 +204,115 @@ $('#okcB').click(function () {
               fs.unlinkSync("../Experiments/temporary.scale");
               //file removed
             } catch(err) {
-              console.error(err)
+              console.error(err);
             }
+/*             fs.writeFileSync("../Experiments/" + "Experiment.last", expName, 'utf8');
+            fs.writeFileSync("../Experiments/Saved/" + expName + ".save", expName, 'utf8'); */
             fs.mkdirSync("../Experiments/" + expName);
             fs.writeFileSync("../Experiments/" + expName + "/" + expName + '(config)' + ".csv", csvString, 'utf8');
-            $('#container').addClass('blurEffect');
             convert(selCodec, selFormat, expName);
           }
-        })
-      }
-      else{
+        });
+      } else {
         alert("This should never happen!");
       }
-    }else{
-      if(expName == ""){
+    } else {
+      if (expName == "") {
         swal.fire({
           title: 'Please enter experiment name!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
-      }
-      else if(fs.existsSync("../Experiments/" + expName)) {
+        });
+      } else if (fs.existsSync("../Experiments/" + expName)) {
         swal.fire({
           title: 'Experiment name exists, please choose a different one!',
-          type: 'warning',
+          icon: 'warning',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(selMethod == null){
+      else if (selMethod == null) {
         swal.fire({
           title: 'Please choose a presentation method!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(selDistVideos == ""){
+      else if (selDistVideos == "") {
         var textD = "Please select distorted videos for " + selMethod + "!";
         swal.fire({
           title: textD,
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       } 
-      else if(selOrigVideos == ""){
+      else if (selOrigVideos == "") {
         textO ="Please select original videos for " + selMethod + "!";
         swal.fire({
           title: textO,
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(DistTrainVideos == ""){
+      else if (DistTrainVideos == "") {
         var textD = "Please select distorted training videos for " + selMethod + "!";
         swal.fire({
           title: textD,
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       } 
-      else if(OrigTrainVideos == ""){
+      else if (OrigTrainVideos == "") {
         textO ="Please select original training videos for " + selMethod + "!";
         swal.fire({
           title: textO,
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(zeroTest == 1 || fullcounter < selDistVideos.length){
+      else if (zeroTest == 1 || fullcounter < selDistVideos.length) {
         swal.fire({
           title: 'Videos mismatch!',
           text: 'check your selected videos and try again',
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-        else if(trainCounter < DistTrainVideos.length){
+      else if (trainCounter < DistTrainVideos.length) {
         swal.fire({
           title: 'Training videos mismatch!',
           text: 'check your selected training videos and try again',
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if (!fs.existsSync("../Experiments/" + expName) && selMethod != null && selDistVideos != "" && selOrigVideos != "") {
+      else if (!fs.existsSync("../Experiments/" + expName) && selMethod != null && selDistVideos != "" && selOrigVideos != "" && DistTrainVideos != "" && OrigTrainVideos != "") {
         var expInfo = [
           ["Experiment name: ", expName],
           ["Presentation method: ", selMethod],
@@ -285,7 +327,7 @@ $('#okcB').click(function () {
         swal.fire({
           title: 'Selected settings',
           html: "Experiment name: " + expName + "<br>" + "Presentation method: " + selMethod + "<br>" + "Format: " + selFormat + "<br>" + "Codec: " + selCodec,
-          type: 'info',
+          icon: 'info',
           showCancelButton: true,
           allowOutsideClick: false,
           confirmButtonColor: '#3085d6',
@@ -293,262 +335,234 @@ $('#okcB').click(function () {
           confirmButtonText: 'OK!', 
         }).then((result) => {
           if (result.value) {
-            if (fs.existsSync("../Experiments/temporary.settings")){
+            if (fs.existsSync("../Experiments/temporary.settings")) {
               try {
                 fs.unlinkSync("../Experiments/temporary.settings");
                 //file removed
               } catch(err) {
-                console.error(err)
+                console.error(err);
               }}
               fs.mkdirSync("../Experiments/" + expName);
               fs.writeFileSync("../Experiments/" + expName + "/" + expName + '(config)' + ".csv", csvString, 'utf8');
-              $('#container').addClass('blurEffect');
               convert(selCodec, selFormat, expName);
             }
-          })
-        }
-        else{
+          });
+        } else {
           alert("This should never happen!");
         }
       }
     } 
-  })
+    fs.writeFileSync("../Experiments/" + "Experiment.last", expName, 'utf8');
+    fs.writeFileSync("../Experiments/Saved/" + expName + ".save", expName, 'utf8');
+  });
   
-  function convert(selCodec, selFormat, nameExp){
-    var position = win.getPosition();
+  function convert(selCodec, selFormat, nameExp) {
+    let names2_copy = names2;  
+    if (document.querySelector('input[name="radio"]:checked').value == "ACR") {
+      names2 = [];
+    };
     var options = {
       args : [path1, path2, names1, names2, selCodec, selFormat, nameExp]
     };
     var pyshell = new PythonShell('convert.py', options);
-    
-    
+    ipc.send('info','stop-closing');
     if (names2.length < 1) {
-      var trainS = 0;
-      for (var i=0;i<names1.length;i++){
-        if(names1[i].includes("train")){
-          trainS = trainS + 1;
+      
+      var maxVid = names1.length; // - trainS
+      settings.indeterminate = false;
+      settings.maxValue = maxVid;
+      currentValue.detail = `Converting video ${currentValue.progress+1} out of ${settings.maxValue}`;
+      createProgressBar(settings);
+      BrowserWindow.getAllWindows()[0].setProgressBar(0);
+      $('#container').css('filter', 'blur(2px)');
+      $('.progress-bar-background').fadeIn();
+      $('.progress-bar-background').click(function(e) {
+        if(e.target !== this){
+          return;
         }
-      }
-      var maxVid = names1.length// - trainS
-      var progressBar = new ProgressBar({
-        indeterminate: false,
-        text: 'Please wait...',
-        detail: 'Converting video 1 out of ' + maxVid + '...',
-        maxValue: maxVid,
-        style: {
-          text: {'font-size': '100%'}
-        },
-        browserWindow: {
-          parent: win, 
-          modal: true,
-          frame: false,
-          x: position[0]+1,
-          y: position[1]+162,
-          width: 347,
-          		webPreferences: { 			nodeIntegration: true 		  },
-          backgroundColor: '#E6E6E6'
-        }
-      });
-      progressBar
-      .on('completed', function() {
-        console.info(`completed...`);
-        progressBar.detail = 'Conversion completed.';
-      })
-      .on('aborted', function(value) {
-        console.info(`aborted... ${value}`);
-      })
-      .on('progress', function(value) {
-        progressBar.detail = `Converting video ${value+1} out of ${progressBar.getOptions().maxValue}...`;
-      });
+        shell.beep();
+      });        
+      
       pyshell.on('message', function (message) {
-        progressBar.value += 1;
+        currentValue.progress += 1;
+        currentValue.detail = `Converting video ${currentValue.progress+1} out of ${settings.maxValue}`;
+        updateProgressBar(currentValue.progress,maxVid);
+        console.log(taskbarProgressValue);
+        console.log(typeof taskbarProgressValue);
+        BrowserWindow.getAllWindows()[0].setProgressBar(taskbarProgressValue);
         //THE PROGRESS BAR GETS RUN HERE AND IT INCREMENTS WHENEVER THE PYTHON SCRIPT SENDS A MESSAGE.
         console.log(message);
       });
       pyshell.end(function (err) {
-        if (err){
+        if (err) {
           throw err;
-        };
-        setTimeout(function(){
+        }
+        ipc.send('info','allow-closing');
+        currentValue.detail = `Conversion complete!`;
+        if (BrowserWindow.getAllWindows()[0].isMinimized() == true || BrowserWindow.getAllWindows()[0].isFocused() == false) {
+          BrowserWindow.getAllWindows()[0].flashFrame(true);
+        }
+        setTimeout(function() {
+          BrowserWindow.getAllWindows()[0].setProgressBar(-1);
+          $('.progress-bar-background').fadeOut();
+          $('#container').css('filter', '');
+          $('#progressBar').remove();  
           swal.fire({
             title: 'Conversion complete!',
-            type: 'success',
+            icon: 'success',
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
             allowOutsideClick: false,
-            onClose: gotoMainScreen,
+            onClose: getObjectiveMetrics,
             confirmButtonText: 'OK!'
-          })
+          });
         }, 500);
         console.log('finished');
       });
-    }
-    else{
+    } else {
+      
       var numAllvid = names1.length + names2.length;
-      var trainS = 0;
-      for (var i=0;i<names1.length;i++){
-        if(names1[i].includes("train")){
-          trainS = trainS + 1;
+      settings.indeterminate = false;
+      settings.maxValue = numAllvid;
+      currentValue.detail = `Converting video ${currentValue.progress+1} out of ${settings.maxValue}`;
+      createProgressBar(settings);
+      BrowserWindow.getAllWindows()[0].setProgressBar(0);
+      $('#container').css('filter', 'blur(2px)');
+      $('.progress-bar-background').fadeIn(); 
+      $('.progress-bar-background').click(function(e) {
+        if(e.target !== this){
+          return;
         }
-      }
-      for (var i=0;i<names2.length;i++){
-        if(names2[i].includes("train")){
-          trainS = trainS + 1;
-        }
-      }
-      var maxVid = numAllvid
-      var progressBar = new ProgressBar({
-        indeterminate: false,
-        text: 'Please wait...',
-        detail: 'Converting video 1 out of ' + maxVid + '...',
-        maxValue: maxVid,
-        style: {
-          text: {'font-size': '100%'}
-        },
-        browserWindow: {
-          parent: win, 
-          modal: true,
-          frame: false,
-          x: position[0]+1,
-          y: position[1]+162,
-          width: 347,
-          		webPreferences: { 			nodeIntegration: true 		  },
-          backgroundColor: '#E6E6E6'
-        }
-      });
-      progressBar
-      .on('completed', function() {
-        console.info(`completed...`);
-        progressBar.detail = 'Conversion completed.';
-      })
-      .on('aborted', function(value) {
-        console.info(`aborted... ${value}`);
-      })
-      .on('progress', function(value) {
-        progressBar.detail = `Converting video ${value+1} out of ${progressBar.getOptions().maxValue}...`;
-      });
+        shell.beep();
+      });       
+      
       pyshell.on('message', function (message) {
-        progressBar.value += 1;
+        currentValue.progress += 1;
+        currentValue.detail = `Converting video ${currentValue.progress+1} out of ${settings.maxValue}`;
+        updateProgressBar(currentValue.progress,numAllvid);
+        BrowserWindow.getAllWindows()[0].setProgressBar(taskbarProgressValue);
         //THE PROGRESS BAR GETS RUN HERE AND IT INCREMENTS WHENEVER THE PYTHON SCRIPT SENDS A MESSAGE.
         console.log(message);
       });
       pyshell.end(function (err) {
-        if (err){
+        if (err) {
           throw err;
-        };
-        setTimeout(function(){
+        }
+        ipc.send('info','allow-closing');
+        currentValue.detail = `Conversion complete!`;
+        if (BrowserWindow.getAllWindows()[0].isMinimized() == true || BrowserWindow.getAllWindows()[0].isFocused() == false) {
+          BrowserWindow.getAllWindows()[0].flashFrame(true);
+        }
+        setTimeout(function() {
+          BrowserWindow.getAllWindows()[0].setProgressBar(-1);
+          $('.progress-bar-background').fadeOut();
+          $('#container').css('filter', '');
+          $('#progressBar').remove();  
           swal.fire({
             title: 'Conversion complete!',
-            type: 'success',
+            icon: 'success',
             showCancelButton: false,
             allowOutsideClick: false,
             confirmButtonColor: '#3085d6',
-            //onClose: getObjectiveMetrics,
+            onClose: getObjectiveMetrics,
             confirmButtonText: 'OK!'
-          })
+          });
         }, 500);
         console.log('finished');
       });
     }
+    names2 = names2_copy;
+  }
+  
+  function getObjectiveMetrics() {
+    
+    if ($('#objective').is(':checked') == true) {
+      var readExp = document.getElementById("experimentName").value;
+      var readFiles = (fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv", 'utf8')).split('\n');
+      var distortedV = readFiles[2].split(',');
+      var originalV = readFiles[4].split(',');
+      distortedV.splice(0,1);
+      originalV.splice(0,1);
+      var options = {
+        args : [originalV, distortedV, readExp, path1, path2]
+      };
+      console.log(options.args);
+      var pyshell = new PythonShell('getObjectiveM.py', options);
+      ipc.send('info','stop-closing');
+      settings.indeterminate = true;
+      currentValue.detail = 'Calculating objective metrics';
+      createProgressBar(settings);
+      BrowserWindow.getAllWindows()[0].setProgressBar(2);
+      $('#container').css('filter', 'blur(2px)');
+      $('.progress-bar-background').fadeIn();
+      $('.progress-bar-background').click(function(e) {
+        if(e.target !== this){
+          return;
+        }
+        shell.beep();
+      });
+      
+      pyshell.on('message', function (message) {
+        console.log(message);
+      });
+      
+      pyshell.end(function (err) {
+        if (err) {
+          console.log(err);
+        } 
+        else {
+          ipc.send('info','allow-closing');
+          currentValue.detail = `Calculation complete!`;
+          if (BrowserWindow.getAllWindows()[0].isMinimized() == true || BrowserWindow.getAllWindows()[0].isFocused() == false) {
+            BrowserWindow.getAllWindows()[0].flashFrame(true);
+          }
+          setTimeout(function() {
+            BrowserWindow.getAllWindows()[0].setProgressBar(-1);
+            $('.progress-bar-background').fadeOut();
+            $('#container').css('filter', '');
+            swal.fire({
+              title: 'All done!',
+              icon: 'success',
+              showCancelButton: false,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              onClose: gotoMainScreen,
+              confirmButtonText: 'OK!'
+            });
+          }, 500);
+        }
+      });
+    } else {
+      gotoMainScreen();
+    }
     
   }
   
-  function getObjectiveMetrics(){
-    $('#container').addClass('blurEffect');
-    var position = win.getPosition();
-    var readExp = document.getElementById("experimentName").value
-    var readFiles = (fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv",'utf8')).split('\n');
-    var distortedV = readFiles[2].split(',');
-    var originalV = readFiles[4].split(',');
-    distortedV.splice(0,1);
-    originalV.splice(0,1);
-    var options = {
-      args : [originalV,distortedV,readExp,path1,path2]
-    };
-    var pyshell = new PythonShell('getObjectiveM.py', options);
-    
-    var progressBar = new ProgressBar({
-      text: 'Please wait...',
-      detail: 'Calculating objective metrics',
-      style: {
-        text: {'font-size': '100%'}
-      },
-      browserWindow: {
-        parent: win, 
-        modal: true,
-        frame: false,
-        x: position[0]+1,
-        y: position[1]+162,
-        		webPreferences: { 			nodeIntegration: true 		  },
-        width: 347,
-        backgroundColor: '#E6E6E6'
-      }
-    });
-    progressBar
-    .on('completed', function() {
-      console.info(`completed...`);
-      progressBar.detail = 'Calculation completed.';
-    })
-    .on('aborted', function(value) {
-      console.info(`aborted... ${value}`);
-    });
-    pyshell.on('message', function (message) {
-      console.log(message);
-    });
-    
-    pyshell.end(function (err) {
-      if (err){
-        //console.log(err)
-        alert(err);
-      } 
-      else {
-        progressBar.setCompleted();
-        setTimeout(function(){
-          swal.fire({
-            title: 'All done!',
-            type: 'success',
-            showCancelButton: false,
-            allowOutsideClick: false,
-            confirmButtonColor: '#3085d6',
-            onClose: gotoMainScreen,
-            confirmButtonText: 'OK!'
-          })
-        }, 500);
-      }
-    });
-  }
-  
-  function gotoMainScreen(){
+  function gotoMainScreen() {
     mainW.mainWindow();
     win.close();
   }
   
-  function openSettings(){
-    var position = win.getPosition();
-    let settings = new remote.BrowserWindow({
-      parent: win,
-      modal: true,
-      frame: false,
-      		webPreferences: { 			nodeIntegration: true 		  },
-      resizable: false,
-      transparent: true,
-      x: position[0],
-      y: position[1]+135,
-      height: 320,
-      width: 345,
-    })
-    
-    settings.loadURL(url.format({
-      pathname: 'settings.html',
-      slashes: true
-    }))
+  function openSettings() {
+    $('#container').css('filter', 'blur(2px)');
+    $('.settings-form-background').fadeIn();
+    $('.settings-form-background').click(function(e) {
+      if(e.target !== this){
+        return;
+      }
+      shell.beep();
+    });
   }
   
-  $('#setB').click(function () {
+  $('.container-settings').click(function () {
+    $('#fileformat').prop('selectedIndex',0);
+    $('#videocodec').prop('selectedIndex',0);
+    /*     $('#fileformat').val("choose").change();
+    $('#videocodec').val("choose").change(); */
     swal.fire({
       title: 'Are you sure?',
       text: "Previous settings will go to default!",
-      type: 'warning',
+      icon: 'warning',
       showCancelButton: true,
       allowOutsideClick: false,
       confirmButtonColor: '#3085d6',
@@ -558,88 +572,85 @@ $('#okcB').click(function () {
     }).then((result) => {
       if (result.value) {
         openSettings();
-        remote.getCurrentWindow().setAlwaysOnTop(true);
-        $('#container').addClass('blurEffect');
-        if (fs.existsSync("../Experiments/temporary.settings")){
+        if (fs.existsSync("../Experiments/temporary.settings")) {
           try {
             fs.unlinkSync("../Experiments/temporary.settings");
             //file removed
           } catch(err) {
-            console.error(err)
+            console.error(err);
           }}    
         }
-      })    
-    })
+      });   
+    });
     
-    $('#confirmB').click(function(){ // FOR SETTINGS!!!
+    $('#confirmB').click(function() { // FOR SETTINGS!!!
       selFormat = $('#fileformat :selected').val();
       selCodec = $('#videocodec :selected').val();
-      if(selFormat == "Choose..."){
+      if (selFormat == "Choose...") {
         swal.fire({
           text: 'Please select format!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
+        });
       }
-      else if(selCodec == "Choose..."){
+      else if (selCodec == "Choose...") {
         swal.fire({
           text: 'Please select codec!',
-          type: 'info',
+          icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
-        })
-      }else{
+        });
+      } else {
         var getSettings = [selFormat, selCodec];
         fs.writeFileSync("../Experiments/temporary.settings", getSettings, 'utf8');
+        
         swal.fire({
           text: 'Settings confirmed!',
-          type: 'success',
+          icon: 'success',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
           allowOutsideClick: false,
-          onClose: closeWindow,
+          onClose: function() {
+            $('#container').css('filter', '');
+            $('.settings-form-background').fadeOut();
+          },
           confirmButtonText: 'OK!'
-        })
+        });
       }
-    })
+    });
+    ///////////////////////////////////////////
     
-    function closeWindow(){
-      win.close()
+    //Disable pressing enter to submit does not have the same functionality as OK button//
+    if (document.getElementById("nameForm") && document.getElementById("browseDistorted") && document.getElementById("browseOriginal") != null) {
+      document.getElementById("nameForm").onkeypress = function (e) {
+        var key = e.charCode || e.keyCode || 0;
+        if (key == 13) {
+          e.preventDefault();
+        };
+      }
+      document.getElementById("browseDistorted").onkeypress = function (e) {
+        var key = e.charCode || e.keyCode || 0;
+        if (key == 13) {
+          e.preventDefault();
+        };
+      }
+      document.getElementById("browseOriginal").onkeypress = function (e) {
+        var key = e.charCode || e.keyCode || 0;
+        if (key == 13) {
+          e.preventDefault();
+        }
+      };
     }
     
-    //remove blur when focused/////////////////
-    win.on('focus', () => {
-      if ($('#container').hasClass('blurEffect') == true){
-        $('#container').removeClass('blurEffect');}
-        if (fs.existsSync("../Experiments/temporary.settings")){
-          remote.getCurrentWindow().setAlwaysOnTop(false);
-        }
-      })
-      ///////////////////////////////////////////
+    const updateProgressBar = (value, maxValue) => {
+      const percentage = (value * 100) / maxValue;
       
-      //Disable pressing enter to submit does not have the same functionality as OK button//
-      if (document.getElementById("nameForm") && document.getElementById("browseDistorted") && document.getElementById("browseOriginal") != null){
-        document.getElementById("nameForm").onkeypress = function (e) {
-          var key = e.charCode || e.keyCode || 0;
-          if (key == 13) {
-            e.preventDefault();
-          }
-        }
-        document.getElementById("browseDistorted").onkeypress = function (e) {
-          var key = e.charCode || e.keyCode || 0;
-          if (key == 13) {
-            e.preventDefault();
-          }
-        }
-        document.getElementById("browseOriginal").onkeypress = function (e) {
-          var key = e.charCode || e.keyCode || 0;
-          if (key == 13) {
-            e.preventDefault();
-          }
-        }}
-        
+      // taskbar's progress bar must be a number between 0 and 1, e.g.:
+      // 63% should be 0.63, 99% should be 0.99...
+      taskbarProgressValue = parseFloat((percentage / 100).toFixed(2));
+    };
