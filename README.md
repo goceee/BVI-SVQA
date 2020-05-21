@@ -30,7 +30,7 @@ BVI-SVQA is a software that allows people to prepare and perform experiments for
  * VMAF
     - A prebuilt version for each of the major three Operating Systems is provided in the vmaf folder.
     - If you need to update to the latest vmaf version, make sure to follow the instructions for installation of **vmafossexec** available on the Netflix vmaf [repository.](https://github.com/Netflix/vmaf/blob/master/resource/doc/vmafossexec.md)
-     - Final step necessary when updating VMAF. 
+     - Final step necessary for updating VMAF. 
         - After completing the instructions given in the link above, depending on what OS vmaf has been build, for Linux or Mac, rename the vmafossexec file to vmafossexec_linux or mac and move it into into the vmaf folder in the BVI-SVQA software, for Windows just move the exe files into the previously mentioned folder. (IMPORTANT: make sure the new filenames match exactly the same as the old ones) 
         
 
