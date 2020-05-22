@@ -1,3 +1,8 @@
+@font-face {
+    font-family: segoe;
+    src: url(../fonts/segmdl2.ttf);
+}
+
 body{
     background: none !important;
     overflow: hidden;
@@ -12,8 +17,7 @@ body{
     top: 0;
     left: 0;
     background-color: #E6E6E6;
-    -webkit-app-region: drag;
-    user-select: none; 
+    -webkit-user-select: none; 
 }
 
 #container nav{
@@ -29,7 +33,7 @@ body{
     width: 55px;
     height: 100%;
     line-height: 30px;
-    font-family: "Segoe MDL2 Assets";
+    font-family: segoe;
     font-size: 12px;
 }
 
@@ -55,93 +59,65 @@ body{
 
 #container nav #configN{
     color: black;
-    font-size: 150%;
-    margin-left: 3%;
-    float: left;
     font-size: 15px;
+    margin-left: 12px;
+    float: left;
     height: 100%;
     line-height: 33px;
     -webkit-app-region: drag;
 }
 
-#container nav #configN:hover{
-    color: #E6E6E6;
-    -webkit-app-region: drag;
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    top: 30px;  
 }
 
-#cancel{
-    margin-left:auto;
-    margin-right:auto;
-    margin-top: 9%;
-    color: black; 
-    border-color: black;
+.button-container {
+    width: 130px;
     border-radius: 12px;
-    padding: 8px 0px; 
-    cursor: pointer; 
-    width: 40%;
-    display: block;
-    -webkit-app-region: no-drag;
-}
-
-#last{
-    margin-left:auto;
-    margin-right:auto;
-    margin-top: 12%;
-    color: black;
-    border-color: black;
-    border-radius: 12px;
-    padding: 8px 5px;
-    cursor: pointer; 
-    width: 40%;
-    display: block;
-    -webkit-app-region: no-drag;
-}
-
-#new, #saved{
-    margin-left:auto;
-    margin-right:auto;
-    margin-top: -2%;
-    color: black;
-    border-color: black;
-    border-radius: 12px;
-    padding: 8px 5px;
     cursor: pointer;
-    width: 40%;
-    display: block;
-    -webkit-app-region: no-drag;
+    perspective: 1000px;
 }
 
-#saved:hover, #new:hover, #last:hover{
+.new, .saved, .last, .cancel{
+    width: 100%;
+    border-color: black;
+    border-radius: 12px;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.button-container:last-child {
+    margin-top: 60px;
+}
+
+.button-container:hover .saved, .button-container:hover .new, .button-container:hover .last{
     color: white;
     border-color: #17a2b8;
-    box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
+    background-color: #17a2b8;
     transform: translateY(-3px);
 }
 
-#cancel:hover{
+.button-container:hover .cancel{
     color: white;
     border-color: #c14645;
     background-color: #c14645;
-    box-shadow: 0px 15px 20px rgba(66, 129, 122, 0.4);
     transform: translateY(-3px);
 }
-
-#noDrag{
-    margin-left:30px;
-    margin-right:30px;
-    -webkit-app-region: no-drag;
-}
-
 
 .swal2-title {
     font-size: 1.4em !important;
 }
 
 .swal2-container {
-    -webkit-app-region: drag !important;
     overflow: hidden !important;
-}
-
-.swal2-confirm {
-    -webkit-app-region: no-drag !important;
+    border-radius: 12px;
+    -webkit-user-select: none;
+    user-select: none;
 }
