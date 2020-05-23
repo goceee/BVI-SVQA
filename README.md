@@ -41,7 +41,7 @@ BVI-SVQA is a software that allows people to prepare and perform experiments for
 2. Install all the requirements
 3. Open the repository folder
 4. Run `npm install` from a command line in that folder (this install electron and all its necessary dependencies to run the software)
-5. Start the software by opening any of the two files named `start` for Windows and `npm start` from the terminal in Linux or Mac.
+5. Start the software by opening `Subjective Video Quality Assessment (windows).vbs` for Windows and `npm start` from the terminal in Linux or Mac.
 
 # Tutorials (available in tutorials folder)
   * Creating an Experiment
