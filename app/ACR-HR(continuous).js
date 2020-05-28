@@ -27,10 +27,10 @@ if (os.platform() == 'win32') {
 */
 
 var readExp = fs.readFileSync("../Experiments/Experiment.last", 'utf8');
-var readFiles = fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv", 'utf8');
-var readUserName = fs.readFileSync("../Experiments/" + readExp + "/user.last", 'utf8');
+var readFiles = fs.readFileSync(`../Experiments/${readExp}/${readExp}(config).csv`, 'utf8');
+var readUserName = fs.readFileSync(`../Experiments/${readExp}/user.last`, 'utf8');
+var trialRun = fs.existsSync(`../Experiments/${readExp}/${readUserName}/${readUserName}.test`);
 var presMethod = (readFiles.split('\n'))[1].split(',')[1];
-var trialRun = fs.existsSync("../Experiments/" + readExp + "/" + readUserName + "/" + readUserName + ".test");
 var fileLength;
 var breakTime = 0;
 var noScore = 0;
@@ -38,7 +38,7 @@ const {PythonShell} =  require('python-shell');
 
 //alert(trialRun);
 /* try { -------------------------------------------------------- COMMENTED FOR DEBUGGING
-    fs.unlinkSync("../Experiments/" + readExp + "/user.last")
+    fs.unlinkSync(`../Experiments/${readExp}/user.last`)
     //file removed
 } catch(err) {
     console.error(err)
@@ -93,13 +93,13 @@ function play(testTrial) {
         fileLength = TrainingFileNames.length;
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4);
         console.log(FFileNames);
-        var ppath = '../trainingSequences/' + FFileNames + videoFormat;
+        var ppath = `../trainingSequences/${FFileNames}${videoFormat}`;
     } else {
         noScore = 0;
         fileLength = FileNames.length;
         FFileNames = FileNames[x].substring(0, FileNames[x].length - 4);
         console.log(FFileNames);
-        var ppath = '../converted/' + FFileNames + videoFormat;
+        var ppath = `../converted/${FFileNames}${videoFormat}`;
     }
     
     var args = [
@@ -183,7 +183,7 @@ $('#continue').click(function() {
                 play(trialRun);
             } else {
                 swal.fire({
-                    text: 'You have not selected a score, please select one to continue!' ,
+                    text: 'You have not selected a score, please select one to continue!',
                     icon:'error'
                 });
             }
@@ -201,7 +201,7 @@ $('#continue').click(function() {
                 x = x + 1;
             } else {
                 swal.fire({
-                    text: 'You have not selected a score, please select one to continue!' ,
+                    text: 'You have not selected a score, please select one to continue!',
                     icon:'error'
                 });
             }
@@ -211,7 +211,7 @@ $('#continue').click(function() {
                 win.close();
             } else {
                 try {
-                    fs.unlinkSync("../Experiments/" + readExp + "/" + readUserName + "/" + readUserName + ".test");
+                    fs.unlinkSync(`../Experiments/${readExp}/${readUserName}/${readUserName}.test`);
                     //file removed
                 } catch(err) {
                     console.error(err);
@@ -261,7 +261,7 @@ function rateVideo() {
     if (x < fileLength) {   
         setTimeout(function() {
             document.getElementById("text").style.visibility = "visible";
-            document.getElementById("text").textContent = "Please rate video " + vN + " of " + fileLength;
+            document.getElementById("text").textContent = `Please rate video ${vN} of ${fileLength}`;
             document.getElementById("slider").style.visibility = "visible";
             document.getElementById("buttons").style.visibility = "visible";
         }, 1000);
@@ -270,7 +270,7 @@ function rateVideo() {
 
 function watchVideo() {
     document.getElementById("text").style.visibility = "visible";
-    document.getElementById("text").textContent = "Starting video " + vN;
+    document.getElementById("text").textContent = `Starting video ${vN}`;
     document.getElementById("slider").style.visibility = "hidden";
     document.getElementById("buttons").style.visibility = "hidden";
 }
@@ -298,11 +298,11 @@ function finish() {
         var unsorted = allScores.slice();
         unsorted.unshift(presOrderTitles);
         const csvStringu = toCsv(unsorted);
-        fs.writeFileSync("../Experiments/" + readExp + "/" + readUserName + "/"  + "score(presentationOrder).csv", csvStringu, 'utf8');
+        fs.writeFileSync(`../Experiments/${readExp}/${readUserName}/score(presentationOrder).csv`, csvStringu, 'utf8');
         finalS.sort(comparator);
         finalS.unshift(getScoresTitles);
         const csvString = toCsv(finalS);
-        fs.writeFileSync("../Experiments/" + readExp + "/" + readUserName + "/"  + "score.csv", csvString, 'utf8');
+        fs.writeFileSync(`../Experiments/${readExp}/${readUserName}/score.csv`, csvString, 'utf8');
     }
     setTimeout(function() {
         $("#slider").css("visibility", "hidden");

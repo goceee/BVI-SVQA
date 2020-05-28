@@ -28,16 +28,16 @@ if (os.platform() == 'win32') {
 */
 
 var readExp = fs.readFileSync("../Experiments/Experiment.last", 'utf8');
-var readFiles = fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv", 'utf8');
-var readUserName = fs.readFileSync("../Experiments/" + readExp + "/user.last", 'utf8');
+var readFiles = fs.readFileSync(`../Experiments/${readExp}/${readExp}(config).csv`, 'utf8');
+var readUserName = fs.readFileSync(`../Experiments/${readExp}/user.last`, 'utf8');
 var presMethod = (readFiles.split('\n'))[1].split(',')[1];
-var trialRun = fs.existsSync("../Experiments/" + readExp + "/" + readUserName + "/" + readUserName + ".test");
+var trialRun = fs.existsSync(`../Experiments/${readExp}/${readUserName}/${readUserName}.test`);
 var fileLength;
 var breakTime=0;
 
 //alert(trialRun);
 /* try { -------------------------------------------------------- COMMENTED FOR DEBUGGING
-    fs.unlinkSync("../Experiments/" + readExp + "/user.last")
+    fs.unlinkSync(`../Experiments/${readExp}/user.last`)
     //file removed
 } catch(err) {
     console.error(err)
@@ -94,13 +94,13 @@ function play(testTrial) {
     if (testTrial) {
         FFileNames = TrainingFileNames[x].substring(0, TrainingFileNames[x].length - 4);
         fileLength = TrainingFileNames.length;
-        var ppath = '../trainingSequences/' + FFileNames + videoFormat;
+        var ppath = `../trainingSequences/${FFileNames}${videoFormat}`;
         noScore = 1;
     } else {
         noScore = 0;
         FFileNames = FileNames[x].substring(0, FileNames[x].length - 4);
         fileLength = FileNames.length;
-        var ppath = '../converted/' + FFileNames + videoFormat;
+        var ppath = `../converted/${FFileNames}${videoFormat}`;
     }
     
 
@@ -191,7 +191,7 @@ $('#continue').click(function() {
                         win.close();
                     } else {
                         try {
-                            fs.unlinkSync("../Experiments/" + readExp + "/" + readUserName + "/" + readUserName + ".test");
+                            fs.unlinkSync(`../Experiments/${readExp}/${readUserName}/${readUserName}.test`);
                             //file removed
                         } catch(err) {
                             console.error(err);
@@ -240,7 +240,7 @@ $('#continue').click(function() {
             if (x < fileLength) {   
                 setTimeout(function() {
                     document.getElementById("text").style.visibility = "visible";
-                    document.getElementById("text").textContent = "Please rate video " + vN + " of " + fileLength;
+                    document.getElementById("text").textContent = `Please rate video ${vN} of ${fileLength}`;
                     document.getElementById("slider").style.visibility = "visible";
                     document.getElementById("buttons").style.visibility = "visible";
                 }, 1000);
@@ -249,7 +249,7 @@ $('#continue').click(function() {
         
         function watchVideo() {
             document.getElementById("text").style.visibility = "visible";
-            document.getElementById("text").textContent = "Starting video " + vN;
+            document.getElementById("text").textContent = `Starting video ${vN}`;
             document.getElementById("slider").style.visibility = "hidden";
             document.getElementById("buttons").style.visibility = "hidden";
         }
@@ -267,11 +267,11 @@ $('#continue').click(function() {
                 var unsorted = allScores.slice();
                 unsorted.unshift(getScoresTitles);
                 const csvStringu = toCsv(unsorted);
-                fs.writeFileSync("../Experiments/" + readExp + "/" + readUserName + "/"  + "score(presentationOrder).csv", csvStringu, 'utf8');
+                fs.writeFileSync(`../Experiments/${readExp}/${readUserName}/score(presentationOrder).csv`, csvStringu, 'utf8');
                 allScores.sort();
                 allScores.unshift(getScoresTitles);
                 const csvString = toCsv(allScores);
-                fs.writeFileSync("../Experiments/" + readExp + "/" + readUserName + "/" + "score.csv", csvString, 'utf8');
+                fs.writeFileSync(`../Experiments/${readExp}/${readUserName}/score.csv`, csvString, 'utf8');
             }
             setTimeout(function() {
                 $("#slider").css("visibility", "hidden");

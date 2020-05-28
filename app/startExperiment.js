@@ -18,7 +18,7 @@ $('#oksB').click(function() {
       allowOutsideClick: false,
       confirmButtonText: 'OK!'
     });  
-  } else if (fs.existsSync("../Experiments/" + expName + "/" + userName)) {
+  } else if (fs.existsSync(`../Experiments/${expName}/${userName}`)) {
     swal.fire({
       title: 'Name exists, please choose a different one!',
       icon: 'warning',
@@ -78,7 +78,7 @@ $('#oksB').click(function() {
     ];
     const csvData = toCsv(subjInfo);
     try{
-      fs.mkdirSync("../Experiments/" + expName + "/" + userName);
+      fs.mkdirSync(`../Experiments/${expName}/${userName}`);
     }catch(err) {
       swal.fire({
         title: 'No such experiment',
@@ -90,13 +90,13 @@ $('#oksB').click(function() {
         confirmButtonText: 'OK!'
       });
     }
-    fs.writeFileSync("../Experiments/" + expName + "/" + userName + "/" + userName + '(info)' + ".csv", csvData, 'utf8');
-    fs.writeFileSync("../Experiments/" + expName + "/user.last", userName, 'utf8');
-    var readConfig = fs.readFileSync("../Experiments/" + expName + "/" + expName + '(config)' + ".csv", 'utf8');
+    fs.writeFileSync(`../Experiments/${expName}/${userName}/${userName}(info).csv`, csvData, 'utf8');
+    fs.writeFileSync(`../Experiments/${expName}/user.last`, userName, 'utf8');
+    var readConfig = fs.readFileSync(`../Experiments/${expName}/${expName}(config).csv`, 'utf8');
     var splitConfig = readConfig.split('\n');
     var presMethod = (splitConfig[1].split(',')[1]);
     if ($('#inputTest :selected').text() == "Yes") {
-      fs.writeFileSync("../Experiments/" + expName + "/" + userName + "/" + userName + ".test", ["Test"], 'utf8');
+      fs.writeFileSync(`../Experiments/${expName}/${userName}/${userName}.test`, ["Test"], 'utf8');
       swal.fire({
         title: 'Starting training, get ready!',
         icon: 'success',

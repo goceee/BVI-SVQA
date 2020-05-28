@@ -18,8 +18,9 @@
   },
   "dependencies": {
     "diskspace": "^2.0.0",
+    "electron-alert": "^0.1.6",
+    "jquery": "^3.5.1",
     "python-shell": "^2.0.0",
-    "sweetalert2": "^9.10.12",
-    "jquery": "^3.5.1"
+    "sweetalert2": "^9.10.12"
   }
 }

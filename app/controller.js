@@ -62,7 +62,7 @@ $('#close').click(function() {
 
 $('.discrete').click(function() {
   var selM = fs.readFileSync("../Experiments/temporary.method", 'utf8');
-  fs.writeFileSync("../Experiments/" + "temporary.scale", selM+"(discrete)", 'utf8'); 
+  fs.writeFileSync("../Experiments/temporary.scale", `${selM}(discrete)`, 'utf8'); 
   try {
     fs.unlinkSync("../Experiments/temporary.method");
     //file removed
@@ -80,7 +80,7 @@ $('.discrete').click(function() {
 
 $('.continuous').click(function() {
   var selM = fs.readFileSync("../Experiments/temporary.method", 'utf8');
-  fs.writeFileSync("../Experiments/" + "temporary.scale", selM+"(continuous)", 'utf8');
+  fs.writeFileSync("../Experiments/temporary.scale", `${selM}(continuous)`, 'utf8');
   try {
     fs.unlinkSync("../Experiments/temporary.method");
     //file removed
@@ -129,7 +129,7 @@ $('#createExp').click(function() {
     if (result.free/1073741824 < 10) {
       swal.fire({
         title: 'You are running out of space!',
-        text: parseInt(result.free/1073741824) + 'GB Available',
+        text: `${parseInt(result.free/1073741824)} GB Available`,
         icon: 'warning',
         showCancelButton: false,
         allowOutsideClick: false,
@@ -282,7 +282,7 @@ $(document).on('change', '#up1', function() {
       } else if (((files1[i].name).split('_')).length < 8) {
         changeTitle('#up1', 'No file chosen');
         swal.fire({
-          html: "<h4>Please have your files prepared in the following way:</h5>" + "<small>filename_resolution_fps_bitdepth_chroma_frames_ratepoint(0=original, >0=distorted)_ratio_codec.yuv</small>" + "<br>" + "<small>(e.g.)S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R2_ratio1.5_AV1.yuv</small>",
+          html: "<h4>Please have your files prepared in the following way:</h4> <small>filename_resolution_fps_bitdepth_chroma_frames_ratepoint(0=original, >0=distorted)_ratio_codec.yuv</small> <br><small>(e.g.)S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R2_ratio1.5_AV1.yuv</small>",
           icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
@@ -353,7 +353,7 @@ $(document).on('change', '#up1', function() {
     }
     console.log(counnter);
     if (counnter > 0) {
-      var alertText = 'You have ' + counnter + ' distortions with less than 4 quality rates';
+      var alertText = `You have ${counnter} distortions with less than 4 quality rates`;
       swal.fire({
         text: alertText,
         icon: 'info',
@@ -412,7 +412,7 @@ $(document).on('change', '#up2', function() {
       } else if (((files2[i].name).split('_')).length < 7 ) {
         changeTitle('#up1', 'No file chosen');
         swal.fire({
-          html: "<h4>Please have your files prepared in the following way:</h5>" + "<small>filename_resolution_fps_bitdepth_chroma_frames_ratepoint(0=original, >0=distorted).yuv</small>" + "<br>" + "<small>(e.g.)S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R0.yuv</small>",
+          html: "<h4>Please have your files prepared in the following way:</h4> <small>filename_resolution_fps_bitdepth_chroma_frames_ratepoint(0=original, >0=distorted).yuv</small> <br> <small>(e.g.)S11AirAcrobatic_1920x1080_60fps_10bit_420_300_R0.yuv</small>",
           icon: 'info',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
@@ -482,7 +482,7 @@ $(document).on('change', '#up2', function() {
     }
     console.log(counnter);
     if (counnter > 0) {
-      var alertText = 'You have ' + counnter + ' distortions with less than 4 quality rates';
+      var alertText = `You have ${counnter} distortions with less than 4 quality rates`;
       swal.fire({
         text: alertText,
         icon: 'info',
@@ -511,7 +511,7 @@ function shuffle (myArray) {
 
 function setScale(method) {
   selectedM = method;
-  fs.writeFileSync("../Experiments/" + "temporary.method", selectedM, 'utf8'); 
+  fs.writeFileSync('../Experiments/temporary.method', selectedM, 'utf8'); 
   $('#container').css('filter', 'blur(2px)');
   $('.container-scale-background').fadeIn();
   $('.container-scale-background').click(function(e) {

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: segoe;
+    src: url(../fonts/segmdl2.ttf);
+}
+
 body{
     background: none !important;
 }
@@ -11,7 +16,7 @@ body{
     top: 0;
     left: 0;
     background-color: #E6E6E6;
-    -webkit-app-region: drag;
+    -webkit-user-select: none;
     user-select: none; 
 }
 
@@ -28,7 +33,7 @@ body{
     width: 55px;
     height: 100%;
     line-height: 30px;
-    font-family: "Segoe MDL2 Assets";
+    font-family: segoe;
     font-size: 12px;
 }
 
@@ -75,10 +80,6 @@ body{
     margin-bottom: 0.4rem;
 }
 
-.form-control{
-    -webkit-app-region: no-drag;
-}
-
 #oksB{
     margin-left:auto;
     margin-right:auto;
@@ -88,7 +89,6 @@ body{
     cursor: pointer; 
     width: 13%;
     display: block;
-    -webkit-app-region: no-drag;
 }
 
 #oksB:hover{
@@ -97,9 +97,7 @@ body{
 }
 
 .swal2-container {
-    -webkit-app-region: drag !important;
-}
-
-.swal2-confirm {
-    -webkit-app-region: no-drag !important;
+    border-radius: 12px;
+    -webkit-user-select: none;
+    user-select: none;
 }

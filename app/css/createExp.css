@@ -1,6 +1,15 @@
+@font-face {
+    font-family: segoe;
+    src: url(../fonts/segmdl2.ttf);
+}
+
 body{
     background: none !important;
     overflow: hidden;
+}
+
+label {
+    margin-bottom: 0;
 }
 
 #container{
@@ -12,8 +21,8 @@ body{
     top: 0;
     left: 0;
     background-color: #E6E6E6;
-    -webkit-app-region: drag;
-    user-select: none; 
+    -webkit-user-select: none; 
+    user-select: none;
 }
 
 #container nav{
@@ -29,7 +38,7 @@ body{
     width: 55px; /* change this to lower to get buttons closer */
     height: 100%;
     line-height: 30px;
-    font-family: "Segoe MDL2 Assets";
+    font-family: segoe;
     font-size: 12px;
 }
 
@@ -78,7 +87,6 @@ body{
     margin-right:auto;
     text-align: center;
     margin-top: 10%;
-    -webkit-app-region: no-drag;
 }
 
 #nameText{
@@ -95,7 +103,6 @@ body{
     margin-left:4.5%;
     margin-right:auto;
     margin-top: 8%;
-    -webkit-app-region: no-drag;
 }
 
 #presMethod{
@@ -103,7 +110,6 @@ body{
     margin-left:30px;
     margin-right:30px; 
     margin-top: 7%;
-    -webkit-app-region: no-drag;
 }
 
 #presMethod #acr-hr{
@@ -118,15 +124,13 @@ body{
 #okcB{
     margin-left:auto;
     margin-right:auto;
-    margin-top: 2.5%;
     cursor: pointer; 
     display: block;
-    -webkit-app-region: no-drag;
+    visibility: hidden;
 }
 
 .container{
     margin-top: 0;
-    -webkit-app-region: no-drag;
 }
 
 
@@ -134,25 +138,21 @@ body{
     visibility: hidden;
     margin-right:auto;
     margin-bottom: 0%;
-    -webkit-app-region: no-drag;
 }
 #vName{
     visibility: hidden;
     margin-right:auto;
     margin-top: 5%;
-    -webkit-app-region: no-drag;
 }
 
 #dName{
     visibility: hidden;
     margin-right:auto;
     margin-top: 1%;
-    -webkit-app-region: no-drag;
 }
 #browseOriginal{
     visibility: hidden;
     margin-right:auto;
-    -webkit-app-region: no-drag;
 }
 
 #browseBut{
@@ -161,6 +161,8 @@ body{
 }
 .fileUpload input.upload {
     position: absolute;
+    width: 320px;
+    height: 38px;
     top: 0;
     right: 0;
     margin: 0;
@@ -171,28 +173,32 @@ body{
     filter: alpha(opacity=100);
 }
 
+.container-settings {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 #setB {
-    margin-right: 2%;
-    float: right;
-    width: 26px;
-    height: 26px;
-    background: url('../img/settings.png') 100% 100% no-repeat;
-    background-size: 100%; 
+    width: 25px;
     -webkit-transition: all 0.5s linear;
-    transition: all 0.5s linear; 
-    -webkit-app-region: no-drag;
+    transition: all 0.5s linear;
 }
 
 #setB:hover{
-    background: url('../img/settingsh.png') 100% 100% no-repeat;
-    background-size: 100%;
-    transform: rotate(180deg);
+    transform: scale(1.3) rotate(180deg);
 }
 
 #setB:active {
     overflow: hidden;
     animation: anim-effect 0.3s forwards;
-    background-size: 100%;
 }
 
 @keyframes anim-effect {
@@ -255,10 +261,10 @@ body{
     cursor: pointer;
     border-radius: 30%;
     position: relative;
-    font-family: "Dax", sans-serif;
+    font-family: sans-serif;
     font-size: 80%;
     font-weight: 900;
-    -webkit-app-region: no-drag;
+    
 }
 .middle .box:active {
     transform: translateY(10px);
@@ -271,7 +277,7 @@ body{
     right: 0;
     transition: all 300ms ease;
     font-size: 1.5em;
-    user-select: none;
+    -webkit-user-select: none;
     color: #007e90;
 }
 .middle .box span:before {
@@ -285,18 +291,259 @@ body{
     color: white;
 }
 
-.blurEffect{
-    -webkit-filter: blur(2px);
-    -moz-filter: blur(2px);
-    -ms-filter: blur(2px);
-    -o-filter: blur(2px);
-    filter: blur(2px); 
-}
-
 .swal2-container {
-    -webkit-app-region: drag !important;
+    border-radius: 12px;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-.swal2-confirm, .swal2-cancel{
-    -webkit-app-region: no-drag !important;
+
+.progress-bar-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.draggable-area {
+    position: fixed;
+    width: 98%;
+    height: 20px;
+    border-radius: 12px;
+    left: 3.5px;
+    top: 1px;
+    -webkit-app-region: drag;
+}
+
+.progress-bar-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 170px;
+    transform: translate3d(-50%, -50%, 0);
+    background-color: #e6e6e6;
+    border-radius: 12px;
+    box-shadow: 1px 1px 20px 0px rgba(0,0,0,0.5);
+}
+
+.minimise-popup {
+    position: fixed;
+    top: 10px;
+    right: 15px;
+    font-family: segoe;
+    font-size: 13px;
+    -webkit-app-region: no-drag;
+    transition: all ease-in-out .2s;
+}
+
+.minimise-popup:hover {
+    color: white;
+}
+
+.multi {
+    right: 40px;
+}
+
+.close-popup {
+    position: fixed;
+    top: 10px;
+    right: 15px;
+    font-family: segoe;
+    font-size: 13px;
+    -webkit-app-region: no-drag;
+    transition: all ease-in-out .2s;
+}
+
+.close-popup:hover {
+    color: red;
+}
+
+#text{
+    margin: 20px;
+    margin-bottom: 0;
+    overflow: auto;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 4px 0;
+    word-break: break-all;
+}
+
+#detail{
+    font-size: 15px;
+    height: 40px;
+    margin: 2px 0;
+    margin-left: 20px;
+    padding: 0 0;
+    word-break: break-all;
+}
+
+#progressBarContainer{
+    text-align: center;
+    margin: 0 20px;
+}
+
+progress{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+}
+
+progress::-webkit-progress-bar{
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+    border-radius: 2px;
+    background: rgb(187, 224, 241);
+}
+
+progress::-webkit-progress-value{
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+    border-radius: 2px;
+    background: rgb(9, 118, 169);
+}
+
+#progressBar[indeterminate="t"]{
+    overflow: hidden;
+    position: relative;
+    display: block;
+    margin: 0.5rem 0 1rem 0;
+    width: 100%;
+    height: 10px;
+    border-radius: 2px;
+    background-color: rgb(187, 224, 241);;
+    background-clip: padding-box;
+}
+
+#progressBar[indeterminate="t"] #progressBarValue {
+    background: rgb(9, 118, 169) !important;
+}
+
+#progressBar[indeterminate="t"] #progressBarValue::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    will-change: left, right;
+    background: inherit;
+}
+
+#progressBar[indeterminate="t"] #progressBarValue::before{
+    -webkit-animation: indeterminate 1.48s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    animation: indeterminate 1.48s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+
+#progressBar[indeterminate="t"].completed #progressBarValue::before {
+    display: none;
+}
+
+.completed#progressBar[indeterminate="t"],
+.completed#progressBar[indeterminate="t"] #progressBarValue{
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+@-webkit-keyframes indeterminate{
+    0%{ left: -35%; right: 100%; }
+    60%{ left: 100%; right: -90%; }
+    100%{ left: 100%; right: -90%; }
+}
+
+@keyframes indeterminate{
+    0%{ left: -35%; right: 100%; }
+    60%{ left: 100%; right: -90%; }
+    100%{ left: 100%; right: -90%; }
+}
+
+.container-checkbox {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    visibility: hidden;
+}
+
+.cbx {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    padding: 0 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.cbx:hover {
+    background: rgba(0,119,255,0.06);
+}
+.cbx span {
+    float: left;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+}
+.cbx span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid #cccfdb;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 1px rgba(0,16,75,0.05);
+}
+.cbx span svg {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+}
+.cbx span:last-child {
+    padding-left: 8px;
+    line-height: 18px;
+}
+.cbx:hover span:first-child {
+    border-color: rgb(52, 152, 219);
+}
+.inp-cbx {
+    position: absolute;
+    visibility: hidden;
+}
+.inp-cbx:checked + .cbx span:first-child {
+    background: rgb(52, 152, 219);
+    border-color: rgb(52, 152, 219);
+    animation: wave 0.4s ease;
+}
+.inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+}
+
+.inline-svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+@-webkit-keyframes wave {
+    50% {
+        transform: scale(0.9);
+    }
+}
+
+@keyframes wave {
+    50% {
+        transform: scale(0.9);
+    }
 }

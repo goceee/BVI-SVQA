@@ -1,3 +1,8 @@
+@font-face {
+  font-family: segoe;
+  src: url(../fonts/segmdl2.ttf);
+}
+
 body{
   background: none !important;
   overflow:hidden;
@@ -12,7 +17,7 @@ body{
   top: 100;
   left: 0;
   background-color: #E6E6E6;
-  -webkit-app-region: no-drag;
+  -webkit-user-select: none;
   user-select: none; 
 }
 
@@ -51,8 +56,7 @@ body{
   width: 75px;
   height: 100%;
   line-height: 25px;
-  -webkit-app-region: no-drag;
-  font-family: "Segoe MDL2 Assets";
+  font-family: segoe;
   font-size: 12px;
 }
 #titleBar-buttons #minimise, #titleBar-buttons #maximise, #titleBar-buttons #close{
@@ -264,12 +268,10 @@ input[type=radio]:checked ~ label{
 #bName{
   margin-right:auto;
   margin-top: 1%;
-  -webkit-app-region: no-drag;
 }
 
 #browsebitRate{
   margin-right:auto;
-  -webkit-app-region: no-drag;
 }
 
 #browseBut2{
@@ -287,4 +289,10 @@ input[type=radio]:checked ~ label{
   cursor: pointer;
   opacity: 0;
   filter: alpha(opacity=100);
+}
+
+.swal2-container {
+  border-radius: 12px;
+  -webkit-user-select: none;
+  user-select: none;
 }

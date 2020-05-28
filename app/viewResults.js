@@ -17,7 +17,7 @@ var psnrCArray = [];
 //---------------Functions to get Files from a directory-----------------//
 function getDirectories(path) {
   return fs.readdirSync(path).filter(function (file) {
-    return fs.statSync(path+'/'+file).isDirectory();
+    return fs.statSync(`${path}/${file}`).isDirectory();
   });
 }
 
@@ -75,7 +75,7 @@ $('#viewScores').on('change', function() {
 $('#videoList').on('change', function() {
   QParr = [];
   document.getElementById('secondCont').style.visibility = "visible";
-  var readFiles = fs.readFileSync("../Experiments/" + viewPlots.value + "/" + viewPlots.value + '(config)' + ".csv", 'utf8');
+  var readFiles = fs.readFileSync(`../Experiments/${viewPlots.value}/${viewPlots.value}(config).csv`, 'utf8');
   var FileListwName = readFiles.split('\n');
   DistortedFileNames = FileListwName[2].split(',');
   DistortedFileNames.splice(0,1);
@@ -111,7 +111,7 @@ $('#viewPlots').on('change', function() {
   videoList.options.length = 0;
   videoList.options[videoList.options.length] = new Option("Choose...", "Choose...");
   $('#videoList option[value="Choose..."]').attr('disabled', 'true');
-  var readFiles = fs.readFileSync("../Experiments/" + viewPlots.value + "/" + viewPlots.value + '(config)' + ".csv", 'utf8');
+  var readFiles = fs.readFileSync(`../Experiments/${viewPlots.value}/${viewPlots.value}(config).csv`, 'utf8');
   var FileListwName = readFiles.split('\n');
   DistortedFileNames = FileListwName[2].split(',');
   OriginalFileNames = FileListwName[4].split(',');
@@ -130,7 +130,7 @@ $('#viewPlots').on('change', function() {
     }
     for (var t = 0; t<vidCodecsList.length;t++) {
       if (OriginalFileNames[i].length > 1) {
-        videoList.options[videoList.options.length] = new Option(OriginalFileNames[i].split('_')[0] + '_' + vidCodecsList[t], OriginalFileNames[i].split('_')[0] + '_' + vidCodecsList[t]);
+        videoList.options[videoList.options.length] = new Option(`${OriginalFileNames[i].split('_')[0]}_${vidCodecsList[t]}`, `${OriginalFileNames[i].split('_')[0]}_${vidCodecsList[t]}`);
       }
     }
   }
@@ -142,12 +142,14 @@ $('#viewPlots').on('change', function() {
 $('input[name="plots"]').on('change', function() {
   document.getElementById('confirmPlots').disabled = false;          
   document.getElementById('exportall').disabled = false;
-  bitratesPath = getFilesFromDir("../Experiments/" + viewPlots.value);
+  bitratesPath = getFilesFromDir(`../Experiments/${viewPlots.value}`);
+  
   if (vidCodecsList.length > 1) {
     document.getElementById('compareB').disabled = false;
   } else {
     document.getElementById('compareB').disabled = true;
   }
+  
   if (bitratesPath.length == 0 && QParr.length == 0) {
     $('#buttonC').addClass('transitionEffect');
     setTimeout(function() {
@@ -161,6 +163,7 @@ $('input[name="plots"]').on('change', function() {
   document.getElementById("confirmPlots").style.visibility = "visible";
   document.getElementById("exportall").style.visibility = "visible";
   document.getElementById("compareB").style.visibility = "visible";
+  
   if (document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') {
     document.getElementById('compareB').disabled = true;
   }
@@ -174,7 +177,7 @@ $('input[name="data"]').on('change', function() {
 
 $('#confirmData').click(function() {
   var selExp = document.getElementById("viewScores").value;
-  var readFiles = fs.readFileSync("../Experiments/" + selExp + "/" + selExp + '(config)' + ".csv", 'utf8');
+  var readFiles = fs.readFileSync(`../Experiments/${selExp}/${selExp}(config).csv`, 'utf8');
   var presMethod = (readFiles.split('\n'))[1].split(',')[1];
   if (document.querySelector('input[name="data"]:checked').value == 'raw') {
     document.getElementById('confirmData').disabled = true;
@@ -230,7 +233,7 @@ $('#confirmData').click(function() {
 //-----CONFIRM PLOTS-----------------
 var pyshell1;
 $('#confirmPlots').click(function() {
-  bitratesPath = getFilesFromDir("../Experiments/" + viewPlots.value);
+  bitratesPath = getFilesFromDir(`../Experiments/${viewPlots.value}`);
   document.getElementById('confirmPlots').disabled = true;
   document.getElementById('exportall').disabled = true;
   document.getElementById('compareB').disabled = true;
@@ -309,7 +312,7 @@ $('#confirmPlots').click(function() {
           //-----------------PSNR-START-----------------------------------------------
           if (document.querySelector('input[name="plots"]:checked').value == 'PSNR') {
             try {
-              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv', 'utf8')).split('\n'));
+              var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/Objective_metrics/${videoList.value}(objective_metrics).csv`, 'utf8')).split('\n'));
               var remQPSNR = readData[2].replace(/"([^"]+(?="))"/g, '$1');
               var psnr = remQPSNR.split(',');
               psnr.splice(0,1);
@@ -336,7 +339,7 @@ $('#confirmPlots').click(function() {
             } //-----------------PSNR-END-------------------------------------------------
           } else if (document.querySelector('input[name="plots"]:checked').value == 'VMAF') {
             try {
-              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv', 'utf8')).split('\n'));
+              var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/Objective_metrics/${videoList.value}(objective_metrics).csv`, 'utf8')).split('\n'));
               var remQVMAF = readData[1].replace(/"([^"]+(?="))"/g, '$1');
               var vmaf = remQVMAF.split(',');
               vmaf.splice(0,1);
@@ -369,7 +372,7 @@ $('#confirmPlots').click(function() {
             } //----------------------VMAF-END------------------------------------------------
           } else if (document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM') {
             try {
-              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv','utf8')).split('\n'));
+              var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/Objective_metrics/${videoList.value}(objective_metrics).csv`,'utf8')).split('\n'));
               var remQMSSSIM = readData[3].replace(/"([^"]+(?="))"/g, '$1');
               var msssim = remQMSSSIM.split(',');
               msssim.splice(0,1);
@@ -397,8 +400,8 @@ $('#confirmPlots').click(function() {
           } else if (document.querySelector('input[name="plots"]:checked').value == '100-DMOS') {
             var dmos = [];
             var errorA = [];
-            if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')) {
-              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv','utf8')).split('\n'));
+            if (fs.existsSync(`../Experiments/${viewPlots.value}/rawdata.csv`)) {
+              var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/rawdata.csv`,'utf8')).split('\n'));
               for (var i=0;i<(readData[0].split(',')).length;i++) {
                 if ((readData[0].split(',')[i]).replace(/"([^"]+(?="))"/g, '$1') == 'MOS') {
                   indexMOS = i;
@@ -428,8 +431,8 @@ $('#confirmPlots').click(function() {
           } else if (document.querySelector('input[name="plots"]:checked').value == 'DMOS') {
             var dmos = [];
             var errorA = [];
-            if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')) {
-              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv', 'utf8')).split('\n'));
+            if (fs.existsSync(`../Experiments/${viewPlots.value}/rawdata.csv`)) {
+              var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/rawdata.csv`, 'utf8')).split('\n'));
               for (var i=0;i<(readData[0].split(',')).length;i++) {
                 if ((readData[0].split(',')[i]).replace(/"([^"]+(?="))"/g, '$1') == 'MOS') {
                   indexMOS = i;
@@ -460,8 +463,8 @@ $('#confirmPlots').click(function() {
           } else if (document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') {
             var dmos = [];
             var errorA = [];
-            if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv') && fs.existsSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv')) {
-              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv', 'utf8')).split('\n'));
+            if (fs.existsSync(`../Experiments/${viewPlots.value}/rawdata.csv`) && fs.existsSync(`../Experiments/${viewPlots.value}/Objective_metrics/${videoList.value}(objective_metrics).csv`)) {
+              var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/rawdata.csv`, 'utf8')).split('\n'));
               for (var i=0;i<(readData[0].split(',')).length;i++) {
                 if ((readData[0].split(',')[i]).replace(/"([^"]+(?="))"/g, '$1') == 'MOS') {
                   indexMOS = i;
@@ -477,7 +480,7 @@ $('#confirmPlots').click(function() {
                 }
               }
               //-------------------------------DMOS STORED-------------------------------------------------
-              var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv', 'utf8')).split('\n')); 
+              var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/Objective_metrics/${videoList.value}(objective_metrics).csv`, 'utf8')).split('\n')); 
               var remQVMAF = readData[1].replace(/"([^"]+(?="))"/g, '$1');
               var vmaf = remQVMAF.split(',');
               vmaf.splice(0,1);
@@ -515,7 +518,7 @@ $('#confirmPlots').click(function() {
           //----------------DUAL-PLOT-END-----------------------------------------------------
         }
         
-        if ((document.querySelector('input[name="plots"]:checked').value == 'DMOS' || document.querySelector('input[name="plots"]:checked').value == '100-DMOS' || document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') && !fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')) {
+        if ((document.querySelector('input[name="plots"]:checked').value == 'DMOS' || document.querySelector('input[name="plots"]:checked').value == '100-DMOS' || document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') && !fs.existsSync(`../Experiments/${viewPlots.value}/rawdata.csv`)) {
           swal.fire({
             title: 'No data to plot!',
             icon: 'error',
@@ -529,7 +532,7 @@ $('#confirmPlots').click(function() {
           if (!(document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF')) {
             document.getElementById('compareB').disabled = false;
           }
-        } else if ((document.querySelector('input[name="plots"]:checked').value == 'PSNR' || document.querySelector('input[name="plots"]:checked').value == 'VMAF' || document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM' || document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') && !fs.existsSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv')) {
+        } else if ((document.querySelector('input[name="plots"]:checked').value == 'PSNR' || document.querySelector('input[name="plots"]:checked').value == 'VMAF' || document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM' || document.querySelector('input[name="plots"]:checked').value == 'DMOS,VMAF') && !fs.existsSync(`../Experiments/${viewPlots.value}/Objective_metrics/${videoList.value}(objective_metrics).csv`)) {
           swal.fire({
             title: 'No objective data to plot!',
             icon: 'error',
@@ -603,7 +606,7 @@ $('#confirmPlots').click(function() {
 
 //---------COMPARE BUTTON------------------------
 $(document).on('click', '#compareB', function() {
-  bitratesPath = getFilesFromDir("../Experiments/" + viewPlots.value);
+  bitratesPath = getFilesFromDir(`../Experiments/${viewPlots.value}`);
   document.getElementById('confirmPlots').disabled = true;
   document.getElementById('exportall').disabled = true;
   document.getElementById('compareB').disabled = true;
@@ -651,7 +654,7 @@ $(document).on('click', '#compareB', function() {
           readObjmetric = [];
           try {
             for (var c = 0;c<vidCodecsList.length;c++) {
-              readObjmetric.push((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + vidName + '_' + vidCodecsList[c] + '(objective_metrics).csv', 'utf8')).split('\n'));
+              readObjmetric.push((fs.readFileSync(`../Experiments/${viewPlots.value}/Objective_metrics/${vidName}_${vidCodecsList[c]}(objective_metrics).csv`, 'utf8')).split('\n'));
             }
             for (var c = 0;c<vidCodecsList.length;c++) {
               var remPSNR = readObjmetric[c][2].replace(/"([^"]+(?="))"/g, '$1');
@@ -681,7 +684,7 @@ $(document).on('click', '#compareB', function() {
           readObjmetric = [];
           try {
             for (var c = 0;c<vidCodecsList.length;c++) {
-              readObjmetric.push((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + vidName + '_' + vidCodecsList[c] + '(objective_metrics).csv', 'utf8')).split('\n'));
+              readObjmetric.push((fs.readFileSync(`../Experiments/${viewPlots.value}/Objective_metrics/${vidName}_${vidCodecsList[c]}(objective_metrics).csv`, 'utf8')).split('\n'));
             }
             for (var c = 0;c<vidCodecsList.length;c++) {
               var remVMAF = readObjmetric[c][1].replace(/"([^"]+(?="))"/g, '$1');
@@ -719,7 +722,7 @@ $(document).on('click', '#compareB', function() {
           readObjmetric = [];
           try {
             for (var c = 0;c<vidCodecsList.length;c++) {
-              readObjmetric.push((fs.readFileSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + vidName + '_' + vidCodecsList[c] + '(objective_metrics).csv', 'utf8')).split('\n'));
+              readObjmetric.push((fs.readFileSync(`../Experiments/${viewPlots.value}/Objective_metrics/${vidName}_${vidCodecsList[c]}(objective_metrics).csv`, 'utf8')).split('\n'));
             }
             for (var c = 0;c<vidCodecsList.length;c++) {
               var remMSSIM = readObjmetric[c][3].replace(/"([^"]+(?="))"/g, '$1');
@@ -747,8 +750,8 @@ $(document).on('click', '#compareB', function() {
           var dmosCarrayS = [];
           var tempArray = [];
           var indexDMOS;
-          if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')) {
-            var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv', 'utf8')).split('\n'));
+          if (fs.existsSync(`../Experiments/${viewPlots.value}/rawdata.csv`)) {
+            var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/rawdata.csv`, 'utf8')).split('\n'));
             for (var i=0;i<(readData[0].split(',')).length;i++) {
               if ((readData[0].split(',')[i]).replace(/"([^"]+(?="))"/g, '$1') == 'MOS') {
                 indexDMOS = i;
@@ -822,8 +825,8 @@ $(document).on('click', '#compareB', function() {
           var dmosCarrayS = [];
           var tempArray = [];
           var indexDMOS;
-          if (fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')) {
-            var readData = ((fs.readFileSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv', 'utf8')).split('\n'));
+          if (fs.existsSync(`../Experiments/${viewPlots.value}/rawdata.csv`)) {
+            var readData = ((fs.readFileSync(`../Experiments/${viewPlots.value}/rawdata.csv`, 'utf8')).split('\n'));
             for (var i=0;i<(readData[0].split(',')).length;i++) {
               if ((readData[0].split(',')[i]).replace(/"([^"]+(?="))"/g, '$1') == 'MOS') {
                 indexDMOS = i;
@@ -898,7 +901,7 @@ $(document).on('click', '#compareB', function() {
         if (pyshell1 != undefined) {
           pyshell1.terminate();
         }
-        if ((document.querySelector('input[name="plots"]:checked').value == 'DMOS' || document.querySelector('input[name="plots"]:checked').value == '100-DMOS') && !fs.existsSync("../Experiments/" + viewPlots.value + "/" + 'rawdata.csv')) {
+        if ((document.querySelector('input[name="plots"]:checked').value == 'DMOS' || document.querySelector('input[name="plots"]:checked').value == '100-DMOS') && !fs.existsSync(`../Experiments/${viewPlots.value}/rawdata.csv`)) {
           swal.fire({
             title: 'No data to plot!',
             icon: 'error',
@@ -910,7 +913,7 @@ $(document).on('click', '#compareB', function() {
           document.getElementById('confirmPlots').disabled = false;
           document.getElementById('compareB').disabled = false;
           document.getElementById('exportall').disabled = false;
-        } else if ((document.querySelector('input[name="plots"]:checked').value == 'PSNR' || document.querySelector('input[name="plots"]:checked').value == 'VMAF' || document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM') && !fs.existsSync("../Experiments/" + viewPlots.value + "/Objective_metrics/" + videoList.value + '(objective_metrics).csv')) {
+        } else if ((document.querySelector('input[name="plots"]:checked').value == 'PSNR' || document.querySelector('input[name="plots"]:checked').value == 'VMAF' || document.querySelector('input[name="plots"]:checked').value == 'MS-SSIM') && !fs.existsSync(`../Experiments/${viewPlots.value}/Objective_metrics/${videoList.value}(objective_metrics).csv`)) {
           swal.fire({
             title: 'No objective data to plot!',
             icon: 'error',

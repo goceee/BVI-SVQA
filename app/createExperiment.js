@@ -43,8 +43,7 @@ $('#okcB').click(function () {
     });
   } else {
     var expName = document.getElementById("experimentName").value;
-/*     fs.writeFileSync("../Experiments/" + "Experiment.last", expName, 'utf8');
-    fs.writeFileSync("../Experiments/Saved/" + expName + ".save", expName, 'utf8'); */
+
     if (!fs.existsSync("../Experiments/temporary.scale")) {
       var getselMethod = document.querySelector('input[name="radio"]:checked');
       if (getselMethod != null) {
@@ -109,7 +108,7 @@ $('#okcB').click(function () {
           confirmButtonText: 'OK!'
         }); 
       }
-      else if (fs.existsSync("../Experiments/" + expName)) {
+      else if (fs.existsSync(`../Experiments/${expName}`)) {
         swal.fire({
           title: 'Experiment name exists, please choose a different one!',
           icon: 'warning',
@@ -166,7 +165,7 @@ $('#okcB').click(function () {
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
         });
-      } else if (!fs.existsSync("../Experiments/" + expName) && selMethod != null && selDistVideos != "" && DistTrainVideos != "") {
+      } else if (!fs.existsSync(`../Experiments/${expName}`) && selMethod != null && selDistVideos != "" && DistTrainVideos != "") {
         if ($('#objective').is(':checked') == false) {
           var expInfo = [
             ["Experiment name: ", expName],
@@ -191,7 +190,7 @@ $('#okcB').click(function () {
         const csvString = toCsv(expInfo);
         swal.fire({
           title: 'Selected settings',
-          html: "Experiment name: " + expName + "<br>" + "Presentation method: " + selMethod + "<br>" + "Format: " + selFormat + "<br>" + "Codec: " + selCodec,
+          html: `Experiment name: ${expName} <br> Presentation method: ${selMethod} <br> Format: ${selFormat} <br> Codec: ${selCodec}`,
           icon: 'info',
           showCancelButton: true,
           allowOutsideClick: false,
@@ -206,10 +205,8 @@ $('#okcB').click(function () {
             } catch(err) {
               console.error(err);
             }
-/*             fs.writeFileSync("../Experiments/" + "Experiment.last", expName, 'utf8');
-            fs.writeFileSync("../Experiments/Saved/" + expName + ".save", expName, 'utf8'); */
-            fs.mkdirSync("../Experiments/" + expName);
-            fs.writeFileSync("../Experiments/" + expName + "/" + expName + '(config)' + ".csv", csvString, 'utf8');
+            fs.mkdirSync(`../Experiments/${expName}`);
+            fs.writeFileSync(`../Experiments/${expName}/${expName}(config).csv`, csvString, 'utf8');
             convert(selCodec, selFormat, expName);
           }
         });
@@ -226,7 +223,7 @@ $('#okcB').click(function () {
           allowOutsideClick: false,
           confirmButtonText: 'OK!'
         });
-      } else if (fs.existsSync("../Experiments/" + expName)) {
+      } else if (fs.existsSync(`../Experiments/${expName}`)) {
         swal.fire({
           title: 'Experiment name exists, please choose a different one!',
           icon: 'warning',
@@ -247,7 +244,7 @@ $('#okcB').click(function () {
         });
       }
       else if (selDistVideos == "") {
-        var textD = "Please select distorted videos for " + selMethod + "!";
+        var textD = `Please select distorted videos for ${selMethod}!`;
         swal.fire({
           title: textD,
           icon: 'info',
@@ -258,7 +255,7 @@ $('#okcB').click(function () {
         });
       } 
       else if (selOrigVideos == "") {
-        textO ="Please select original videos for " + selMethod + "!";
+        textO = `Please select original videos for ${selMethod}!`;
         swal.fire({
           title: textO,
           icon: 'info',
@@ -269,7 +266,7 @@ $('#okcB').click(function () {
         });
       }
       else if (DistTrainVideos == "") {
-        var textD = "Please select distorted training videos for " + selMethod + "!";
+        var textD = `Please select distorted training videos for ${selMethod}!`;
         swal.fire({
           title: textD,
           icon: 'info',
@@ -280,7 +277,7 @@ $('#okcB').click(function () {
         });
       } 
       else if (OrigTrainVideos == "") {
-        textO ="Please select original training videos for " + selMethod + "!";
+        textO = `Please select original training videos for ${selMethod}!`;
         swal.fire({
           title: textO,
           icon: 'info',
@@ -312,7 +309,7 @@ $('#okcB').click(function () {
           confirmButtonText: 'OK!'
         });
       }
-      else if (!fs.existsSync("../Experiments/" + expName) && selMethod != null && selDistVideos != "" && selOrigVideos != "" && DistTrainVideos != "" && OrigTrainVideos != "") {
+      else if (!fs.existsSync(`../Experiments/${expName}`) && selMethod != null && selDistVideos != "" && selOrigVideos != "" && DistTrainVideos != "" && OrigTrainVideos != "") {
         var expInfo = [
           ["Experiment name: ", expName],
           ["Presentation method: ", selMethod],
@@ -326,7 +323,7 @@ $('#okcB').click(function () {
         const csvString = toCsv(expInfo);
         swal.fire({
           title: 'Selected settings',
-          html: "Experiment name: " + expName + "<br>" + "Presentation method: " + selMethod + "<br>" + "Format: " + selFormat + "<br>" + "Codec: " + selCodec,
+          html: `Experiment name: ${expName} <br> Presentation method: ${selMethod} <br> Format: ${selFormat} <br> Codec: ${selCodec}`,
           icon: 'info',
           showCancelButton: true,
           allowOutsideClick: false,
@@ -342,8 +339,8 @@ $('#okcB').click(function () {
               } catch(err) {
                 console.error(err);
               }}
-              fs.mkdirSync("../Experiments/" + expName);
-              fs.writeFileSync("../Experiments/" + expName + "/" + expName + '(config)' + ".csv", csvString, 'utf8');
+              fs.mkdirSync(`../Experiments/${expName}`);
+              fs.writeFileSync(`../Experiments/${expName}/${expName}(config).csv`, csvString, 'utf8');
               convert(selCodec, selFormat, expName);
             }
           });
@@ -352,8 +349,8 @@ $('#okcB').click(function () {
         }
       }
     } 
-    fs.writeFileSync("../Experiments/" + "Experiment.last", expName, 'utf8');
-    fs.writeFileSync("../Experiments/Saved/" + expName + ".save", expName, 'utf8');
+    fs.writeFileSync("../Experiments/Experiment.last", expName, 'utf8');
+    fs.writeFileSync(`../Experiments/Saved/${expName}.save`, expName, 'utf8');
   });
   
   function convert(selCodec, selFormat, nameExp) {
@@ -387,8 +384,6 @@ $('#okcB').click(function () {
         currentValue.progress += 1;
         currentValue.detail = `Converting video ${currentValue.progress+1} out of ${settings.maxValue}`;
         updateProgressBar(currentValue.progress,maxVid);
-        console.log(taskbarProgressValue);
-        console.log(typeof taskbarProgressValue);
         BrowserWindow.getAllWindows()[0].setProgressBar(taskbarProgressValue);
         //THE PROGRESS BAR GETS RUN HERE AND IT INCREMENTS WHENEVER THE PYTHON SCRIPT SENDS A MESSAGE.
         console.log(message);
@@ -478,7 +473,7 @@ $('#okcB').click(function () {
     
     if ($('#objective').is(':checked') == true) {
       var readExp = document.getElementById("experimentName").value;
-      var readFiles = (fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv", 'utf8')).split('\n');
+      var readFiles = (fs.readFileSync(`../Experiments/${readExp}/${readExp}(config).csv`, 'utf8')).split('\n');
       var distortedV = readFiles[2].split(',');
       var originalV = readFiles[4].split(',');
       distortedV.splice(0,1);
@@ -557,8 +552,6 @@ $('#okcB').click(function () {
   $('.container-settings').click(function () {
     $('#fileformat').prop('selectedIndex',0);
     $('#videocodec').prop('selectedIndex',0);
-    /*     $('#fileformat').val("choose").change();
-    $('#videocodec').val("choose").change(); */
     swal.fire({
       title: 'Are you sure?',
       text: "Previous settings will go to default!",
@@ -654,3 +647,15 @@ $('#okcB').click(function () {
       // 63% should be 0.63, 99% should be 0.99...
       taskbarProgressValue = parseFloat((percentage / 100).toFixed(2));
     };
+
+    // Listen on alert event from main process
+    ipc.on('alert' , function() { 
+      swal.fire({
+        title: 'Please wait until the process has finished!',
+        icon: 'info',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        allowOutsideClick: false,
+        confirmButtonText: 'OK!'
+        });
+      });

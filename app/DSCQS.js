@@ -43,7 +43,7 @@ var noScore = 0;
 var getScoresTitles = ["Original video", "Score", "Distorted video", "Score", "Differential score"];
 var allScores = [];
 var readExp = fs.readFileSync("../Experiments/Experiment.last",'utf8');
-var readFiles = fs.readFileSync("../Experiments/" + readExp + "/" + readExp + '(config)' + ".csv",'utf8');
+var readFiles = fs.readFileSync(`../Experiments/${readExp}/${readExp}(config).csv`,'utf8');
 var FileListwName = readFiles.split('\n');
 
 var DistortedFileNames = FileListwName[2].split(',');
@@ -57,9 +57,9 @@ OriginalFileNames.splice(0,1);
 DistortedTrainingFile.splice(0,1);
 OriginalTrainingFile.splice(0,1);
 var FileNames = DistortedFileNames.concat(OriginalFileNames);
-var readUserName = fs.readFileSync("../Experiments/" + readExp + "/user.last", 'utf8');
+var readUserName = fs.readFileSync(`../Experiments/${readExp}/user.last`, 'utf8');
 var presMethod = (readFiles.split('\n'))[1].split(',')[1];
-var trialRun = fs.existsSync("../Experiments/" + readExp + "/" + readUserName + "/" + readUserName + ".test");
+var trialRun = fs.existsSync(`../Experiments/${readExp}/${readUserName}/${readUserName}.test`);
 var fileLength;
 var x=0;
 var vN;
@@ -71,7 +71,7 @@ var firsttime = true;
 var scoreVideonum = 0;
 
 /* try { -------------------------------------------------------- COMMENTED FOR DEBUGGING
-    fs.unlinkSync("../Experiments/" + readExp + "/user.last")
+    fs.unlinkSync(`../Experiments/${readExp}/user.last`)
     //file removed
 } catch(err) {
     console.error(err)
@@ -125,13 +125,13 @@ function play(testTrial, scoreVideo) {
         var origIndex = getOrigTrainingFile.indexOf(getName);
         OOriginalFileNames = OriginalTrainingFile[origIndex].substring(0, OriginalTrainingFile[origIndex].length - 4);
         if (randomVid == 0) {
-            var ppath = '../trainingSequences/' + DDistortedFileNames + videoFormat;
-            var ppath2 = '../trainingSequences/' + OOriginalFileNames + videoFormat;
-            console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames);
+            var ppath = `../trainingSequences/${DDistortedFileNames}${videoFormat}`;
+            var ppath2 = `../trainingSequences/${OOriginalFileNames}${videoFormat}`;
+            console.log(`Distorted : ${DDistortedFileNames} with ${OOriginalFileNames}`);
         } else {
-            var ppath2 = '../trainingSequences/' + DDistortedFileNames + videoFormat;
-            var ppath = '../trainingSequences/' + OOriginalFileNames + videoFormat;
-            console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames);
+            var ppath2 = `../trainingSequences/${DDistortedFileNames}${videoFormat}`;
+            var ppath = `../trainingSequences/${OOriginalFileNames}${videoFormat}`;
+            console.log(`Distorted : ${DDistortedFileNames} with ${OOriginalFileNames}`);
         }
     } else {
         noScore = 0;
@@ -141,13 +141,13 @@ function play(testTrial, scoreVideo) {
         var origIndex = getOrigFileNames.indexOf(getName);
         OOriginalFileNames = OriginalFileNames[origIndex].substring(0, OriginalFileNames[origIndex].length - 4);
         if (randomVid == 0) {
-            var ppath = '../converted/' + DDistortedFileNames + videoFormat;
-            var ppath2 = '../converted/' + OOriginalFileNames + videoFormat;
-            console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames);
+            var ppath = `../converted/${DDistortedFileNames}${videoFormat}`;
+            var ppath2 = `../converted/${OOriginalFileNames}${videoFormat}`;
+            console.log(`Distorted : ${DDistortedFileNames} with ${OOriginalFileNames}`);
         } else {
-            var ppath2 = '../converted/' + DDistortedFileNames + videoFormat;
-            var ppath = '../converted/'  + OOriginalFileNames + videoFormat;
-            console.log("Distorted : " + DDistortedFileNames + " so " + OOriginalFileNames);
+            var ppath2 = `../converted/${DDistortedFileNames}${videoFormat}`;
+            var ppath = `../converted/${OOriginalFileNames}${videoFormat}`;
+            console.log(`Distorted : ${DDistortedFileNames} with ${OOriginalFileNames}`);
         }
     }
     var args = [
@@ -351,7 +351,7 @@ $('#continue').click(function() {
                     win.close();
                 } else {
                     try {
-                        fs.unlinkSync("../Experiments/" + readExp + "/" + readUserName + "/" + readUserName + ".test");
+                        fs.unlinkSync(`../Experiments/${readExp}/${readUserName}/${readUserName}.test`);
                         //file removed
                     } catch(err) {
                         console.error(err);
@@ -401,7 +401,7 @@ function enableButton() {
 function watchVideo2() {
     document.getElementById("text").style.visibility = "visible";
     $('#buttons').removeClass('transitionEffect');
-    document.getElementById("text").textContent = "Starting video B" ;
+    document.getElementById("text").textContent = "Starting video B";
     document.getElementById("rating").style.visibility = "hidden";
     document.getElementById("sliders").style.visibility = "hidden";
     document.getElementById("buttons").style.visibility = "hidden";
@@ -419,7 +419,7 @@ function watchVideo1() {
 function watchVideoPair() {
     document.getElementById("text").style.visibility = "visible";
     $('#buttons').removeClass('transitionEffect');
-    document.getElementById("text").textContent = "Starting pair of videos " + vN + " of " + fileLength;
+    document.getElementById("text").textContent = `Starting pair of videos ${vN} of ${fileLength}`;
     document.getElementById("rating").style.visibility = "hidden";
     document.getElementById("sliders").style.visibility = "hidden";
     document.getElementById("buttons").style.visibility = "hidden";
@@ -479,11 +479,11 @@ function finish() {
         var unsorted = allScores.slice();
         unsorted.unshift(getScoresTitles);
         const csvStringu = toCsv(unsorted);
-        fs.writeFileSync("../Experiments/" + readExp + "/" + readUserName + "/" + "score(presOrder).csv", csvStringu, 'utf8');
+        fs.writeFileSync(`../Experiments/${readExp}/${readUserName}/score(presOrder).csv`, csvStringu, 'utf8');
         allScores.sort(comparator);
         allScores.unshift(getScoresTitles);
         const csvString = toCsv(allScores);
-        fs.writeFileSync("../Experiments/" + readExp + "/" + readUserName + "/" + "score.csv", csvString, 'utf8');
+        fs.writeFileSync(`../Experiments/${readExp}/${readUserName}/score.csv`, csvString, 'utf8');
     }
     setTimeout(function() {
         $("#rating").remove();

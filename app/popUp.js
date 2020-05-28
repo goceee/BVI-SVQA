@@ -52,8 +52,8 @@ $('.saved').click(function() {
   });
   $('#savedConfig').change(function() {
     var dataPath = document.getElementById("savedConfig").files[0];
-    var expp = fs.readFileSync("../Experiments/Saved/" + dataPath.name, 'utf8');
-    var readFiles = fs.readFileSync("../Experiments/" + expp + "/" + expp + '(config)' + ".csv", 'utf8');
+    var expp = fs.readFileSync(`../Experiments/Saved/${dataPath.name}`, 'utf8');
+    var readFiles = fs.readFileSync(`../Experiments/${expp}/${expp}(config).csv`, 'utf8');
     var readData = readFiles.split('\n');
     distTrain = readData[3].split(',');
     distTrain.splice(0,1);
@@ -104,7 +104,7 @@ $('.saved').click(function() {
     }
     
     if (testPass == 1 && testPass2 == 1) {
-      fs.writeFileSync("../Experiments/" + "Experiment.last", expp, 'utf8');
+      fs.writeFileSync("../Experiments/Experiment.last", expp, 'utf8');
       mainW.openWindow('startExperiment');
       win.close();
     } else if (testPass == 0) {
