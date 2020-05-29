@@ -220,13 +220,13 @@ const test_vmaf = () => {
 	if (process.platform == 'win32') {
 		return	fs.existsSync("./vmaf/vmafossexec.exe");
 	} else if (process.platform == 'darwin') {
-		const vmaf_mac = spawnSync('vmafossexec_mac');
+		const vmaf_mac = spawnSync('./vmaf/vmafossexec_mac');
 		if (String(vmaf_mac.stderr) === 'null') {
 			return false;
 		}
 		return true;
 	} else {
-		const vmaf = spawnSync('vmafossexec_linux');
+		const vmaf = spawnSync('./vmaf/vmafossexec_linux');
 		if (String(vmaf.stderr) === 'null') {
 			return false;
 		}
@@ -250,7 +250,7 @@ const test_ffmpeg = () => {
 	if (process.platform == 'win32') {
 		return fs.existsSync("./ffmpeg/bin/ffmpeg.exe");
 	} else {
-		const ffmpeg = spawnSync('ffmpeg', ['--version']);
+		const ffmpeg = spawnSync('ffmpeg', ['-version']);
 		if (String(ffmpeg.stderr)) {
 			return false;
 		}
@@ -260,6 +260,7 @@ const test_ffmpeg = () => {
 
 const test_python = () => {
 		 const python = spawnSync('python', ['--version']);
+		 pythonVar = 'python';
 		 if (String(python.stderr)) {
 			const python3 = spawnSync('python3', ['--version']);
 			if (String(python3.stderr)) {
@@ -267,7 +268,6 @@ const test_python = () => {
 			}
 			pythonVar = 'python3';	 
 		}
-		pythonVar = 'python';
 		return true;
 }
 
