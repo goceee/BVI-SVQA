@@ -1,3 +1,0 @@
-# these get installed automatically with npm install
-node_modules
-package-lock.json

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment Configuration</title>
+    <link rel="stylesheet" href="../css/selectConfigurationWindow.css" />
+  </head>
+  <body>
+    <div id="selectExperimentConfigurationContainer">
+      <nav>
+        <div id="navTitle">Choose experiment configuration</div>
+        <div id="titleBarButtonsContainer">
+          <div class="titleBarButton minimise">
+            <span>&#xE921;</span>
+          </div>
+          <div class="titleBarButton" id="close">
+            <span>&#xE8BB;</span>
+          </div>
+        </div>
+      </nav>
+
+      <div class="mainContent">
+        <div class="controlButtonsContainer">
+          <div class="button-container" id="latest">
+            <button class="button">Latest</button>
+          </div>
+          <div class="button-container" id="saved">
+            <button class="button">Saved</button>
+            <input
+              type="file"
+              id="savedConfig"
+              hidden="hidden"
+              accept=".save"
+            />
+          </div>
+          <div class="button-container" id="new">
+            <button class="button">New</button>
+          </div>
+        </div>
+        <div class="button-container" id="cancel">
+          <button class="button" id="cancelBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <script src="../controllers/selectConfigurationController.js"></script>
+  </body>
+</html>

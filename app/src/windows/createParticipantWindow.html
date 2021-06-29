@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Participant</title>
+    <link rel="stylesheet" href="../css/createParticipantWindow.css" />
+
+    <script type="text/javascript">
+      function validate(input) {
+        input.value = input.value.replace(/[^a-zA-Z 0-9-_]+/g, '');
+      }
+    </script>
+  </head>
+  <body>
+    <div id="participantInfoFormContainer">
+      <nav>
+        <div class="titleBarButton" id="back"><span>➜</span></div>
+        <div id="titleBarButtonsContainer">
+          <div class="titleBarButton minimise"><span>&#xE921;</span></div>
+          <div class="titleBarButton" id="close"><span>&#xE8BB;</span></div>
+        </div>
+      </nav>
+
+      <div id="formContainer">
+        <div class="formInputContainer">
+          <label for="participantName" id="nameText">Name:</label>
+          <input
+            type="text"
+            id="participantName"
+            class="customInput"
+            maxlength="40"
+            oninput="validate(this)"
+            placeholder="Name"
+          />
+          <small id="participantNameInfo"
+            >We'll never share your information.</small
+          >
+        </div>
+
+        <div class="formInputContainer">
+          <label for="participantAge">Age:</label>
+          <input
+            type="number"
+            id="participantAge"
+            class="customInput"
+            min="16"
+            max="80"
+            oninput="if(value.length>2)value=value.slice(0,2)"
+            placeholder="Age"
+          />
+        </div>
+
+        <div class="formInputContainer">
+          <label for="participantGender">Gender:</label>
+          <select class="customSelect" id="genderSelect">
+            <option selected disabled value>Choose...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+
+        <div class="formInputContainer">
+          <label for="participantTestCount">First time?</label>
+          <select class="customSelect" id="firstTimeSelect">
+            <option selected disabled value>Choose...</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <div class="formInputContainer">
+          <label for="participantExpertise">Expert:</label>
+          <select class="customSelect" id="expertSelect">
+            <option selected disabled value>Choose...</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <div class="submitButton">
+          <button type="button" id="submitInformation">OK</button>
+        </div>
+      </div>
+    </div>
+    <script src="../controllers/createParticipantController.js"></script>
+  </body>
+</html>

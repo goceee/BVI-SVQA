@@ -1,0 +1,141 @@
+@font-face {
+  font-family: segoe;
+  src: url(../../externalUtils/fonts/segmdl2.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  background: none !important;
+  font-family: Roboto;
+  overflow: hidden;
+}
+
+button {
+  font-family: Roboto;
+}
+
+#selectExperimentConfigurationContainer {
+  height: 100%;
+  border-radius: 12px;
+  background-color: #e6e6e6;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  padding: 0 15px;
+  -webkit-app-region: drag;
+}
+
+#titleBarButtonsContainer {
+  width: 40px;
+  font-family: segoe;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleBarButton {
+  color: black;
+  transition: all ease-in-out 0.2s;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.titleBarButton:hover {
+  color: white;
+}
+
+#close:hover {
+  color: #e81123;
+}
+
+#navTitle {
+  color: black;
+  font-size: 15px;
+  -webkit-app-region: drag;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 315px;
+}
+
+.button-container {
+  width: 130px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.controlButtonsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 80%;
+  padding: 20px 0;
+}
+
+.button {
+  background-color: transparent;
+  width: 100%;
+  height: 42px;
+  border: 1px solid black;
+  border-radius: 12px;
+  color: black;
+  padding: 0%;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.button:focus {
+  outline: none;
+  color: white;
+  border-color: #17a2b8;
+  transform: translateY(-3px);
+  background-color: #17a2b8;
+}
+
+#cancelBtn:focus {
+  border-color: #c14645;
+  background-color: #c14645;
+}
+
+.button-container:hover .button {
+  color: white;
+  border-color: #17a2b8;
+  background-color: #17a2b8;
+  transform: translateY(-3px);
+}
+
+.button-container:hover #cancelBtn {
+  border-color: #c14645;
+  background-color: #c14645;
+}
+
+.swal2-title {
+  font-size: 1.4em !important;
+}
+
+.swal2-container {
+  overflow: hidden !important;
+  border-radius: 12px;
+  -webkit-user-select: none;
+  user-select: none;
+}

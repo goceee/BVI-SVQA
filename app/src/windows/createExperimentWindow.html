@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Experiment</title>
+    <link rel="stylesheet" href="../css/createExperimentWindow.css" />
+    <link rel="stylesheet" href="../css/settingsPopup.css" />
+    <link rel="stylesheet" href="../css/scalePopup.css" />
+
+    <script type="text/javascript">
+      function validate(input) {
+        input.value = input.value.replace(/[^a-zA-Z 0-9-_]+/g, '');
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Popup windows start -->
+    <div class="progress-bar-background">
+      <div class="progress-bar-container">
+        <nav id="popupTitleBar">
+          <div id="titleBarButtonsContainer" class="titleBarSingleButton">
+            <div class="titleBarButton minimise">
+              <span>&#xE921;</span>
+            </div>
+          </div>
+        </nav>
+        <div id="text"></div>
+        <div id="detail"></div>
+        <div id="progressBarContainer"></div>
+      </div>
+    </div>
+
+    <div id="setSettingsContainer">
+      <div class="settingsFormContainer">
+        <nav id="popupTitleBar">
+          <div id="titleBarButtonsContainer">
+            <div class="titleBarButton minimise">
+              <span>&#xE921;</span>
+            </div>
+            <div class="titleBarButton" id="closeSettings">
+              <span>&#xE8BB;</span>
+            </div>
+          </div>
+        </nav>
+        <div id="settingsFormInputs">
+          <label class="settingsLabel" for="fileformat">File Format</label>
+          <select class="customSelect" id="fileformat">
+            <option selected disabled value>Choose...</option>
+            <option value=".mov">Default(.mov)</option>
+            <option value=".avi">.avi</option>
+            <!--option value=".mp4">.mp4</option-->
+            <option value=".mkv">.mkv</option>
+          </select>
+          <label class="settingsLabel" for="videocodec">Video Codec</label>
+          <select class="customSelect" id="videocodec">
+            <option selected disabled value>Choose...</option>
+            <option value="prores_ks">Default(prores_ks)</option>
+            <option value="libx264">h264</option>
+          </select>
+          <button type="button" id="confirmSettings">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="setScaleContainer">
+      <div class="container-scale">
+        <nav id="popupTitleBar">
+          <div id="titleBarButtonsContainer" class="titleBarSingleButton">
+            <div class="titleBarButton minimise">
+              <span>&#xE921;</span>
+            </div>
+          </div>
+        </nav>
+        <div id="buttonsContainer">
+          <div class="button-container">
+            <input type="radio" name="scale" id="discrete" value="Discrete" />
+            <label class="selectScaleButtons" for="discrete">Discrete</label>
+          </div>
+          <div class="button-container">
+            <input
+              type="radio"
+              name="scale"
+              id="continuous"
+              value="Continuous"
+            />
+            <label class="selectScaleButtons" for="continuous"
+              >Continuous</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Popup windows end -->
+
+    <div id="createExperimentWindowContainer">
+      <nav>
+        <div class="titleBarButton" id="back"><span>➜</span></div>
+        <div id="titleBarButtonsContainer">
+          <div class="titleBarButton minimise"><span>&#xE921;</span></div>
+          <div class="titleBarButton" id="close"><span>&#xE8BB;</span></div>
+        </div>
+      </nav>
+
+      <div id="experimentForm">
+        <div id="experimentNameContainer">
+          <label for="experimentName" id="nameText">Name:</label>
+          <input
+            type="text"
+            id="experimentName"
+            class="customInput"
+            maxlength="20"
+            oninput="validate(this)"
+            placeholder="Experiment Name"
+          />
+        </div>
+
+        <div id="presentationMethodsContainer">
+          <div id="presMethodText">Presentation Method:</div>
+          <div id="presentationMethodsRadioGroup">
+            <label>
+              <input
+                type="radio"
+                name="presentationMethod"
+                value="ACR"
+                id="acr"
+              />
+              <div class="box">
+                <span>ACR</span>
+              </div>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="presentationMethod"
+                value="ACR-HR"
+                id="acr-hr"
+              />
+              <div class="box" id="acrhr">
+                <span>ACR-HR</span>
+              </div>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="presentationMethod"
+                value="SAMVIQ"
+                id="samviq"
+              />
+              <div class="box">
+                <span>SAMVIQ</span>
+              </div>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="presentationMethod"
+                value="DSCQS"
+                id="dscqs"
+              />
+              <div class="box">
+                <span>DSCQS</span>
+              </div>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="presentationMethod"
+                value="DSIS"
+                id="dsis"
+              />
+              <div class="box">
+                <span>DSIS</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="browseDistortedContainer">
+          <div id="vName">Distorted Videos:</div>
+          <div class="browseContainer" id="browseDistorted">
+            <input
+              type="text"
+              class="customInput"
+              id="browseTextDistorted"
+              readonly
+              tabindex="-1"
+            />
+            <span class="browseBut">
+              <span>Browse</span>
+              <input
+                type="file"
+                class="upload"
+                id="browseDistortedField"
+                accept=".yuv"
+                multiple
+              />
+            </span>
+          </div>
+        </div>
+        <div id="browseOriginalContainer">
+          <div id="dName">Original Videos:</div>
+          <div class="browseContainer" id="browseOriginal">
+            <input
+              type="text"
+              class="customInput"
+              id="browseTextOriginal"
+              readonly
+              tabindex="-1"
+            />
+            <span class="browseBut">
+              <span>Browse</span>
+              <input
+                type="file"
+                class="upload"
+                id="browseOriginalField"
+                accept=".yuv"
+                multiple
+              />
+            </span>
+          </div>
+        </div>
+
+        <div class="submitButton">
+          <button type="button" id="submitExperiment">OK</button>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="container-checkbox">
+          <input class="inp-cbx" id="objective" type="checkbox" />
+          <label class="cbx" for="objective">
+            <span>
+              <svg width="12px" height="10px">
+                <use xlink:href="#check"></use>
+              </svg>
+            </span>
+            <span>Objective metrics</span>
+          </label>
+          <svg class="inline-svg">
+            <symbol id="check" viewbox="0 0 12 10">
+              <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+            </symbol>
+          </svg>
+        </div>
+        <div id="openSettingsButton">
+          <img id="settingsIcon" src="../img/settings.png" />
+        </div>
+      </div>
+    </div>
+    <script src="../controllers/createExperimentController.js"></script>
+  </body>
+</html>

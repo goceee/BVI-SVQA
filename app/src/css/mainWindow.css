@@ -1,0 +1,159 @@
+@font-face {
+  font-family: segoe;
+  src: url(../../externalUtils/fonts/segmdl2.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  background: none !important;
+  font-family: Roboto;
+}
+
+#container {
+  height: 100%;
+  border-radius: 12px;
+  background-color: #e6e6e6;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#logos {
+  margin-top: 2%;
+}
+
+#bristol,
+#vilab {
+  width: auto;
+  height: 7vmin;
+  max-width: 150px;
+  max-height: 150px;
+  -webkit-user-drag: none;
+}
+
+#bristol {
+  margin-left: 5%;
+}
+
+#vilab {
+  margin-right: 5%;
+  float: right;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 30px;
+  -webkit-app-region: drag;
+}
+
+#titleBar {
+  display: flex;
+  width: 110px;
+  height: 100%;
+  -webkit-app-region: no-drag;
+  font-family: segoe;
+  font-size: 12px;
+}
+
+.titleBarButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 33%;
+  color: black;
+  -webkit-app-region: no-drag;
+  transition: all ease-in-out 0.2s;
+  cursor: pointer;
+}
+
+#restore {
+  display: none;
+}
+
+.titleBarButton:hover {
+  color: white;
+}
+
+#close:hover {
+  color: #e81123;
+}
+
+.title {
+  text-align: center;
+  font-size: 36px;
+  padding: 30px 80px 50px;
+  line-height: 1.5;
+}
+
+#commandButtons {
+  display: flex;
+  width: 100%;
+  height: 220px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.menuBtn {
+  background-color: transparent;
+  font-size: 16px;
+  border-radius: 12px;
+  color: black;
+  border: 1px solid black;
+  padding: 0;
+  width: 100%;
+  display: block;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.menuBtn:focus {
+  outline: none;
+  color: white;
+  border-color: #17a2b8;
+  transform: translateY(-3px);
+  background-color: #17a2b8;
+}
+
+#exitBtn:focus {
+  border-color: #c14645;
+  background-color: #c14645;
+}
+
+.button-container {
+  width: 50%;
+  height: 50px;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.button-container:hover .menuBtn {
+  color: white;
+  border-color: #17a2b8;
+  background-color: #17a2b8;
+  transform: translateY(-3px);
+}
+
+.button-container:hover #exitBtn {
+  border-color: #c14645;
+  background-color: #c14645;
+}
+
+.swal2-container {
+  border-radius: 12px;
+  -webkit-user-select: none;
+  user-select: none;
+}

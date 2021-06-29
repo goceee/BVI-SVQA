@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Analysis</title>
+    <link rel="stylesheet" href="../css/dataAnalysisWindow.css" />
+  </head>
+  <body>
+    <div id="dataAnalysisContainer">
+      <nav>
+        <div class="titleBarButton" id="back"><span>➜</span></div>
+        <div id="titleBarButtonsContainer">
+          <div class="titleBarButton minimise"><span>&#xE921;</span></div>
+          <div class="titleBarButton" id="close"><span>&#xE8BB;</span></div>
+        </div>
+      </nav>
+
+      <div class="mainContentContainer">
+        <div id="exportDataContainer">
+          <div id="selectExportDataContainer">
+            <label for="exportData">Export Data</label>
+            <select class="customSelect" id="exportData">
+              <option selected disabled value>Choose...</option>
+            </select>
+          </div>
+          <div class="radioGroup" id="exportDataRadioGroup">
+            <div class="radioButton">
+              <input type="radio" id="rawData" name="export" value="raw" />
+              <label for="rawData">Raw</label>
+              <label for="rawData" class="check"></label>
+            </div>
+            <div class="radioButton">
+              <input
+                type="radio"
+                id="processedData"
+                name="export"
+                value="processed"
+              />
+              <label for="processedData">Processed</label>
+              <label for="processedData" class="check"></label>
+            </div>
+          </div>
+          <div id="extractDataButtonContainer">
+            <button type="button" class="button" id="confirmExtractData">
+              Confirm
+            </button>
+          </div>
+        </div>
+
+        <div id="plotDataContainer">
+          <label for="plotData">Plot Data</label>
+          <select class="customSelect" id="plotData">
+            <option selected disabled value>Choose...</option>
+          </select>
+          <select class="customSelect" id="videosList">
+            <option selected disabled value>Choose...</option>
+          </select>
+          <div class="radioGroup" id="plotsRadioGroup">
+            <div class="radioButton">
+              <input type="radio" id="plotPSNR" name="plots" value="PSNR" />
+              <label for="plotPSNR">PSNR</label>
+              <label for="plotPSNR" class="check"></label>
+            </div>
+            <div class="radioButton">
+              <input
+                type="radio"
+                id="plotMSSSIM"
+                name="plots"
+                value="MS-SSIM"
+              />
+              <label for="plotMSSSIM">MS-SSIM</label>
+              <label for="plotMSSSIM" class="check"></label>
+            </div>
+            <div class="radioButton">
+              <input type="radio" id="plotVMAF" name="plots" value="VMAF" />
+              <label for="plotVMAF">VMAF</label>
+              <label for="plotVMAF" class="check"></label>
+            </div>
+            <div class="radioButton">
+              <input
+                type="radio"
+                id="plot100Minus"
+                name="plots"
+                value="100-DMOS"
+              />
+              <label for="plot100Minus" id="100MinusLabel">100-DMOS</label>
+              <label for="plot100Minus" class="check"></label>
+            </div>
+            <div class="radioButton">
+              <input type="radio" id="plotDMOS" name="plots" value="DMOS" />
+              <label for="plotDMOS" id="dmosLabel">DMOS</label>
+              <label for="plotDMOS" class="check"></label>
+            </div>
+            <div class="radioButton">
+              <input
+                type="radio"
+                id="plotDMOSVMAF"
+                name="plots"
+                value="DMOS,VMAF"
+              />
+              <label for="plotDMOSVMAF" id="dmosVmafLabel">DMOS & VMAF</label>
+              <label for="plotDMOSVMAF" class="check"></label>
+            </div>
+          </div>
+          <div id="bitrateBrowseContainer">
+            <div id="bName">Bitrates file</div>
+            <div class="browseContainer" id="browseBitrates">
+              <input
+                type="text"
+                class="customInput"
+                id="browseTextBitrates"
+                readonly
+                tabindex="-1"
+              />
+              <span class="browseBut">
+                <span>Browse</span>
+                <input
+                  type="file"
+                  class="upload"
+                  id="browseBitratesField"
+                  accept=".csv"
+                />
+              </span>
+            </div>
+          </div>
+          <div id="buttonsContainer">
+            <button type="button" class="button" id="confirmPlots">
+              Confirm
+            </button>
+            <button type="button" class="button" id="compare">Compare</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../controllers/dataAnalysisController.js"></script>
+  </body>
+</html>

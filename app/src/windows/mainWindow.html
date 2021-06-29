@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subjective Video Quality Assessment</title>
+    <link rel="stylesheet" href="../css/mainWindow.css" />
+  </head>
+  <body>
+    <div id="container">
+      <nav>
+        <div id="titleBar">
+          <div class="titleBarButton minimise">&#xE921;</div>
+          <div class="titleBarButton" id="maximise">&#xE922;</div>
+          <div class="titleBarButton" id="close">&#xE8BB;</div>
+        </div>
+      </nav>
+      <div id="logos">
+        <img id="bristol" src="../img/Bristol.gif" />
+        <img id="vilab" src="../img/VILabs.png" />
+      </div>
+      <div class="title">Subjective Video Quality Assessment</div>
+      <div id="commandButtons">
+        <div class="button-container" id="createExp">
+          <button class="menuBtn">Create Experiment</button>
+        </div>
+        <div class="button-container" id="startExp">
+          <button class="menuBtn">Start Experiment</button>
+        </div>
+        <div class="button-container" id="dataAnalysis">
+          <button class="menuBtn">Data Analysis</button>
+        </div>
+        <div class="button-container" id="exit">
+          <button class="menuBtn" id="exitBtn">Exit</button>
+        </div>
+      </div>
+    </div>
+    <script src="../controllers/mainWindowController.js"></script>
+  </body>
+</html>
