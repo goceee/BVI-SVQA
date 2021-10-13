@@ -4,12 +4,10 @@ const { app, BrowserWindow } = require('electron');
 const fs = require('fs');
 const { spawn } = require('child_process');
 const diskspace = require('diskspace');
-
-const { checkRequirements } = require('./utils/requirementsCheck');
 const createNativeImage = require('./utils/createNativeImage');
 const createAppFolders = require('./utils/createAppFolders');
 const { defaultWindowOptions } = require('./utils/window/defaultWindowOptions');
-
+const requirementsCheck = require('./utils/requirementsCheck');
 const appIcon = createNativeImage(`${__dirname}/img`, 'icon_white.png');
 
 const day = 24 * 60 * 60 * 1000;
@@ -35,10 +33,12 @@ const mainWindow = () => {
       const lastCheckDate = new Date(`${readDateFile}`);
       const today = new Date();
       if (Math.round(Math.abs((lastCheckDate - today) / day)) > 30) {
-        checkRequirements(win, app);
-      } else win.show();
+        requirementsCheck(win, app);
+      } else {
+        win.show();
+      }
     } else {
-      checkRequirements(win, app);
+      requirementsCheck(win, app);
     }
   });
 };

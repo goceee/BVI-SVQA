@@ -8,6 +8,15 @@ const {
   errorMessage,
 } = require('../utils/alert/alertMessages');
 
+const buttons = document.querySelectorAll('.menuBtn');
+setTimeout(() => {
+  /* Initial window show focuses on the first button, 
+     this is fixed by initially making them unfocusable 
+     and then we allow buttons to be focusable again
+  */
+  buttons.forEach((b) => b.setAttribute('tabindex', ''));
+}, 0);
+
 const { app } = remote;
 const currentWindow = remote.getCurrentWindow();
 
@@ -39,8 +48,7 @@ startExperiment.onclick = () => {
 };
 
 dataAnalysis.onclick = () => {
-  // openWindow.resWindow();
-  openWindow.presWindow();
+  openWindow.resWindow();
   currentWindow.close();
 };
 

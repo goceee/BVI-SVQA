@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Subjective Video Quality Assessment</title>
+    <link
+      rel="preload"
+      href="../../externalUtils/fonts/segmdl2.ttf"
+      as="font"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="../css/mainWindow.css" />
   </head>
   <body>
@@ -22,16 +28,16 @@
       <div class="title">Subjective Video Quality Assessment</div>
       <div id="commandButtons">
         <div class="button-container" id="createExp">
-          <button class="menuBtn">Create Experiment</button>
+          <button class="menuBtn" tabindex="-1">Create Experiment</button>
         </div>
         <div class="button-container" id="startExp">
-          <button class="menuBtn">Start Experiment</button>
+          <button class="menuBtn" tabindex="-1">Start Experiment</button>
         </div>
         <div class="button-container" id="dataAnalysis">
-          <button class="menuBtn">Data Analysis</button>
+          <button class="menuBtn" tabindex="-1">Data Analysis</button>
         </div>
         <div class="button-container" id="exit">
-          <button class="menuBtn" id="exitBtn">Exit</button>
+          <button tabindex="-1" class="menuBtn" id="exitBtn">Exit</button>
         </div>
       </div>
     </div>

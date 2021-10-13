@@ -107,6 +107,7 @@ nav {
 .menuBtn {
   background-color: transparent;
   font-size: 16px;
+  font-family: Roboto;
   border-radius: 12px;
   color: black;
   border: 1px solid black;
