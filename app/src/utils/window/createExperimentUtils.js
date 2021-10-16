@@ -1,9 +1,10 @@
-const { BrowserWindow, shell } = require('@electron/remote');
-const { ipcRenderer: ipc, app } = require('electron');
+const remote = require('@electron/remote');
+const { ipcRenderer: ipc } = require('electron');
 const { PythonShell } = require('python-shell');
 const { default: swal } = require('sweetalert2');
 const fs = require('fs');
 
+const { BrowserWindow, shell, app } = remote;
 const appPath = app.getAppPath();
 const pythonCodePath = `${appPath}/src/utils/python/`;
 
@@ -200,9 +201,6 @@ exports.checkSelectedVideos = (distortedVideos, originalVideos) => {
   }
   return true;
 };
-
-// eslint-disable-next-line import/order
-const remote = require('@electron/remote');
 
 const openWindow = remote.require('./controllers/windowController.js');
 

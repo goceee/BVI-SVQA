@@ -1,8 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
-const { app } = require('electron');
+const remote = require('@electron/remote');
 // CHECK THIS FOR DIFFERENT EXPERIMENTS AND MORE CONVERTED FILES!!!
+
 const { csvToObject } = require('../commonUtils');
+
+const { app } = remote;
 const appPath = app.getAppPath();
 
 exports.checkConvertedFiles = (experimentName) => {
