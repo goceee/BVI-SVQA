@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 const { default: swal } = require('sweetalert2');
-const { app } = require('electron');
+const remote = require('@electron/remote');
 const fs = require('fs');
 
 const { defaultAlertOptions } = require('../utils/alert/defaultAlertOptions');
@@ -14,6 +14,7 @@ const {
 const { toCsv } = require('../utils/commonUtils');
 const { convert } = require('../utils/window/createExperimentUtils');
 
+const { app } = remote;
 const appPath = app.getAppPath();
 const defaultVideoFormat = '.mov';
 const defaultVideoCodec = 'prores_ks';

@@ -3,12 +3,13 @@ const MpvAPI = require('node-mpv');
 const path = require('path');
 
 const FFplay = require('./FFplay');
-const { app } = require('electron');
+const remote = require('@electron/remote');
 
 const { delay } = require('../utils/window/presentationWindowUtils');
 const { mpvData } = require('../staticData/playersData');
 const killProcessByName = require('../utils/killProcessByName');
 
+const { app } = remote;
 const appPath = app.getAppPath();
 
 class Player {

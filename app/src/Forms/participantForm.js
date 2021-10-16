@@ -1,7 +1,6 @@
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
 const remote = require('@electron/remote');
-const { app } = require('electron');
 
 const openWindow = remote.require('./controllers/windowController');
 const { addTitleBarFunctionality } = require('../utils/commonUtils');
@@ -18,6 +17,7 @@ const {
 } = require('../utils/alert/alertMessages');
 const { toCsv, csvToObject } = require('../utils/commonUtils');
 
+const { app } = remote;
 const appPath = app.getAppPath();
 const currentWindow = remote.getCurrentWindow();
 addTitleBarFunctionality();

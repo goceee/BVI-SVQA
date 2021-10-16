@@ -1,6 +1,7 @@
 const os = require('os');
-const { app } = require('electron');
+const remote = require('@electron/remote');
 
+const { app } = remote;
 const appPath = app.getAppPath();
 
 module.exports = {

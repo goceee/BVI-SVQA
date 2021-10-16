@@ -2,7 +2,7 @@ const { PythonShell } = require('python-shell');
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
 const path = require('path');
-const { app } = require('electron');
+const remote = require('@electron/remote');
 
 const { getDirectories, checkFile } = require('../utils/fileSystemUtils');
 const {
@@ -24,6 +24,7 @@ const {
 } = require('../utils/commonUtils');
 const { disableElements } = require('../utils/window/dataAnalysisWindowUtils');
 
+const { app } = remote;
 const appPath = app.getAppPath();
 let QParr = [];
 let vidCodecsList = [];

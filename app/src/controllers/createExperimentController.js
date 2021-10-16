@@ -1,6 +1,6 @@
 const fs = require('fs');
-const { BrowserWindow } = require('@electron/remote');
-const { ipcRenderer: ipc, app } = require('electron');
+const remote = require('@electron/remote');
+const { ipcRenderer: ipc } = require('electron');
 const { default: swal } = require('sweetalert2');
 
 const {
@@ -25,6 +25,7 @@ const {
 } = require('../utils/alert/alertMessages');
 const { addTitleBarFunctionality } = require('../utils/commonUtils');
 
+const { app, BrowserWindow } = remote;
 const appPath = app.getAppPath();
 addTitleBarFunctionality();
 

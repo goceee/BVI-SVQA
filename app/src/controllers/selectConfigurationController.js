@@ -1,5 +1,4 @@
 const remote = require('@electron/remote');
-const { app } = require('electron');
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
 const {
@@ -15,6 +14,7 @@ const {
 const { addTitleBarFunctionality } = require('../utils/commonUtils');
 const openWindow = remote.require('./controllers/windowController');
 
+const { app } = remote;
 const appPath = app.getAppPath();
 
 const latestButton = document.querySelector('#latest');

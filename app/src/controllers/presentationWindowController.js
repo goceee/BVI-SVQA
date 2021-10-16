@@ -3,7 +3,7 @@
 /* eslint-disable no-await-in-loop */
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
-const { app } = require('electron');
+const remote = require('@electron/remote');
 
 const { csvToObject, shuffle } = require('../utils/commonUtils');
 const { notSelectedScoreMessage } = require('../utils/alert/alertMessages');
@@ -20,6 +20,7 @@ const Player = require('../Models/Player');
 const Score = require('../Models/Score');
 const subjectiveExperiments = require('../staticData/subjectiveExperimentsData');
 
+const { app } = remote;
 const appPath = app.getAppPath();
 const experimentName = fs.readFileSync(
   `${appPath}/../Experiments/Experiment.last`,
