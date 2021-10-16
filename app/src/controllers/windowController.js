@@ -1,13 +1,12 @@
-const { BrowserWindow, shell, ipcMain } = require('electron');
-const path = require('path');
+const { BrowserWindow, shell, ipcMain, app } = require('electron');
 
 const createNativeImage = require('../utils/createNativeImage');
 const {
   defaultWindowOptions,
 } = require('../utils/window/defaultWindowOptions');
 
-const parentFolder = path.join(__dirname, '..');
-const appIcon = createNativeImage(`${parentFolder}/img`, 'icon_white.png');
+const appPath = app.getAppPath();
+const appIcon = createNativeImage(`${appPath}/src/img`, 'icon_white.png');
 let stopClose = false;
 
 ipcMain.on('info', (event, args) => {
@@ -32,7 +31,7 @@ exports.open = (windowName) => {
       win.flashFrame(true);
     } else win = null;
   });
-  win.loadURL(`file://${parentFolder}/windows/${windowName}.html`);
+  win.loadURL(`file://${appPath}/src/windows/${windowName}.html`);
   win.once('ready-to-show', () => {
     win.show();
   });
@@ -46,7 +45,7 @@ exports.mainWindow = () => {
   win.on('close', () => {
     win = null;
   });
-  win.loadURL(`file://${parentFolder}/windows/mainWindow.html`);
+  win.loadURL(`file://${appPath}/src/windows/mainWindow.html`);
   win.once('ready-to-show', () => {
     win.show();
   });
@@ -62,7 +61,7 @@ exports.resWindow = () => {
   win.on('close', () => {
     win = null;
   });
-  win.loadURL(`file://${parentFolder}/windows/dataAnalysisWindow.html`);
+  win.loadURL(`file://${appPath}/src/windows/dataAnalysisWindow.html`);
   win.once('ready-to-show', () => {
     win.show();
   });
@@ -78,7 +77,7 @@ exports.popUp = () => {
   win.on('close', () => {
     win = null;
   });
-  win.loadURL(`file://${parentFolder}/windows/selectConfigurationWindow.html`);
+  win.loadURL(`file://${appPath}/src/windows/selectConfigurationWindow.html`);
   win.once('ready-to-show', () => {
     win.show();
   });
@@ -99,7 +98,7 @@ exports.presWindow = () => {
   win.on('close', () => {
     win = null;
   });
-  win.loadURL(`file://${parentFolder}/windows/presentationWindow.html`);
+  win.loadURL(`file://${appPath}/src/windows/presentationWindow.html`);
   win.once('ready-to-show', () => {
     // win.setAlwaysOnTop(true, 'screen-saver', '1');
     win.show();

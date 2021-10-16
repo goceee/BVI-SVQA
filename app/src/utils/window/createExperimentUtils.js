@@ -1,11 +1,11 @@
 const { BrowserWindow, shell } = require('@electron/remote');
-const { ipcRenderer: ipc } = require('electron');
+const { ipcRenderer: ipc, app } = require('electron');
 const { PythonShell } = require('python-shell');
 const { default: swal } = require('sweetalert2');
 const fs = require('fs');
-const path = require('path');
 
-const pythonCodePath = path.join(process.cwd(), 'utils/python/');
+const appPath = app.getAppPath();
+const pythonCodePath = `${appPath}/src/utils/python/`;
 
 const {
   createProgressBar,
@@ -250,12 +250,12 @@ const getObjectiveMetrics = (
       ipc.send('info', 'allow-closing');
       updateProgressBar(0, 'Conversion complete');
       fs.writeFileSync(
-        '../../Experiments/Experiment.last',
+        `${appPath}/../Experiments/Experiment.last`,
         experimentName,
         'utf8',
       );
       fs.writeFileSync(
-        `../../Experiments/Saved/${experimentName}.save`,
+        `${appPath}/../Experiments/Saved/${experimentName}.save`,
         experimentName,
         'utf8',
       );
@@ -366,12 +366,12 @@ exports.convert = (
                   )
               : () => {
                   fs.writeFileSync(
-                    '../../Experiments/Experiment.last',
+                    `${appPath}/../Experiments/Experiment.last`,
                     experimentName,
                     'utf8',
                   );
                   fs.writeFileSync(
-                    `../../Experiments/Saved/${experimentName}.save`,
+                    `${appPath}/../Experiments/Saved/${experimentName}.save`,
                     experimentName,
                     'utf8',
                   );

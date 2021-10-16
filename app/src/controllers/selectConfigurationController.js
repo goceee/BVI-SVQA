@@ -1,4 +1,5 @@
 const remote = require('@electron/remote');
+const { app } = require('electron');
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
 const {
@@ -12,8 +13,9 @@ const {
   convertedTrainingFilesMissingMessage,
 } = require('../utils/alert/alertMessages');
 const { addTitleBarFunctionality } = require('../utils/commonUtils');
-
 const openWindow = remote.require('./controllers/windowController');
+
+const appPath = app.getAppPath();
 
 const latestButton = document.querySelector('#latest');
 const savedButton = document.querySelector('#saved');
@@ -29,13 +31,13 @@ cancelButton.onclick = () => {
 };
 
 latestButton.onclick = () => {
-  if (!fs.existsSync('../../Experiments')) {
+  if (!fs.existsSync(`${appPath}/../Experiments`)) {
     swal.fire(experimentsFolderMissingMessage);
-  } else if (!fs.existsSync('../../Experiments/Experiment.last')) {
+  } else if (!fs.existsSync(`${appPath}/../Experiments/Experiment.last`)) {
     swal.fire(experimentConfigMissingMessage);
   } else {
     const experimentName = fs.readFileSync(
-      '../../Experiments/Experiment.last',
+      `${appPath}/../Experiments/Experiment.last`,
       'utf8',
     );
     if (experimentName === '') {
@@ -60,7 +62,7 @@ savedButton.onclick = () => {
   browseConfig.onchange = () => {
     const dataPath = document.getElementById('savedConfig').files[0];
     const experimentName = fs.readFileSync(
-      `../../Experiments/Saved/${dataPath.name}`,
+      `${appPath}/../Experiments/Saved/${dataPath.name}`,
       'utf8',
     ); // CHANGE THIS TO THE PATH FROM dataPath.path IT MIGHT BE BETTER!!!
 
@@ -72,7 +74,7 @@ savedButton.onclick = () => {
       swal.fire(convertedTrainingFilesMissingMessage);
     } else {
       fs.writeFileSync(
-        '../../Experiments/Experiment.last',
+        `${appPath}/../Experiments/Experiment.last`,
         experimentName,
         'utf8',
       );

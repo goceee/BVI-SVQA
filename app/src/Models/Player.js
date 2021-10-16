@@ -3,9 +3,13 @@ const MpvAPI = require('node-mpv');
 const path = require('path');
 
 const FFplay = require('./FFplay');
+const { app } = require('electron');
+
 const { delay } = require('../utils/window/presentationWindowUtils');
 const { mpvData } = require('../staticData/playersData');
 const killProcessByName = require('../utils/killProcessByName');
+
+const appPath = app.getAppPath();
 
 class Player {
   #player;
@@ -15,8 +19,8 @@ class Player {
   constructor(player, trial) {
     this.#playerName = player;
     this.#videosPath = trial
-      ? path.join(__dirname, '../../../trainingSequences/')
-      : path.join(__dirname, '../../../converted/');
+      ? `${appPath}/../trainingSequences/`
+      : `${appPath}/../converted/`;
     if (player === 'mpv') {
       this.#player = new MpvAPI(
         mpvData.wrapperSettings,

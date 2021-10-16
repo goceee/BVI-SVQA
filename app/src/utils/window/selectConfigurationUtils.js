@@ -1,17 +1,19 @@
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
+const { app } = require('electron');
 // CHECK THIS FOR DIFFERENT EXPERIMENTS AND MORE CONVERTED FILES!!!
 const { csvToObject } = require('../commonUtils');
+const appPath = app.getAppPath();
 
 exports.checkConvertedFiles = (experimentName) => {
   const test = { regular: false, training: false };
-  const convertedVideos = fs.readdirSync('../../converted/').sort();
+  const convertedVideos = fs.readdirSync(`${appPath}/../converted/`).sort();
   const convertedTrainingVideos = fs
-    .readdirSync('../../trainingSequences/')
+    .readdirSync(`${appPath}/../trainingSequences/`)
     .sort();
 
   const readExperimentConfigData = fs.readFileSync(
-    `../../Experiments/${experimentName}/${experimentName}(config).csv`,
+    `${appPath}/../Experiments/${experimentName}/${experimentName}(config).csv`,
     'utf8',
   );
   const data = csvToObject(readExperimentConfigData);

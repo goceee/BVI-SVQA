@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
 const remote = require('@electron/remote');
+const { app } = require('electron');
 
 const openWindow = remote.require('./controllers/windowController');
 const { addTitleBarFunctionality } = require('../utils/commonUtils');
@@ -17,12 +18,13 @@ const {
 } = require('../utils/alert/alertMessages');
 const { toCsv, csvToObject } = require('../utils/commonUtils');
 
+const appPath = app.getAppPath();
 const currentWindow = remote.getCurrentWindow();
 addTitleBarFunctionality();
 
 exports.prepareParticipantForm = () => {
   const experimentName = fs.readFileSync(
-    '../../Experiments/Experiment.last',
+    `${appPath}/../Experiments/Experiment.last`,
     'utf8',
   );
   const userName = document.getElementById('participantName').value.trim();
@@ -32,7 +34,9 @@ exports.prepareParticipantForm = () => {
   const userExpert = document.getElementById('expertSelect').value;
   if (userName === '') {
     swal.fire(enterNameMessage);
-  } else if (fs.existsSync(`../../Experiments/${experimentName}/${userName}`)) {
+  } else if (
+    fs.existsSync(`${appPath}/../Experiments/${experimentName}/${userName}`)
+  ) {
     swal.fire(nameExistsMessage);
   } else if (userAge === '') {
     swal.fire(enterAgeMessage);
@@ -53,27 +57,27 @@ exports.prepareParticipantForm = () => {
     ];
     const csvData = toCsv(subjectInfo);
     try {
-      fs.mkdirSync(`../../Experiments/${experimentName}/${userName}`);
+      fs.mkdirSync(`${appPath}/../Experiments/${experimentName}/${userName}`);
       fs.writeFileSync(
-        `../../Experiments/${experimentName}/${userName}/${userName}(info).csv`,
+        `${appPath}/../Experiments/${experimentName}/${userName}/${userName}(info).csv`,
         csvData,
         'utf8',
       );
       fs.writeFileSync(
-        `../../Experiments/${experimentName}/user.last`,
+        `${appPath}/../Experiments/${experimentName}/user.last`,
         userName,
         'utf8',
       );
       const experimentConfiguration = csvToObject(
         fs.readFileSync(
-          `../../Experiments/${experimentName}/${experimentName}(config).csv`,
+          `${appPath}/../Experiments/${experimentName}/${experimentName}(config).csv`,
           'utf8',
         ),
       );
 
       if (userFirstTime === 'Yes') {
         fs.writeFileSync(
-          `../../Experiments/${experimentName}/${userName}/${userName}.test`,
+          `${appPath}/../Experiments/${experimentName}/${userName}/${userName}.test`,
           'Trial',
           'utf8',
         );

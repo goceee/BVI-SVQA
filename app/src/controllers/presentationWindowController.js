@@ -3,6 +3,7 @@
 /* eslint-disable no-await-in-loop */
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
+const { app } = require('electron');
 
 const { csvToObject, shuffle } = require('../utils/commonUtils');
 const { notSelectedScoreMessage } = require('../utils/alert/alertMessages');
@@ -19,20 +20,21 @@ const Player = require('../Models/Player');
 const Score = require('../Models/Score');
 const subjectiveExperiments = require('../staticData/subjectiveExperimentsData');
 
+const appPath = app.getAppPath();
 const experimentName = fs.readFileSync(
-  '../../Experiments/Experiment.last',
+  `${appPath}/../Experiments/Experiment.last`,
   'utf8',
 );
 const readConfiguration = fs.readFileSync(
-  `../../Experiments/${experimentName}/${experimentName}(config).csv`,
+  `${appPath}/../Experiments/${experimentName}/${experimentName}(config).csv`,
   'utf8',
 );
 const subjectName = fs.readFileSync(
-  `../../Experiments/${experimentName}/user.last`,
+  `${appPath}/../Experiments/${experimentName}/user.last`,
   'utf8',
 );
 const trial = fs.existsSync(
-  `../../Experiments/${experimentName}/${subjectName}/${subjectName}.test`,
+  `${appPath}/../Experiments/${experimentName}/${subjectName}/${subjectName}.test`,
 );
 const experimentConfiguration = csvToObject(readConfiguration);
 const videoFormat = experimentConfiguration['Video format'].trim();
@@ -151,7 +153,7 @@ continueButton.onclick = async () => {
     if (trial)
       try {
         fs.unlinkSync(
-          `../../Experiments/${experimentName}/${subjectName}/${subjectName}.test`,
+          `${appPath}/../Experiments/${experimentName}/${subjectName}/${subjectName}.test`,
         );
       } catch (e) {
         console.log(e);

@@ -2,6 +2,8 @@ const { PythonShell } = require('python-shell');
 const fs = require('fs');
 const { default: swal } = require('sweetalert2');
 const path = require('path');
+const { app } = require('electron');
+
 const { getDirectories, checkFile } = require('../utils/fileSystemUtils');
 const {
   exportSuccessMessage,
@@ -22,10 +24,11 @@ const {
 } = require('../utils/commonUtils');
 const { disableElements } = require('../utils/window/dataAnalysisWindowUtils');
 
+const appPath = app.getAppPath();
 let QParr = [];
 let vidCodecsList = [];
 addTitleBarFunctionality();
-const directoriesList = getDirectories('../../Experiments');
+const directoriesList = getDirectories(`${appPath}/../Experiments`);
 directoriesList.splice(directoriesList.indexOf('Saved'), 1);
 const bitratesField = document.getElementById('browseBitratesField');
 const exportData = document.getElementById('exportData');
@@ -71,15 +74,18 @@ document.getElementById('confirmExtractData').onclick = () => {
   disableElements(true);
   const selectedExperiment = exportData.value;
   const readExperimentConfiguration = fs.readFileSync(
-    `../../Experiments/${selectedExperiment}/${selectedExperiment}(config).csv`,
+    `${appPath}/../Experiments/${selectedExperiment}/${selectedExperiment}(config).csv`,
     'utf8',
   );
   const experimentConfiguration = csvToObject(readExperimentConfiguration);
   const presentationMethod = experimentConfiguration['Presentation method'];
   if (document.querySelector('input[name="export"]:checked').value === 'raw') {
-    const pyshell = new PythonShell('../utils/python/extractData.py', {
-      args: [selectedExperiment, presentationMethod],
-    });
+    const pyshell = new PythonShell(
+      `${appPath}/src/utils/python/extractData.py`,
+      {
+        args: [selectedExperiment, presentationMethod],
+      },
+    );
 
     /* pyshell.on('message', function (message) {
       console.log(message);
@@ -115,7 +121,7 @@ plotData.onchange = () => {
   videosList.selectedIndex = 0;
   videosList.options.length = 1;
   const readExperimentConfiguration = fs.readFileSync(
-    `../../Experiments/${plotData.value}/${plotData.value}(config).csv`,
+    `${appPath}/../Experiments/${plotData.value}/${plotData.value}(config).csv`,
     'utf8',
   );
   const experimentConfiguration = csvToObject(readExperimentConfiguration);
@@ -375,7 +381,7 @@ confirmPlotsButton.onclick = () => {
   if (typeof selectedMetric === 'string') {
     options.args.unshift(metricData[0][selectedMetric]);
     options.args.push(JSON.stringify(metricData[0].errorBar));
-    plotType = '../utils/python/plotSingle.py';
+    plotType = `${appPath}/src/utils/python/plotSingle.py`;
   } else {
     if (
       metricData[0][selectedMetric[0]].length !==
@@ -389,7 +395,7 @@ confirmPlotsButton.onclick = () => {
     options.args.unshift(metricData[0][selectedMetric[0]]);
     options.args.push(JSON.stringify(metricData[1].errorBar));
     options.args.push(metricData[0].errorBar);
-    plotType = '../utils/python/plotDual.py';
+    plotType = `${appPath}/src/utils/python/plotDual.py`;
   }
   const pythonPlotData = new PythonShell(plotType, options);
   // pythonPlotData.on('message', (message) => console.log(message));
@@ -417,18 +423,18 @@ comparePlotsButton.onclick = () => {
   const selectedVideo = videosList.value;
   const selectedVideoName = selectedVideo.split('_')[0];
   const bitrates = checkFile(
-    `../../Experiments/${plotData.value}`,
+    `${appPath}/../Experiments/${plotData.value}`,
     'bitrates.csv',
   );
   const objectiveMetrics = vidCodecsList.map((codec) =>
     checkFile(
-      `../../Experiments/${plotData.value}/Objective_metrics`,
+      `${appPath}/../Experiments/${plotData.value}/Objective_metrics`,
       `${selectedVideoName}_${codec}(objective_metrics).csv`,
     ),
   );
 
   const subjectiveMetrics = checkFile(
-    `../../Experiments/${plotData.value}`,
+    `${appPath}/../Experiments/${plotData.value}`,
     'rawdata.csv',
   );
 
@@ -601,16 +607,19 @@ comparePlotsButton.onclick = () => {
     disableElements(false, vidCodecsList.length, selectedMetric);
     return;
   }
-  const compareCodecs = new PythonShell('../utils/python/compareCodecs.py', {
-    args: [
-      JSON.stringify(metricData[selectedMetric]),
-      JSON.stringify(rateParameter),
-      selectedVideo,
-      selectedMetric,
-      JSON.stringify(metricData.errorBar),
-      vidCodecsList,
-    ],
-  });
+  const compareCodecs = new PythonShell(
+    `${appPath}/src/utils/python/compareCodecs.py`,
+    {
+      args: [
+        JSON.stringify(metricData[selectedMetric]),
+        JSON.stringify(rateParameter),
+        selectedVideo,
+        selectedMetric,
+        JSON.stringify(metricData.errorBar),
+        vidCodecsList,
+      ],
+    },
+  );
   /* compareCodecs.on('message', function (message) {
     console.log(message);
   }); */

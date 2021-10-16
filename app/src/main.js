@@ -8,12 +8,14 @@ const createNativeImage = require('./utils/createNativeImage');
 const createAppFolders = require('./utils/createAppFolders');
 const { defaultWindowOptions } = require('./utils/window/defaultWindowOptions');
 const requirementsCheck = require('./utils/requirementsCheck');
-const appIcon = createNativeImage(`${__dirname}/img`, 'icon_white.png');
+
+const appPath = app.getAppPath();
+const appIcon = createNativeImage(`${appPath}/src/img`, 'icon_white.png');
 
 const day = 24 * 60 * 60 * 1000;
 
-spawn('chmod', ['+x', '../externalUtils/vmaf/vmafossexec_linux']);
-spawn('chmod', ['+x', '../externalUtils/vmaf/vmafossexec_mac']);
+spawn('chmod', ['+x', `${appPath}/externalUtils/vmaf/vmafossexec_linux`]);
+spawn('chmod', ['+x', `${appPath}/externalUtils/vmaf/vmafossexec_mac`]);
 
 const mainWindow = () => {
   let win = new BrowserWindow({
@@ -23,11 +25,11 @@ const mainWindow = () => {
   win.on('close', () => {
     win = null;
   });
-  win.loadURL(`file://${__dirname}/windows/mainWindow.html`);
+  win.loadURL(`file://${appPath}/src/windows/mainWindow.html`);
   win.once('ready-to-show', () => {
-    if (fs.existsSync('../../last_requirements_check')) {
+    if (fs.existsSync(`${appPath}/../last_requirements_check`)) {
       const readDateFile = fs.readFileSync(
-        '../../last_requirements_check',
+        `${appPath}/../last_requirements_check`,
         'utf8',
       );
       const lastCheckDate = new Date(`${readDateFile}`);
@@ -46,7 +48,7 @@ const mainWindow = () => {
 app.whenReady().then(() => {
   mainWindow();
   createAppFolders();
-  diskspace.check(app.getAppPath()[0], (error, result) => {
+  diskspace.check(appPath[0], (error, result) => {
     app.diskSpace = {
       error,
       result,

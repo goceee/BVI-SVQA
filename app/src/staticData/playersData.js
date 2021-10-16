@@ -1,12 +1,14 @@
 const os = require('os');
-const path = require('path');
+const { app } = require('electron');
+
+const appPath = app.getAppPath();
 
 module.exports = {
   mpvData: {
     wrapperSettings: {
       binary:
         os.platform() === 'win32'
-          ? path.join(__dirname, '../../externalUtils/mpv/mpv')
+          ? `${appPath}/../externalUtils/mpv/mpv`
           : null,
       // debug: true,
       // verbose: true,
@@ -24,7 +26,7 @@ module.exports = {
   ffplayData: {
     path:
       os.platform() === 'win32'
-        ? path.join(__dirname, '../../externalUtils/ffmpeg/bin/ffplay')
+        ? `${appPath}/../externalUtils/ffmpeg/bin/ffplay`
         : 'ffplay',
   },
 };

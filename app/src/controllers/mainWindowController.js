@@ -15,7 +15,7 @@ setTimeout(() => {
      and then we allow buttons to be focusable again
   */
   buttons.forEach((b) => b.setAttribute('tabindex', ''));
-}, 0);
+}, 250);
 
 const { app } = remote;
 const currentWindow = remote.getCurrentWindow();

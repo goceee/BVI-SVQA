@@ -1,10 +1,7 @@
 /* eslint-disable no-nested-ternary */
 const { default: swal } = require('sweetalert2');
-const path = require('path');
+const { app } = require('electron');
 const fs = require('fs');
-
-const defaultVideoFormat = '.mov';
-const defaultVideoCodec = 'prores_ks';
 
 const { defaultAlertOptions } = require('../utils/alert/defaultAlertOptions');
 const {
@@ -16,6 +13,10 @@ const {
 } = require('../utils/alert/alertMessages');
 const { toCsv } = require('../utils/commonUtils');
 const { convert } = require('../utils/window/createExperimentUtils');
+
+const appPath = app.getAppPath();
+const defaultVideoFormat = '.mov';
+const defaultVideoCodec = 'prores_ks';
 
 exports.prepareExperimentForm = async () => {
   const experimentName = document.getElementById('experimentName').value;
@@ -63,7 +64,7 @@ exports.prepareExperimentForm = async () => {
   const checkExperimentDataFields =
     experimentName.trim() === ''
       ? swal.fire(enterExperimentNameMessage)
-      : fs.existsSync(`../../Experiments/${experimentName}`)
+      : fs.existsSync(`${appPath}/../Experiments/${experimentName}`)
       ? swal.fire(experimentNameExistsMessage)
       : selectedPresentationMethod === ''
       ? swal.fire(selectPresentationMethodMessage)
@@ -114,9 +115,9 @@ exports.prepareExperimentForm = async () => {
         selectedFormat,
         objectiveMetricsCheckBox.checked,
       );
-      fs.mkdirSync(`../../Experiments/${experimentName}`);
+      fs.mkdirSync(`${appPath}/../Experiments/${experimentName}`);
       fs.writeFileSync(
-        `../../Experiments/${experimentName}/${experimentName}(config).csv`,
+        `${appPath}/../Experiments/${experimentName}/${experimentName}(config).csv`,
         csvExperimentData,
         'utf8',
       );

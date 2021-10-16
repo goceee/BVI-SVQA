@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { BrowserWindow } = require('@electron/remote');
-const { ipcRenderer: ipc } = require('electron');
+const { ipcRenderer: ipc, app } = require('electron');
 const { default: swal } = require('sweetalert2');
 
 const {
@@ -25,6 +25,7 @@ const {
 } = require('../utils/alert/alertMessages');
 const { addTitleBarFunctionality } = require('../utils/commonUtils');
 
+const appPath = app.getAppPath();
 addTitleBarFunctionality();
 
 const createExperimentWindow = document.getElementById(
@@ -147,11 +148,11 @@ browseOriginalVideos.onchange = (e) => {
 };
 
 submitExperiment.onclick = () => {
-  if (!fs.existsSync('../../Experiments')) {
-    fs.mkdirSync('../../Experiments');
+  if (!fs.existsSync(`${appPath}/../Experiments`)) {
+    fs.mkdirSync(`${appPath}/../Experiments`);
   }
-  if (!fs.existsSync('../../Experiments/Saved')) {
-    fs.mkdirSync('../../Experiments/Saved');
+  if (!fs.existsSync(`${appPath}/../Experiments/Saved`)) {
+    fs.mkdirSync(`${appPath}/../Experiments/Saved`);
   }
   prepareExperimentForm();
 };
