@@ -4,8 +4,14 @@ import re
 import csv
 import os
 from xml.dom import minidom
-FNULL = open(os.devnull, 'w')
 
+FNULL = open(os.devnull, 'w')
+cwd = os.getcwd()
+experimentsPath = cwd + '/../Experiments/'
+vmafModelsPath = cwd + '/externalUtils/vmaf/model/'
+vmafWindowsPath = cwd + '/externalUtils/vmaf/vmafossexec.exe'
+vmafLinuxPath = cwd + '/externalUtils/vmaf/vmafossexec_linux'
+vmafMacOSPath = cwd + '/externalUtils/vmaf/vmafossexec_mac'
 
 if sys.version_info[0] < 3:
     exception = OSError
@@ -19,8 +25,11 @@ path1 = sys.argv[4]
 path2 = sys.argv[5]
 distortedV.sort(key=lambda x: x[-6])
 
+objectiveMetricsPath = cwd + "/../Experiments/" + experimentName + '/objective_metrics/'
+
+
 try:
-    os.mkdir("../../Experiments/" + experimentName + '/Objective_metrics/')
+    os.mkdir(objectiveMetricsPath)
 except exception:
     # directory already exists
     pass
@@ -65,21 +74,21 @@ for t in range(0, len(originalV)):
 
     for i in range(0, len(videoList)):
         if sys.platform.startswith('win'):
-            subprocess.call(['../externalUtils/vmaf/vmafossexec.exe', 'yuv' + orList[4] + pixFmt, resolution[0], resolution[1], path2 + '\\' + originalV[t], path1 + '\\' + videoList[i],
-                             '../externalUtils/vmaf/model/windows/' + model, '--log', '../../Experiments/temp.xml', '--log-fmt', 'xml', '--psnr', '--ms-ssim', '--ci'], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
+            subprocess.call([vmafWindowsPath, 'yuv' + orList[4] + pixFmt, resolution[0], resolution[1], path2 + '\\' + originalV[t], path1 + '\\' + videoList[i],
+                             vmafModelsPath + 'windows/' + model, '--log', experimentsPath + 'temp.xml', '--log-fmt', 'xml', '--psnr', '--ms-ssim', '--ci'], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
 
         elif sys.platform.startswith('linux'):
-            subprocess.call(['../externalUtils/vmaf/vmafossexec_linux', 'yuv' + orList[4] + pixFmt, resolution[0], resolution[1], path2 + '/' + originalV[t], path1 + '/' + videoList[i],
-                             '../externalUtils/vmaf/model/others/' + model, '--log', '../../Experiments/temp.xml', '--log-fmt', 'xml', '--psnr', '--ms-ssim', '--ci'], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
+            subprocess.call([vmafLinuxPath, 'yuv' + orList[4] + pixFmt, resolution[0], resolution[1], path2 + '/' + originalV[t], path1 + '/' + videoList[i],
+                             vmafModelsPath + 'others/' + model, '--log', experimentsPath + 'temp.xml', '--log-fmt', 'xml', '--psnr', '--ms-ssim', '--ci'], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
 
         elif sys.platform.startswith('darwin'):
-            subprocess.call(['../externalUtils/vmaf/vmafossexec_mac', 'yuv' + orList[4] + pixFmt, resolution[0], resolution[1], path2 + '/' + originalV[t], path1 + '/' + videoList[i],
-                             '../externalUtils/vmaf/model/others/' + model, '--log', '../../Experiments/temp.xml', '--log-fmt', 'xml', '--psnr', '--ms-ssim', '--ci'], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
+            subprocess.call([vmafMacOSPath, 'yuv' + orList[4] + pixFmt, resolution[0], resolution[1], path2 + '/' + originalV[t], path1 + '/' + videoList[i],
+                             vmafModelsPath + 'others/' + model, '--log', experimentsPath + 'temp.xml', '--log-fmt', 'xml', '--psnr', '--ms-ssim', '--ci'], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
         print("DONE")
         sys.stdout.flush()
-        xmldoc = minidom.parse('../../Experiments/temp.xml')
+        xmldoc = minidom.parse(experimentsPath + 'temp.xml')
         metrics = xmldoc.getElementsByTagName('fyi')
-        os.remove('../../Experiments/temp.xml')
+        os.remove(experimentsPath + 'temp.xml')
 
         vidNum = videoList[i].split('_')[6]
         vidNums.append(vidNum)
@@ -107,9 +116,14 @@ for t in range(0, len(originalV)):
                 final.append(fci95_high)
 
                 # python2, python3 is different.
-                with open(('../../Experiments/' + experimentName + '/Objective_metrics/' + originalV[t].split('_')[0]) + '_' + (videoList[i].split('_')[-1])[:-4] + '(objective_metrics).csv', 'w', newline='') as myfile:
-                    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-                    wr.writerows(final)
+                if sys.version_info[0] < 3:
+                    with open((objectiveMetricsPath + originalV[t].split('_')[0]) + '_' + (videoList[i].split('_')[-1])[:-4] + '(objective_metrics).csv', 'wb') as myfile:
+                        wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
+                        wr.writerows(final)
+                else:
+                    with open((objectiveMetricsPath + originalV[t].split('_')[0]) + '_' + (videoList[i].split('_')[-1])[:-4] + '(objective_metrics).csv', 'w', newline='') as myfile:
+                        wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
+                        wr.writerows(final)
 
                 vmaf = []
                 vidNums = ["Rates"]
@@ -128,10 +142,15 @@ for t in range(0, len(originalV)):
             final.append(fci95_high)
 
             # python2, python3 is different.
-            with open(('../../Experiments/' + experimentName + '/Objective_metrics/' + originalV[t].split('_')[0]) + '_' + (videoList[i].split('_')[-1])[:-4] + '(objective_metrics).csv', 'w', newline='') as myfile:
-                wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
-                wr.writerows(final)
-
+            if sys.version_info[0] < 3:
+                with open((objectiveMetricsPath + originalV[t].split('_')[0]) + '_' + (videoList[i].split('_')[-1])[:-4] + '(objective_metrics).csv', 'wb') as myfile:
+                    wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
+                    wr.writerows(final)
+            else:
+                with open((objectiveMetricsPath + originalV[t].split('_')[0]) + '_' + (videoList[i].split('_')[-1])[:-4] + '(objective_metrics).csv', 'w', newline='') as myfile:
+                    wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
+                    wr.writerows(final)
+            
             vmaf = []
             vidNums = ["Rates"]
             psnr = []

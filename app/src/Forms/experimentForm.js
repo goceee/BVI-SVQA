@@ -2,6 +2,7 @@
 const { default: swal } = require('sweetalert2');
 const remote = require('@electron/remote');
 const fs = require('fs');
+const path = require('path');
 
 const { defaultAlertOptions } = require('../utils/alert/defaultAlertOptions');
 const {

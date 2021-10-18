@@ -4,6 +4,9 @@ import csv
 import numpy as np
 import scipy.stats as st
 
+cwd = os.getcwd()
+experimentsPath = cwd + '/../Experiments/'
+
 experimentName = sys.argv[1]
 presentationMethod = sys.argv[2]
 if (presentationMethod == "ACR(discrete)" or presentationMethod == "ACR(continuous)"):
@@ -13,7 +16,7 @@ else:
     videoNum = 4
     nameIndex = 2
 
-dir_path = os.path.dirname('../../Experiments/' + experimentName + '/')
+dir_path = os.path.dirname(experimentsPath + experimentName + '/')
 allScores = []
 full = 0.00
 finalS = []
@@ -56,11 +59,11 @@ if videoLength != 0:
         finalF = np.array([headers] + finalS).T
 
         if sys.version_info[0] < 3:
-            with open('../../Experiments/' + experimentName + '/rawdata.csv', 'wb') as myfile:  # python2
+            with open(experimentsPath + experimentName + '/rawdata.csv', 'wb') as myfile:  # python2
                 wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
                 wr.writerows(finalF)
         else:
-            with open('../../Experiments/' + experimentName + '/rawdata.csv', 'w', newline='') as myfile:  # python3
+            with open(experimentsPath + experimentName + '/rawdata.csv', 'w', newline='') as myfile:  # python3
                 wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
                 wr.writerows(finalF)
 else:
