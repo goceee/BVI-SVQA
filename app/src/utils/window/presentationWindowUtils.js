@@ -9,6 +9,8 @@ const {
 } = require('../alert/alertMessages');
 
 const openWindow = remote.require('./controllers/windowController');
+const { app, BrowserWindow } = remote;
+const appPath = app.getAppPath();
 
 exports.getNumberOfBreaks = (videosList, videosCount) => {
   let totalExperimentTime = 0;
@@ -62,12 +64,12 @@ exports.exportScores = (data, experimentName, userName) => {
   // console.log(sortedScore);
   // console.log(unsortedScore);
   fs.writeFileSync(
-    `../../Experiments/${experimentName}/${userName}/score(presOrder).csv`,
+    `${appPath}/../Experiments/${experimentName}/${userName}/score(presOrder).csv`,
     toCsv(unsortedScore),
     'utf8',
   );
   fs.writeFileSync(
-    `../../Experiments/${experimentName}/${userName}/score.csv`,
+    `${appPath}/../Experiments/${experimentName}/${userName}/score.csv`,
     toCsv(sortedScore),
     'utf8',
   );
@@ -87,7 +89,7 @@ exports.finishExperiment = async (trial, experimentName, userName) => {
       return;
     }
     // UNLINK PERSONAL INFORMATION!
-    fs.rmdirSync(`../../Experiments/${experimentName}/${userName}`, {
+    fs.rmdirSync(`${appPath}/../Experiments/${experimentName}/${userName}`, {
       recursive: true,
     });
   }

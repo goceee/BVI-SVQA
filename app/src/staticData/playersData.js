@@ -4,6 +4,7 @@ const remote = require('@electron/remote');
 const { app } = remote;
 const appPath = app.getAppPath();
 
+//needs fixing for macOS
 module.exports = {
   mpvData: {
     wrapperSettings: {
@@ -21,6 +22,7 @@ module.exports = {
       '--osc=no',
       '--no-input-default-bindings',
       '--framedrop=no',
+      '--macos-fs-animation-duration=0',
       '--hwdec=yes',
     ],
   },

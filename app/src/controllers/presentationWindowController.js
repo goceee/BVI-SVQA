@@ -139,8 +139,7 @@ let videoToPlay = '';
       } else {
         videoToPlay = experimentVideos[videoNum - 1];
       }
-      console.log(videoToPlay);
-      // await player.play(videoToPlay);
+      await player.play(videoToPlay);
       t = await test.next();
     }
     presentationPairNumber = 0;
@@ -173,11 +172,9 @@ continueButton.onclick = async () => {
     if (scoredVideoNumber) {
       presentationPairNumber = scoredVideoNumber;
     }
-    // score.push([presentationPair[presentationPairNumber], scoreValue]);
     score.push([videoToPlay, scoreValue]);
     presentationPairNumber += 1;
   } else {
-    // score.push(experimentVideos[videoNum - 1], scoreValue);
     score.push(videoToPlay, scoreValue);
   }
   disableRatingInputs(ratingInput, true);
@@ -192,12 +189,10 @@ continueButton.onclick = async () => {
       } else {
         videoToPlay = experimentVideos[videoNum - 1];
       }
-      console.log(videoToPlay);
-      // await player.play(videoToPlay);
+      await player.play(videoToPlay);
       t = await test.next();
     }
   }
-  // presentationPairNumber = 0;
   ratingInput = t.value;
   if (t.done === true) {
     if (scoreValue !== 'break') scoringSystem.addScore(score);
@@ -252,7 +247,7 @@ continueButton.onclick = async () => {
       } else {
         videoToPlay = experimentVideos[videoNum - 1];
       }
-      // await player.play(videoToPlay);
+      await player.play(videoToPlay);
       t = await test.next();
     }
     presentationPairNumber = 0;
@@ -269,7 +264,7 @@ if (replayButton) {
       presentationPair,
     );
     t = await test.next();
-    // await player.play(experimentVideos[videoNum - 1]);
+    await player.play(experimentVideos[videoNum - 1]);
     t = await test.next();
   };
 }

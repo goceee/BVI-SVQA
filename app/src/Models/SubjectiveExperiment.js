@@ -195,14 +195,14 @@ class SubjectiveExperiment {
 
   async *start(current, last, replay = false, presentationPair) {
     if (current === 1 && replay === false) {
-      await delay(2);
+      await delay(2000);
     }
     if (replay === false) {
       this.#resetScoring();
     }
     if (this.#pairedPresentation) {
       this.showStartingVideoPair(current, last);
-      await delay(2);
+      await delay(2000);
     }
     let playingVideoNum = 0;
     // eslint-disable-next-line no-restricted-syntax
@@ -254,7 +254,7 @@ class SubjectiveExperiment {
         mainContent.style.display = 'none';
         this.showStartingVideo(current, last); // check this was experiment.showStartingVideo(current, last)
         // eslint-disable-next-line no-await-in-loop
-        await delay(2);
+        await delay(2000);
         yield currentSchedule;
         playingVideoNum += 1;
         playingVideoNum =
